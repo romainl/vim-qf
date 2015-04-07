@@ -4,10 +4,11 @@
 
 ## Features
 
-* `nowrap`
-* `norelativenumber`
+* sets `nowrap`
+* sets `norelativenumber`
+* sets `nobuflisted`
 * Ack.vim-inspired mappings
-* wrapping `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
+* wrap `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
 * jump to and from the quickfix window
 * filter/restore the location/quickfix list
 * perform commands on each line in the list
