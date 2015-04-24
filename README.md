@@ -17,6 +17,27 @@
   `:lvimgrep` and friends if there are valid errors/locations
 * quit Vim if the last window is a quickfix window
 
+## Options
+
+These are the options currently available for your mapping convenience (and their default values):
+
+    " <Home> and <End> go up and down the quickfix list and wrap around
+    let g:qf_mapping_cprevious = '<Home>'
+    let g:qf_mapping_cnext = '<End>'
+
+    " <C-Home> and <C-End> go up and down the location list and wrap around
+    let g:qf_mapping_lnext = '<C-End>'
+    let g:qf_mapping_lprevious = '<C-Home>'
+
+    " jump to and from the quickfix window
+    let g:qf_mapping_switch = 'ç'
+
+    " filter the location/quickfix list
+    let g:qf_mapping_filter = '§'
+
+    " restore the location/quickfix list
+    let g:qf_mapping_restore = '<F5>'
+
 ## TODO
 
 * write a proper `help` file
