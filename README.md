@@ -9,13 +9,13 @@
 * set `nobuflisted`
 * Ack.vim-inspired mappings
 * wrapping `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
-* jump to and from the quickfix window with a single mapping
+* jump to and from the location/quickfix window with a single mapping
 * filter/restore the location/quickfix list
 * perform commands on each line in the list
 * perform commands on each file in the list
-* automatically open the quickfix/location window after `:make`, `:grep`,
-  `:lvimgrep` and friends if there are valid errors/locations
-* quit Vim if the last window is a quickfix window
+* automatically open the location/quickfix window after `:make`, `:grep`,
+  `:lvimgrep` and friends if there are valid locations/errors
+* quit Vim if the last window is a location/quickfix window
 
 ## Options
 
@@ -29,7 +29,7 @@ These are the options currently available for your mapping convenience (and thei
     let g:qf_mapping_lnext = '<C-End>'
     let g:qf_mapping_lprevious = '<C-Home>'
 
-    " jump to and from the quickfix window
+    " jump to and from the location/quickfix window
     let g:qf_mapping_switch = 'ç'
 
     " filter the location/quickfix list
@@ -37,6 +37,14 @@ These are the options currently available for your mapping convenience (and thei
 
     " restore the location/quickfix list
     let g:qf_mapping_restore = '<F5>'
+
+    " Ack.vim-inspired mappings
+    " s - open entry in a new horizontal window
+    " v - open entry in a new vertical window.
+    " t - open entry in a new tab.
+    " o - open entry and come back
+    " O - open entry and close the location/quickfix window.
+    let g:qf_mapping_ack_style = 1
 
 ## TODO
 
