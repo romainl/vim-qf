@@ -52,23 +52,23 @@ endif
 " filter the location/quickfix list
 " usage:
 " :Filter foo
-" or:
-" § with the cursor on a word
 command! -buffer -nargs=* Filter call qf#FilterList(<q-args>)
-if exists("g:qf_mapping_filter")
-    execute "nnoremap <silent> <buffer> " . g:qf_mapping_filter . " :Filter <C-r><C-f><CR>"
-else
-    nnoremap <silent> <buffer> § :Filter <C-r><C-f><CR>
+
+nnoremap <silent> <Plug>QfFilter :Filter <C-r><C-f><CR>
+
+if !hasmapto('<Plug>QfFilter')
+    nmap <buffer> § <Plug>QfFilter
 endif
 
 " restore the location/quickfix list
 " usage:
 " :Restore
 command! -buffer Restore call qf#RestoreList()
-if exists("g:qf_mapping_restore")
-    execute "nnoremap <silent> <buffer> " . g:qf_mapping_restore . " :Restore<CR>"
-else
-    nnoremap <silent> <buffer> <F5> :Restore<CR>
+
+nnoremap <silent> <Plug>QfRestore :Restore<CR>
+
+if !hasmapto('<Plug>QfRestore')
+    nmap <buffer> <F5> <Plug>QfRestore
 endif
 
 " do something on each line in the location/quickfix list
