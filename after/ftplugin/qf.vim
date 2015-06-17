@@ -1,21 +1,16 @@
 " qf.vim - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.1
+" Version:	0.0.2
 " License:	Vim License (see :help license)
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
-"
-" See qf.txt for help.  This can be accessed by doing:
-"
-" :helptags ~/.vim/doc
-" :help qf.txt
 
 let s:save_cpo = &cpo
 set cpo&vim
 
 let b:undo_ftplugin = "setl fo< com< ofu<"
 
-" text wrapping is useless in the quickfix window
+" text wrapping is pretty much useless in the quickfix window
 setlocal nowrap
 " relative line numbers don't make much sense either
 " but absolute numbers do
@@ -23,6 +18,11 @@ setlocal norelativenumber
 setlocal number
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
+
+" customize the statusline
+if exists("g:qf_statusline")
+    execute "setlocal statusline=" . g:qf_statusline.before . "%{w:quickfix_title}" . g:qf_statusline.after
+endif
 
 " are we in a location list or a quickfix list?
 let b:isLoc = len(getloclist(0)) > 0 ? 1 : 0
@@ -54,22 +54,10 @@ endif
 " :Filter foo
 command! -buffer -nargs=* Filter call qf#FilterList(<q-args>)
 
-nnoremap <silent> <Plug>QfFilter :Filter <C-r><C-f><CR>
-
-if !hasmapto('<Plug>QfFilter')
-    nmap <buffer> § <Plug>QfFilter
-endif
-
 " restore the location/quickfix list
 " usage:
 " :Restore
 command! -buffer Restore call qf#RestoreList()
-
-nnoremap <silent> <Plug>QfRestore :Restore<CR>
-
-if !hasmapto('<Plug>QfRestore')
-    nmap <buffer> <F5> <Plug>QfRestore
-endif
 
 " do something on each line in the location/quickfix list
 " usage:

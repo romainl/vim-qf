@@ -24,27 +24,6 @@ nnoremap        <silent> <Plug>QfLnext     :call qf#WrapCommand('up', 'l')<CR>
 " jump to and from the location/quickfix window
 nnoremap <expr> <silent> <Plug>QfSwitch    &filetype == "qf" ? "<C-w>p" : "<C-w>b"
 
-" default mappings
-if !hasmapto('<Plug>QfCprevious')
-    nmap <Home> <Plug>QfCprevious
-endif
-
-if !hasmapto('<Plug>QfCnext')
-    nmap <End> <Plug>QfCnext
-endif
-
-if !hasmapto('<Plug>QfLprevious')
-    nmap <C-Home> <Plug>QfLprevious
-endif
-
-if !hasmapto('<Plug>QfLnext')
-    nmap <C-end> <Plug>QfLnext
-endif
-
-if !hasmapto('<Plug>QfSwitch')
-    nmap ç <Plug>QfSwitch
-endif
-
 " automatically open the location/quickfix window after :make, :grep,
 " :lvimgrep and friends if there are valid locations/errors
 augroup qf

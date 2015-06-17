@@ -4,8 +4,8 @@
 
 ## Features
 
-* disabled soft-wrapping,
-* disabled relative numbers,
+* no soft-wrapping,
+* no relative numbers,
 * quickfix buffers hidden from `:ls` and buffer navigation,
 * Ack.vim-inspired mappings,
 * wrapping mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`,
@@ -13,7 +13,7 @@
 * filter/restore the list
 * perform commands on each line in the list
 * perform commands on each file in the list
-* automatically open the location/quickfix window after `:make`, `:grep`,
+* open the location/quickfix window automatically after `:make`, `:grep`,
   `:lvimgrep` and friends if there are valid locations/errors
 * quit Vim if the last window is a location/quickfix window
 
@@ -27,45 +27,79 @@ Use your favorite plugin manager or dump the files below in their standard locat
     ~/.vim/plugin/qf.vim
 
     # Windows
-    %userprofile%\vimfiles\plugin\qlist.vim
     %userprofile%\vimfiles\after\ftplugin\qf.vim
     %userprofile%\vimfiles\autoload\qf.vim
     %userprofile%\vimfiles\plugin\qf.vim
 
+## Usage
+
+The following commands are available when the location/quickfix window is focused:
+
+    :Filter            " Without argument, removes every item not found
+                       " in the file of the current item.
+    :Filter foo        " Removes every item that doesn't match with the
+                       " supplied argument, either in the filename or
+                       " in the description.
+    :Restore           " Restores the list to its original state.
+    :Doline command    " Executes 'command' on every line in the current list.
+    :Dofile command    " Executes 'command' on every file in the current list.
+
 ## Configuration
 
-The plugin provides two sets of mappings.
+### Mappings available everywhere
 
-* Mappings available in every buffer.
+Go up and down the quickfix list and wrap around
 
-        " <Home> and <End> go up and down the quickfix list and wrap around
-        nmap <Home>   <Plug>QfCprevious
-        nmap <End>    <Plug>QfCnext
+    <Plug>QfCprevious
+    <Plug>QfCnext
 
-        " <C-Home> and <C-End> go up and down the location list and wrap around
-        nmap <C-Home> <Plug>QfLprevious
-        nmap <C-end>  <Plug>QfLnext
+Go up and down the location list and wrap around
 
-        " ç jumps to and from the location/quickfix window
-        nmap ç        <Plug>QfSwitch
+    <Plug>QfLprevious
+    <Plug>QfLnext
 
-  Here is how you would map `<leader>n` to jump to the next error in the quickfix list:
+Jump to and from the location/quickfix window
 
-        nmap <leader>n <Plug>QfCprevious
+    <Plug>QfSwitch
 
-* Mappings available in the quickfix window only.
+Here is how you would map `<leader>n` to jump to the next error in the quickfix list:
 
-        " Ack.vim-inspired mappings
-        " s - open entry in a new horizontal window
-        " v - open entry in a new vertical window.
-        " t - open entry in a new tab.
-        " o - open entry and come back
-        " O - open entry and close the location/quickfix window.
-        let g:qf_mapping_ack_style = 1
+    nmap <leader>n <Plug>QfCnext
 
-  Here is how you would map `<leader>f` to filter the current list based on the filename under the cursor:
+### Ack.vim-inspired mappings available only in the quickfix window
 
-        let g:qf_mapping_filter = '<leader>f'
+    s - open entry in a new horizontal window
+    v - open entry in a new vertical window.
+    t - open entry in a new tab.
+    o - open entry and come back
+    O - open entry and close the location/quickfix window.
+
+Add the line below to your `vimrc` to enable that feature:
+
+    let g:qf_mapping_ack_style = 1
+
+### Statusline customization
+
+It is possible to define what comes before and after the default information displayed in the statusline. Feel free to play with the options below.
+
+    let g:qf_statusline = {}
+    let g:qf_statusline.before = '%<\ '
+    let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+
+## AKNOWLEDGEMENTS
+
+The "Ack.vim-inspired mappings" come from [Ack.vim](https://github.com/mileszs/ack.vim), obviously.
+
+`:Doline` and `:Dofile` are inspired by these online resources:
+
+* http://vimcasts.org/episodes/project-wide-find-and-replace/
+* https://github.com/nelstrom/vim-qargs
+* https://github.com/henrik/vim-qargs
+* http://stackoverflow.com/questions/4792561/how-to-do-search-replace-with-ack-in-vim/4793316#4793316
+* http://stackoverflow.com/a/5686810/546861
+* and another one I can't find right now.
+
+`:Filter` is adapted from the answers to [this question](http://stackoverflow.com/questions/15406138/is-it-possible-to-grep-vim%CA%BCs-quickfix).
 
 ## TODO
 
@@ -73,8 +107,8 @@ The plugin provides two sets of mappings.
 * Ask #vim's opinion.
 * Export more options?
 * Add a gifcast to the README?
-* Add proper attribution for a few features.
 
 ## DONE
 
 * Use `<Plug>` mappings.
+* Add proper attribution for a few features.
