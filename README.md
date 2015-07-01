@@ -35,7 +35,13 @@ Use your favorite plugin manager or dump the files below in their standard locat
 
 Don't forget to index the documentation with:
 
-    :helptags /path/to/vim-qf/doc/
+    :helptags ~/.vim/doc
+
+on Unix-like systems, or:
+
+    :helptags %userprofile%\vimfiles\doc
+
+on Windows.
 
 ## TODO
 

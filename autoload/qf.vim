@@ -1,6 +1,6 @@
-" qf.vim - Tame the quickfix window
+" vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.1
+" Version:	0.0.2
 " License:	Vim License (see :help license)
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -8,12 +8,11 @@
 " See qf.txt for help.  This can be accessed by doing:
 "
 " :helptags ~/.vim/doc
-" :help qf.txt
+" :help qf
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-" make :cnext/:cprevious and :lnext/:lprevious
 " wrap around
 function qf#WrapCommand(direction, prefix)
     if a:direction == "up"

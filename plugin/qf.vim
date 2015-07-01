@@ -1,9 +1,14 @@
-" qf.vim - Tame the quickfix window
+" vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.1
+" Version:	0.0.2
 " License:	Vim License (see :help license)
 " Location:	plugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
+"
+" See qf.txt for help.  This can be accessed by doing:
+"
+" :helptags ~/.vim/doc
+" :help qf
 
 if exists("g:loaded_qf") || v:version < 703 || &compatible
   finish
