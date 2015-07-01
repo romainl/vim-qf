@@ -1,0 +1,207 @@
+*qf.txt*	A plugin to make working with the quickfix list/window smoother.
+
+
+			VIM-QF DOCUMENTATION by Romain Lafourcade
+
+
+Help on using vim-qf                                                *qf* *vim-qf*
+
+    1. Introduction ............................... |qf-intro|
+    2. Installation ............................... |qf-installation|
+    3. Configuration .............................. |qf-configuration|
+    4. Usage ...................................... |qf-usage|
+    5. Aknowledgements ............................ |qf-aknowledgements|
+    6. TODO ....................................... |qf-todo|
+    7. DONE ....................................... |qf-done|
+
+==============================================================================
+ 1. INTRODUCTION                                                     *qf-intro*
+
+vim-qf – short for "vim-quickfix" – is a small collection of settings,
+commands and mappings put together to make working with the quickfix
+list/window smoother.
+
+Here is a list of the features provided by this plugin:
+
+    - no soft-wrapping,
+    - no relative numbers,
+    - quickfix buffers hidden from |:ls| and buffer navigation,
+    - Ack.vim-inspired mappings,
+    - wrapping mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|,
+    - jump to and from the location/quickfix window with a single mapping
+    - filter/restore the list
+    - perform commands on each line in the list
+    - perform commands on each file in the list
+    - open the location/quickfix window automatically after |:make|, |:grep|,
+    |:lvimgrep| and friends if there are valid locations/errors
+    - quit Vim if the last window is a location/quickfix window
+
+==============================================================================
+ 2. INSTALLATION                                              *qf-installation*
+
+Use your favorite plugin manager or dump the files below in their
+standard location:
+
+on Unix-like systems... >
+
+    ~/.vim/after/ftplugin/qf.vim
+    ~/.vim/autoload/qf.vim
+    ~/.vim/doc/qf.txt
+    ~/.vim/plugin/qf.vim
+<
+on Windows... >
+
+    %userprofile%\vimfiles\after\ftplugin\qf.vim
+    %userprofile%\vimfiles\autoload\qf.vim
+    %userprofile%\vimfiles\doc\qf.txt
+    %userprofile%\vimfiles\plugin\qf.vim
+<
+Don't forget to execute the following command to make the documentation
+globally available: >
+
+    :helptags /path/to/doc/
+<
+==============================================================================
+ 3. CONFIGURATION                                            *qf-configuration*
+
+Available mappings:
+
+    <Plug>QfCprevious ............................. |QfCprevious|
+    <Plug>QfCnext ................................. |QfCnext|
+    <Plug>QfLprevious ............................. |QfLprevious|
+    <Plug>QfLnext ................................. |QfLnext|
+    <Plug>QfSwitch ................................ |QfSwitch|
+
+Available options:
+
+    qf_mapping_ack_style .......................... |qf_mapping_ack_style|
+    qf_statusline ................................. |qf_statusline|
+
+------------------------------------------------------------------------------
+                                                                  *QfCprevious*
+                                                                      *QfCnext*
+Go up and down the quickfix list and wrap around.
+
+Example: >
+
+    nnoremap <Home> <Plug>QfCprevious
+    nnoremap <End>  <Plug>QfCnext
+<
+------------------------------------------------------------------------------
+                                                                  *QfLprevious*
+                                                                      *QfLnext*
+Go up and down the location list and wrap around.
+
+Example: >
+
+    nnoremap <C-Home> <Plug>QfLprevious
+    nnoremap <C-End>  <Plug>QfLnext
+<
+------------------------------------------------------------------------------
+                                                                     *QfSwitch*
+Jump to and from the location/quickfix window.
+
+Example: >
+
+    <Plug>QfSwitch
+<
+------------------------------------------------------------------------------
+                                                        *'qf_mapping_ack_style'*
+Value: numeric                                                               ~
+Default: 0                                                                   ~
+
+Ack.vim-inspired mappings available only in the quickfix window:
+
+    s - open entry in a new horizontal window
+    v - open entry in a new vertical window.
+    t - open entry in a new tab.
+    o - open entry and come back
+    O - open entry and close the location/quickfix window.
+
+Add the line below to your vimrc to enable that feature: >
+
+    let g:qf_mapping_ack_style = 1
+<
+------------------------------------------------------------------------------
+                                                               *'qf_statusline'*
+Value: dictionary                                                            ~
+Default: {}                                                                  ~
+
+It is possible to define what comes before and after the default information
+displayed in the |'statusline'|.
+
+Example: >
+
+    let g:qf_statusline = {}
+    let g:qf_statusline.before = '%<\ '
+    let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+<
+==============================================================================
+ 4. USAGE                                                            *qf-usage*
+
+The following commands are available when the location/quickfix window
+is focused:
+
+*:Filter*
+
+    Removes every item that doesn't match with the supplied argument,
+    either in the filename or in the description.
+
+    Example: >
+
+        :Filter model
+>
+*:Restore*
+
+    Restores the list to its original state.
+
+*:Doline*
+
+    Executes an Ex command on every line in the current list.
+
+    Example: >
+
+        :Doline s/^/--
+<
+*:Dofile*
+
+    Executes an Ex command on every file in the current list.
+
+    Example: >
+
+        :Dofile norm @q
+<
+==============================================================================
+ 5. AKNOWLEGEMENTS                                         *qf-aknowledgements*
+
+The "Ack.vim-inspired mappings" are adapted from Ack.vim:
+
+    - https://github.com/mileszs/ack.vim
+
+|:Doline| and |:Dofile| are inspired by these online resources:
+
+    - http://vimcasts.org/episodes/project-wide-find-and-replace/
+    - https://github.com/nelstrom/vim-qargs
+    - https://github.com/henrik/vim-qargs
+    - http://stackoverflow.com/a/4793316/546861
+    - http://stackoverflow.com/a/5686810/546861
+
+|:Filter| is adapted from the answers in this thread:
+
+    - http://stackoverflow.com/q/15406138/546861
+
+==============================================================================
+ 6. TODO                                                              *qf-todo*
+
+    - Ask #vim's opinion.
+    - Export more options?
+    - Add a gifcast to the README?
+
+==============================================================================
+ 7. DONE                                                              *qf-done*
+
+    - Use <Plug> mappings.
+    - Add proper attribution for a few features.
+    - Write a proper help file.
+
+ vim:tw=78:ts=8:ft=help:norl:
