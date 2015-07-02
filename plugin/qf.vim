@@ -33,8 +33,8 @@ nnoremap <expr> <silent> <Plug>QfSwitch    &filetype == "qf" ? "<C-w>p" : "<C-w>
 " :lvimgrep and friends if there are valid locations/errors
 augroup qf
     autocmd!
-    autocmd QuickFixCmdPost grep,make,grepadd,vimgrep,vimgrepadd,cscope,cfile,cgetfile,caddfile,helpgrep cwindow
-    autocmd QuickFixCmdPost lgrep,lmake,lgrepadd,lvimgrep,lvimgrepadd,lfile,lgetfile,laddfile lwindow
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l* lwindow
 augroup END
 
 let &cpo = s:save_cpo

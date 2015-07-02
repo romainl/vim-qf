@@ -22,7 +22,7 @@ function qf#WrapCommand(direction, prefix)
             execute a:prefix . "last"
         catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
         endtry
-    elseif a:direction == "down"
+    else
         try
             execute a:prefix . "next"
         catch /^Vim\%((\a\+)\)\=:E553/

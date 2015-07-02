@@ -10,7 +10,7 @@ Help on using vim-qf                                                *qf* *vim-qf
     2. Installation ............................... |qf-installation|
     3. Configuration .............................. |qf-configuration|
     4. Usage ...................................... |qf-usage|
-    5. Aknowledgements ............................ |qf-aknowledgements|
+    5. Acknowledgements ........................... |qf-acknowledgements|
     6. TODO ....................................... |qf-todo|
     7. DONE ....................................... |qf-done|
 
@@ -172,7 +172,7 @@ is focused:
         :Dofile norm @q
 <
 ==============================================================================
- 5. AKNOWLEGEMENTS                                         *qf-aknowledgements*
+ 5. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
 
 The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 
@@ -189,6 +189,11 @@ The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 |:Filter| is adapted from the answers in this thread:
 
     - http://stackoverflow.com/q/15406138/546861
+
+All the templates used to turn this multifarious snippet collection into
+a proper plugin come from Barry Arthur's Area-41 plugin:
+
+    - https://github.com/dahu/Area-41
 
 ==============================================================================
  6. TODO                                                              *qf-todo*
