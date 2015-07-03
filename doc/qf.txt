@@ -23,17 +23,18 @@ list/window smoother.
 
 Here is a list of the features provided by this plugin:
 
-    - no soft-wrapping,
-    - no relative numbers,
-    - quickfix buffers hidden from |:ls| and buffer navigation,
-    - Ack.vim-inspired mappings,
-    - wrapping mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|,
-    - jump to and from the location/quickfix window with a single mapping
-    - filter/restore the list
-    - perform commands on each line in the list
-    - perform commands on each file in the list
+    - no soft-wrapping in the quickfix window,
+    - no relative numbers in the quickfix window,
+    - quickfix buffers are hidden from |:ls| and buffer navigation,
+    - optional Ack.vim-inspired mappings,
+    - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
+      that wrap around the beginning an end of the list,
+    - optional mapping for jumping to and from the location/quickfix window,
+    - filter/restore the list,
+    - perform commands on each line in the list,
+    - perform commands on each file in the list,
     - open the location/quickfix window automatically after |:make|, |:grep|,
-    |:lvimgrep| and friends if there are valid locations/errors
+      |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
 
 ==============================================================================
@@ -57,9 +58,15 @@ on Windows... >
     %userprofile%\vimfiles\plugin\qf.vim
 <
 Don't forget to execute the following command to make the documentation
-globally available: >
+globally available:
 
-    :helptags /path/to/doc/
+on Unix-like systems... >
+
+    :helptags ~/.vim/doc
+<
+on Windows... >
+
+    :helptags %userprofile%\vimfiles\doc
 <
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
@@ -103,7 +110,7 @@ Jump to and from the location/quickfix window.
 
 Example: >
 
-    <Plug>QfSwitch
+    nnoremap ç <Plug>QfSwitch
 <
 ------------------------------------------------------------------------------
                                                         *'qf_mapping_ack_style'*
@@ -190,15 +197,14 @@ The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 
     - http://stackoverflow.com/q/15406138/546861
 
-All the templates used to turn this multifarious snippet collection into
-a proper plugin come from Barry Arthur's Area-41 plugin:
+All the templates used to turn this multifarious snippets collection into
+a proper plugin come from Barry Arthur's Area 41 plugin:
 
     - https://github.com/dahu/Area-41
 
 ==============================================================================
  6. TODO                                                              *qf-todo*
 
-    - Ask #vim's opinion.
     - Export more options?
     - Add a gifcast to the README?
 
@@ -208,5 +214,6 @@ a proper plugin come from Barry Arthur's Area-41 plugin:
     - Use <Plug> mappings.
     - Add proper attribution for a few features.
     - Write a proper help file.
+    - Ask #vim's opinion.
 
  vim:tw=78:ts=8:ft=help:norl:
