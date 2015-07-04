@@ -55,14 +55,17 @@ function qf#FilterList(pat)
         if b:isLoc == 1
             if !exists("b:locl")
                 let b:locl = getloclist(0)
+                let w:qf_title = w:quickfix_title
             endif
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) =~ a:pat || v:val['text'] =~ a:pat"))
         else
             if !exists("b:qfl")
                 let b:qfl = getqflist()
+                let w:qf_title = w:quickfix_title
             endif
             call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) =~ a:pat || v:val['text'] =~ a:pat"))
         endif
+        let w:quickfix_title = w:qf_title . "[filtered]"
     endif
 endfunction
 
@@ -74,6 +77,7 @@ function qf#RestoreList()
         elseif b:isLoc != 1 && !exists("b:locl")
             call setqflist(b:qfl)
         endif
+        let w:quickfix_title = w:qf_title
     endif
 endfunction
 
