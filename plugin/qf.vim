@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.2
+" Version:	0.0.3
 " License:	Vim License (see :help license)
 " Location:	plugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
