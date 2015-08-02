@@ -10,10 +10,9 @@ Help on using vim-qf                                                *qf* *vim-qf
     2. Installation ............................... |qf-installation|
     3. Configuration .............................. |qf-configuration|
     4. Usage ...................................... |qf-usage|
-    5. Sample config .............................. |qf-sample|
-    6. Acknowledgements ........................... |qf-acknowledgements|
-    7. TODO ....................................... |qf-todo|
-    8. DONE ....................................... |qf-done|
+    5. Acknowledgements ........................... |qf-acknowledgements|
+    6. TODO ....................................... |qf-todo|
+    7. DONE ....................................... |qf-done|
 
 ==============================================================================
  1. INTRODUCTION                                                     *qf-intro*
@@ -153,7 +152,8 @@ is focused:
 *:Filter*
 
     Removes every item that doesn't match with the supplied argument,
-    either in the filename or in the description.
+    either in the filename or in the description. Note: no regular
+    expressions.
 
     Example: >
 
@@ -180,37 +180,7 @@ is focused:
         :Dofile norm @q
 <
 ==============================================================================
- 5. SAMPLE CONFIG                                                   *qf-sample*
-
-Here is a sample "all-inclusive" congig: >
-
-    " use Ack.vim mappings
-    let g:qf_mapping_ack_style = 1
-
-    " 'synchronize' the statusline with our own
-    let g:qf_statusline = {}
-    let g:qf_statusline.before = '%<\ '
-    let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
-
-    " wrapping mappings for convenience
-    nmap <Home>   <Plug>QfCprevious
-    nmap <End>    <Plug>QfCnext
-    nmap <C-Home> <Plug>QfLprevious
-    nmap <C-end>  <Plug>QfLnext
-
-    " switch to/from the location/quickfix window
-    nmap ç        <Plug>QfSwitch
-
-    " press '§' to filter the list with the filename under the cursor
-    " press '<F5>' to restore the list
-    augroup vimqf
-        autocmd!
-        autocmd FileType qf nnoremap §    :Filter <C-r><C-f><CR>
-        autocmd FileType qf nnoremap <F5> :Restore<CR>
-    augroup END
-<
-==============================================================================
- 6. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
+ 5. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
 
 The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 
@@ -234,13 +204,13 @@ a proper plugin come from Barry Arthur's Area 41 plugin:
     - https://github.com/dahu/Area-41
 
 ==============================================================================
- 7. TODO                                                              *qf-todo*
+ 6. TODO                                                              *qf-todo*
 
     - Export more options?
     - Add a gifcast to the README?
 
 ==============================================================================
- 8. DONE                                                              *qf-done*
+ 7. DONE                                                              *qf-done*
 
     - Use <Plug> mappings.
     - Add proper attribution for a few features.

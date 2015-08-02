@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.3
+" Version:	0.0.2
 " License:	Vim License (see :help license)
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -24,13 +24,13 @@ setlocal number
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
 
-" customize the statusline
-if exists("g:qf_statusline")
-    execute "setlocal statusline=" . g:qf_statusline.before . "%{w:quickfix_title}" . g:qf_statusline.after
-endif
-
 " are we in a location list or a quickfix list?
 let b:isLoc = len(getloclist(0)) > 0 ? 1 : 0
+
+" customize the statusline
+if exists("g:qf_statusline")
+    execute "setlocal statusline=" . g:qf_statusline.before . "%{qf#SetStatusline()}" . g:qf_statusline.after
+endif
 
 " force the quickfix window to be opened at the bottom
 " of the screen and take the full width
@@ -56,25 +56,26 @@ endif
 
 " filter the location/quickfix list
 " usage:
-" :Filter foo
-command! -buffer -nargs=* Filter call qf#FilterList(<q-args>)
+"   :Filter foo
+command! -buffer -nargs=1 Filter call qf#FilterList(<q-args>)
 
 " restore the location/quickfix list
 " usage:
-" :Restore
+"   :Restore
 command! -buffer Restore call qf#RestoreList()
 
 " do something on each line in the location/quickfix list
 " usage:
-" :Doline s/^/---
+"   :Doline s/^/---
 command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
 
 " do something on each file in the location/quickfix list
 " usage:
-" :Dofile %s/^/---
+"   :Dofile %s/^/---
 command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
 
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter <buffer> if winnr('$') < 2 | q | endif
+autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
 
 let &cpo = s:save_cpo

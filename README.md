@@ -4,16 +4,15 @@
 
 ## Features
 
-* no softwrapping in the quickfix window,
-* no relative numbers in the quickfix window,
-* quickfix buffers are hidden from `:ls` and buffer navigation,
-* optional Ack.vim inspired mappings,
-* optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
-  that wrap around the beginning an end of the list,
-* optional mapping for jumping to and from the location/quickfix window,
-* filter/restore the list,
-* perform commands on each line in the list,
-* perform commands on each file in the list,
+* no soft-wrapping,
+* no relative numbers,
+* quickfix buffers hidden from `:ls` and buffer navigation,
+* Ack.vim-inspired mappings,
+* wrapping mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`,
+* jump to and from the location/quickfix window with a single mapping
+* filter/restore the list
+* perform commands on each line in the list
+* perform commands on each file in the list
 * open the location/quickfix window automatically after `:make`, `:grep`,
   `:lvimgrep` and friends if there are valid locations/errors
 * quit Vim if the last window is a location/quickfix window
@@ -46,12 +45,16 @@ on Windows.
 
 ## TODO
 
+* Ask #vim's opinion.
 * Export more options?
 * Add a gifcast to the README?
 
 ## DONE
 
 * Use `<Plug>` mappings.
+* Add proper attribution for a few features.
+* Write a proper `help` file.
+`<Plug>` mappings.
 * Add proper attribution for a few features.
 * Write a proper `help` file.
 * Ask #vim's opinion.
