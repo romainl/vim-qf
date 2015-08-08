@@ -205,7 +205,9 @@ function qf#ReuseTitle()
             endif
         else
             if exists("g:qf_quickfix_titles")
-                let w:quickfix_title = g:qf_quickfix_titles[0]
+                if len(g:qf_quickfix_titles) > 0
+                    let w:quickfix_title = g:qf_quickfix_titles[0]
+                endif
             endif
         endif
     endif
