@@ -23,8 +23,8 @@ list/window smoother.
 
 Here is a list of the features provided by this plugin:
 
-    - no soft-wrapping in the quickfix window,
-    - no relative numbers in the quickfix window,
+    - disable soft-wrapping in the quickfix window,
+    - disable relative numbers in the quickfix window,
     - quickfix buffers are hidden from |:ls| and buffer navigation,
     - optional Ack.vim-inspired mappings,
     - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
@@ -166,6 +166,7 @@ is focused:
 *:Doline*
 
     Executes an Ex command on every line in the current list.
+    Aliased to the built-in `:cdo` and `:ldo` when applicable.
 
     Example: >
 
@@ -174,6 +175,7 @@ is focused:
 *:Dofile*
 
     Executes an Ex command on every file in the current list.
+    Aliased to the built-in `:cfdo` and `:lfdo` when applicable.
 
     Example: >
 

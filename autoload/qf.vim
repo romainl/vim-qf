@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.2
+" Version:	0.0.5
 " License:	Vim License (see :help license)
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -33,20 +33,35 @@ function qf#WrapCommand(direction, prefix)
 endfunction
 
 " do something with each entry
+" a single function for :Doline and :Dofile both in a quickfix list and
+" a location list
+" falls back to :cdo, :cfdo, :ldo, :lfdo when possible
 function qf#DoList(line, cmd)
     if exists("b:isLoc")
-        let stub = b:isLoc == 1 ? "l" : "c"
+        let prefix = b:isLoc == 1 ? "l" : "c"
     else
-        let stub = "c"
+        let prefix = "c"
     endif
-    try
-      silent execute stub . "first"
-        while 1
-            execute a:cmd
-            silent execute a:line == 1 ? stub . "next" : stub . "nfile"
-        endwhile
-    catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
-    endtry
+    if v:version >= 705 || v:version == 704 && has("patch858")
+        if a:line == 1
+            let modifier = ""
+        else
+            let modifier = "f"
+        endif
+        try
+            execute prefix . modifier . "do " . a:cmd
+        catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
+        endtry
+    else
+        try
+            silent execute prefix . "first"
+            while 1
+                execute a:cmd
+                silent execute a:line == 1 ? prefix . "next" : prefix . "nfile"
+            endwhile
+        catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
+        endtry
+    endif
 endfunction
 
 " filter the current list
