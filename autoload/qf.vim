@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.5
+" Version:	0.0.6
 " License:	Vim License (see :help license)
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -29,6 +29,9 @@ function qf#WrapCommand(direction, prefix)
             execute a:prefix . "first"
         catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
         endtry
+    endif
+    if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
+        normal zv
     endif
 endfunction
 
