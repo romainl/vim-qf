@@ -74,6 +74,11 @@ command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
 "   :Dofile %s/^/---
 command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
 
+" experimental feature
+" jump to previous/next file grouping
+nnoremap <silent> <buffer> } :call qf#NextFile()<CR>
+nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
+
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()

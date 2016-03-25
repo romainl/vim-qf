@@ -13,6 +13,24 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" experimental feature
+" jump to previous/next file grouping
+function qf#PreviousFile()
+    normal! 0
+    let cfile = expand("<cfile>")
+    while getline(".") =~ cfile && line(".") != 1
+        normal! k
+    endwhile
+endfunction
+
+function qf#NextFile()
+    normal! 0
+    let cfile = expand("<cfile>")
+    while getline(".") =~ cfile && line(".") != line("$")
+        normal! j
+    endwhile
+endfunction
+
 " wrap around
 function qf#WrapCommand(direction, prefix)
     if a:direction == "up"
