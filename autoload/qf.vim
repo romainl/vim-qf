@@ -16,35 +16,39 @@ set cpo&vim
 " experimental feature
 " jump to previous/next file chunk
 function qf#GetFilePath(line) abort
-    return substitute(a:line, "|.*$", "", "")
+    return substitute(a:line, '|.*$', '', '')
     "                          |      |   +- no flags
     "                          |      +- replace match with nothing
     "                          +- match from the first pipe to the end of line
     "                             declaring EOL explicitly is faster than implicitly
 endfunction
 
-function qf#SearchNextFileChunk(down) abort
-    let cfilepath = qf#GetFilePath(getline("."))
-    if a:down
-        let direction = "j"
-        let end = line("$")
-    else
-        let direction = "k"
-        let end = 1
-    endif
+function qf#JumpToFirstItemOfFileChunk() abort
+    let l:chunk_file_path = qf#GetFilePath(getline('.'))
 
-    while qf#GetFilePath(getline(".")) == cfilepath && line(".") != end
-        execute 'normal! ' . direction
+    while line('.') - 1 != 0 && l:chunk_file_path == qf#GetFilePath(getline(line('.') - 1))
+        normal! k
     endwhile
 endfunction
 
+function qf#JumpFileChunk(down) abort
+    let l:start_file_path = qf#GetFilePath(getline('.'))
+    let l:direction = a:down ? 'j' : 'k'
+    let l:end       = a:down ? '$' : 1
+
+    while l:start_file_path == qf#GetFilePath(getline('.')) && getline('.') != getline(l:end)
+        execute 'normal! ' . l:direction
+    endwhile
+
+    call qf#JumpToFirstItemOfFileChunk()
+endfunction
+
 function qf#PreviousFile() abort
-    call qf#SearchNextFileChunk(0) | call qf#SearchNextFileChunk(0)
-    normal! j
+    call qf#JumpFileChunk(0)
 endfunction
 
 function qf#NextFile() abort
-    call qf#SearchNextFileChunk(1)
+    call qf#JumpFileChunk(1)
 endfunction
 
 " wrap around
