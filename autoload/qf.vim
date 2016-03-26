@@ -14,21 +14,37 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " experimental feature
-" jump to previous/next file grouping
-function qf#PreviousFile()
-    normal! 0
-    let cfile = expand("<cfile>")
-    while getline(".") =~ cfile && line(".") != 1
-        normal! k
+" jump to previous/next file chunk
+function qf#GetFilePath(line) abort
+    return substitute(a:line, "|.*$", "", "")
+    "                          |      |   +- no flags
+    "                          |      +- replace match with nothing
+    "                          +- match from the first pipe to the end of line
+    "                             declaring EOL explicitly is faster than implicitly
+endfunction
+
+function qf#SearchNextFileChunk(down) abort
+    let cfilepath = qf#GetFilePath(getline("."))
+    if a:down
+        let direction = "j"
+        let end = line("$")
+    else
+        let direction = "k"
+        let end = 1
+    endif
+
+    while qf#GetFilePath(getline(".")) == cfilepath && line(".") != end
+        execute 'normal! ' . direction
     endwhile
 endfunction
 
-function qf#NextFile()
-    normal! 0
-    let cfile = expand("<cfile>")
-    while getline(".") =~ cfile && line(".") != line("$")
-        normal! j
-    endwhile
+function qf#PreviousFile() abort
+    call qf#SearchNextFileChunk(0) | call qf#SearchNextFileChunk(0)
+    normal! j
+endfunction
+
+function qf#NextFile() abort
+    call qf#SearchNextFileChunk(1)
 endfunction
 
 " wrap around
