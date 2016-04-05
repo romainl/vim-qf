@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.6
+" Version:	0.0.7
 " License:	Vim License (see :help license)
 " Location:	plugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -34,7 +34,7 @@ nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"
 augroup qf
     autocmd!
     autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd QuickFixCmdPost l* lwindow
+    autocmd QuickFixCmdPost l*    lwindow
 augroup END
 
 let &cpo = s:save_cpo

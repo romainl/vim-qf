@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.6
+" Version:	0.0.7
 " License:	Vim License (see :help license)
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -13,8 +13,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" experimental feature
-" jump to previous/next file chunk
+" jump to previous/next file grouping
 function qf#GetFilePath(line) abort
     return substitute(a:line, '|.*$', '', '')
     "                          |      |   +- no flags

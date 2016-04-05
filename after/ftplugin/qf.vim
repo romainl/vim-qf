@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.6
+" Version:	0.0.7
 " License:	Vim License (see :help license)
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -17,10 +17,12 @@ let b:undo_ftplugin = "setl fo< com< ofu<"
 
 " text wrapping is pretty much useless in the quickfix window
 setlocal nowrap
+
 " relative line numbers don't make much sense either
 " but absolute numbers do
 setlocal norelativenumber
 setlocal number
+
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
 
@@ -55,8 +57,10 @@ if exists("g:qf_mapping_ack_style")
 endif
 
 " filter the location/quickfix list
+" (kept for backward compatibility)
 " usage:
-"   :Filter foo
+"   :Filter foo     <-- same as :Keep foo
+"   :Filter! foo    <-- same as :Reject foo
 command! -buffer -nargs=1 -bang Filter call qf#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
 
 " keep entries matching the argument
@@ -84,13 +88,13 @@ command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
 "   :Dofile %s/^/---
 command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
 
-" experimental feature
+" TODO: allow customization
 " jump to previous/next file grouping
 nnoremap <silent> <buffer> } :call qf#NextFile()<CR>
 nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
 
 " quit Vim if the last window is a quickfix window
-autocmd qf BufEnter <buffer> if winnr('$') < 2 | q | endif
+autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
 
 let &cpo = s:save_cpo
