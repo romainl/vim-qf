@@ -32,8 +32,8 @@ endfunction
 
 function qf#JumpFileChunk(down) abort
     let l:start_file_path = qf#GetFilePath(getline('.'))
-    let l:direction = a:down ? 'j' : 'k'
-    let l:end       = a:down ? '$' : 1
+    let l:direction       = a:down ? 'j' : 'k'
+    let l:end             = a:down ? '$' : 1
     while l:start_file_path == qf#GetFilePath(getline('.')) && getline('.') != getline(l:end)
         execute 'normal! ' . l:direction
     endwhile
@@ -57,16 +57,16 @@ function qf#WrapCommand(direction, prefix)
     if exists("b:isLoc")
         if a:direction == "up"
             try
-            execute a:prefix . "previous"
+                execute a:prefix . "previous"
             catch /^Vim\%((\a\+)\)\=:E553/
-            execute a:prefix . "last"
+                execute a:prefix . "last"
             catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
             endtry
         else
             try
-            execute a:prefix . "next"
+                execute a:prefix . "next"
             catch /^Vim\%((\a\+)\)\=:E553/
-            execute a:prefix . "first"
+                execute a:prefix . "first"
             catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
             endtry
         endif

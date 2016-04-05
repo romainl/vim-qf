@@ -21,7 +21,7 @@ vim-qf – short for "vim-quickfix" – is a small collection of settings,
 commands and mappings put together to make working with the quickfix
 list/window smoother.
 
-Here is a list of the features provided by this plugin:
+Here are the features provided by this plugin:
 
     - disable soft-wrapping in the quickfix window,
     - disable relative numbers in the quickfix window,
@@ -36,6 +36,7 @@ Here is a list of the features provided by this plugin:
     - open the location/quickfix window automatically after |:make|, |:grep|,
       |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
+    - jump to next group of entries belonging to same file ("file grouping")
 
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*
@@ -71,13 +72,18 @@ on Windows... >
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
 
-Available mappings:
+Available global mappings:
 
     <Plug>QfCprevious ............................. |QfCprevious|
     <Plug>QfCnext ................................. |QfCnext|
     <Plug>QfLprevious ............................. |QfLprevious|
     <Plug>QfLnext ................................. |QfLnext|
     <Plug>QfSwitch ................................ |QfSwitch|
+
+Available local mappings:
+
+    { ............................................. |QfPreviousFile|
+    } ............................................. |QfNextFile|
 
 Available options:
 
@@ -87,6 +93,9 @@ Available options:
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
                                                                       *QfCnext*
+Scope: global                                                                 ~
+Default: none                                                                ~
+
 Go up and down the quickfix list and wrap around.
 
 Example: >
@@ -97,6 +106,9 @@ Example: >
 ------------------------------------------------------------------------------
                                                                   *QfLprevious*
                                                                       *QfLnext*
+Scope: global                                                                 ~
+Default: none                                                                ~
+
 Go up and down the location list and wrap around.
 
 Example: >
@@ -106,12 +118,23 @@ Example: >
 <
 ------------------------------------------------------------------------------
                                                                      *QfSwitch*
+Scope: global                                                                 ~
+Default: none                                                                ~
+
 Jump to and from the location/quickfix window.
 
 Example: >
 
     nnoremap ç <Plug>QfSwitch
 <
+------------------------------------------------------------------------------
+                                                               *QfPreviousFile*
+                                                                   *QfNextFile*
+Scope: local                                                                 ~
+Default: { and }                                                             ~
+
+Jump to the next group of lines corresponding to a file.
+
 ------------------------------------------------------------------------------
                                                         *'qf_mapping_ack_style'*
 Value: numeric                                                               ~
@@ -149,15 +172,25 @@ Example: >
 The following commands are available when the location/quickfix window
 is focused:
 
-*:Filter*
+*:Keep*
 
-    Removes every item that doesn't match with the supplied argument,
-    either in the filename or in the description. Note: no regular
-    expressions.
+    Removes all entries that don't contain the given argument, either in the
+    filename or in the description. Note: the argument is not a regular
+    expression pattern.
 
     Example: >
 
-        :Filter model
+        :Keep model
+>
+*:Reject*
+
+    Removes all entries that contain the given argument in the filename or
+    in the description. Note: the argument is not a regular expression
+    pattern.
+
+    Example: >
+
+        :Reject build
 >
 *:Restore*
 
@@ -181,6 +214,16 @@ is focused:
 
         :Dofile norm @q
 <
+NOTE: In most cases it is possible to only type a few characters to
+disembiguate commands. Assuming you don't already have custom commands with
+clashing names, you can shorten the commands above to:
+
+    |:Keep| ....................................... :K
+    |:Reject| ..................................... :Rej
+    |:Restore| .................................... :Res
+    |:Doline| ..................................... :Dol
+    |:Dofile| ..................................... :Dof
+
 ==============================================================================
  5. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
 
@@ -196,11 +239,11 @@ The "Ack.vim-inspired mappings" are adapted from Ack.vim:
     - http://stackoverflow.com/a/4793316/546861
     - http://stackoverflow.com/a/5686810/546861
 
-|:Filter| is adapted from the answers in this thread:
+|:Keep| and |:Reject| are adapted from the answers in this thread:
 
     - http://stackoverflow.com/q/15406138/546861
 
-All the templates used to turn this multifarious snippets collection into
+All the templates used to turn this multifarious collection of snippets into
 a proper plugin come from Barry Arthur's Area 41 plugin:
 
     - https://github.com/dahu/Area-41
