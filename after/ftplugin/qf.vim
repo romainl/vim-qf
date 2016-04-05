@@ -57,7 +57,17 @@ endif
 " filter the location/quickfix list
 " usage:
 "   :Filter foo
-command! -buffer -nargs=1 Filter call qf#FilterList(<q-args>)
+command! -buffer -nargs=1 -bang Filter call qf#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
+
+" keep entries matching the argument
+" usage:
+"   :Keep foo
+command! -buffer -nargs=1 Keep call qf#FilterList(<q-args>, 0)
+
+" reject entries matching the argument
+" usage:
+"   :Reject foo
+command! -buffer -nargs=1 Reject call qf#FilterList(<q-args>, 1)
 
 " restore the location/quickfix list
 " usage:

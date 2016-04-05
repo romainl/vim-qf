@@ -25,7 +25,6 @@ endfunction
 
 function qf#JumpToFirstItemOfFileChunk() abort
     let l:chunk_file_path = qf#GetFilePath(getline('.'))
-
     while line('.') - 1 != 0 && l:chunk_file_path == qf#GetFilePath(getline(line('.') - 1))
         normal! k
     endwhile
@@ -35,41 +34,45 @@ function qf#JumpFileChunk(down) abort
     let l:start_file_path = qf#GetFilePath(getline('.'))
     let l:direction = a:down ? 'j' : 'k'
     let l:end       = a:down ? '$' : 1
-
     while l:start_file_path == qf#GetFilePath(getline('.')) && getline('.') != getline(l:end)
         execute 'normal! ' . l:direction
     endwhile
-
     call qf#JumpToFirstItemOfFileChunk()
 endfunction
 
 function qf#PreviousFile() abort
-    call qf#JumpFileChunk(0)
+    if exists("b:isLoc")
+        call qf#JumpFileChunk(0)
+    endif
 endfunction
 
 function qf#NextFile() abort
-    call qf#JumpFileChunk(1)
+    if exists("b:isLoc")
+        call qf#JumpFileChunk(1)
+    endif
 endfunction
 
 " wrap around
 function qf#WrapCommand(direction, prefix)
-    if a:direction == "up"
-        try
+    if exists("b:isLoc")
+        if a:direction == "up"
+            try
             execute a:prefix . "previous"
-        catch /^Vim\%((\a\+)\)\=:E553/
+            catch /^Vim\%((\a\+)\)\=:E553/
             execute a:prefix . "last"
-        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-        endtry
-    else
-        try
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+        else
+            try
             execute a:prefix . "next"
-        catch /^Vim\%((\a\+)\)\=:E553/
+            catch /^Vim\%((\a\+)\)\=:E553/
             execute a:prefix . "first"
-        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-        endtry
-    endif
-    if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
-        normal zv
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+        endif
+        if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
+            normal zv
+        endif
     endif
 endfunction
 
@@ -106,14 +109,16 @@ function qf#DoList(line, cmd)
 endfunction
 
 " filter the current list
-function qf#FilterList(pat)
-    call qf#AddList()
-    call qf#AddTitle(w:quickfix_title)
+function qf#FilterList(pat, reject)
+    if exists("b:isLoc")
+        call qf#AddList()
+        call qf#AddTitle(w:quickfix_title)
 
-    call qf#SetList(a:pat)
+        call qf#SetList(a:pat, a:reject)
 
-    call qf#SetTitle(a:pat)
-    call qf#AddTitle(w:quickfix_title)
+        call qf#SetTitle(a:pat, a:reject)
+        call qf#AddTitle(w:quickfix_title)
+    endif
 endfunction
 
 " restore the original list
@@ -188,12 +193,14 @@ function qf#SetStatusline()
     endif
 endfunction
 
-function qf#SetList(pat)
+function qf#SetList(pat, reject)
+    let operator = a:reject == 0 ? "=~" : "!~"
+    let condition = a:reject == 0 ? "||" : "&&"
     if exists("b:isLoc")
         if b:isLoc == 1
-            call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) =~ a:pat || v:val['text'] =~ a:pat"), "r")
+            call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
         else
-            call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) =~ a:pat || v:val['text'] =~ a:pat"), "r")
+            call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
         endif
     endif
 endfunction
@@ -218,15 +225,16 @@ function qf#AddList()
     endif
 endfunction
 
-function qf#SetTitle(pat)
+function qf#SetTitle(pat, reject)
+    let str = a:reject == 0 ? "filter" : "reject"
     if exists("b:isLoc")
         if b:isLoc == 1
-            let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [filter: '" . a:pat . "']"
+            let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
         else
             if len(g:qf_quickfix_titles) > 0
-                let w:quickfix_title = g:qf_quickfix_titles[0] . " [filter: '" . a:pat . "']"
+                let w:quickfix_title = g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']"
             else
-                let w:quickfix_title = w:quickfix_title . " [filter: '" . a:pat . "']"
+                let w:quickfix_title = w:quickfix_title . " [" . str . ": '" . a:pat . "']"
             endif
         endif
     endif
