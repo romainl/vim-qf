@@ -89,6 +89,8 @@ Available options:
 
     qf_mapping_ack_style .......................... |qf_mapping_ack_style|
     qf_statusline ................................. |qf_statusline|
+    qf_window_bottom .............................. |qf_window_bottom|
+    qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
@@ -151,6 +153,28 @@ Ack.vim-inspired mappings available only in the quickfix window:
 Add the line below to your vimrc to enable that feature: >
 
     let g:qf_mapping_ack_style = 1
+<
+------------------------------------------------------------------------------
+                                                            *'qf_window_bottom'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open quickfix window at the bottom.
+
+Add the line below to your vimrc to disable that feature: >
+
+    let g:qf_window_bottom = 0
+<
+------------------------------------------------------------------------------
+                                                    *'qf_loclist_window_bottom'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open location list windows at the bottom.
+
+Add the line below to your vimrc to disable that feature: >
+
+    let g:qf_loclist_window_bottom = 0
 <
 ------------------------------------------------------------------------------
                                                                *'qf_statusline'*

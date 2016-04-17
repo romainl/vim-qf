@@ -33,8 +33,8 @@ nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"
 " :lvimgrep and friends if there are valid locations/errors
 augroup qf
     autocmd!
-    autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd QuickFixCmdPost l*    lwindow
+    autocmd QuickFixCmdPost [^l]* cwindow | if get(g:, 'qf_window_bottom', 1) | wincmd J | endif
+    autocmd QuickFixCmdPost l*    lwindow | if get(g:, 'qf_loclist_window_bottom', 1) | wincmd J | endif
 augroup END
 
 let &cpo = s:save_cpo

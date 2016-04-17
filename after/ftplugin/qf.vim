@@ -34,10 +34,6 @@ if exists("g:qf_statusline")
     execute "setlocal statusline=" . g:qf_statusline.before . "%{qf#SetStatusline()}" . g:qf_statusline.after
 endif
 
-" force the quickfix window to be opened at the bottom
-" of the screen and take the full width
-wincmd J
-
 " inspired by Ack.vim
 if exists("g:qf_mapping_ack_style")
     " open entry in a new horizontal window
