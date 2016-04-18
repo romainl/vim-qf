@@ -16,6 +16,7 @@
 * perform commands on each file in the list,
 * open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 * quit Vim if the last window is a location/quickfix window
+* close location window automatically when quitting parent window
 
 ## Installation
 

@@ -29,12 +29,15 @@ nnoremap <silent> <Plug>QfLnext     :call qf#WrapCommand('up', 'l')<CR>
 " jump to and from the location/quickfix window
 nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"
 
-" automatically open the location/quickfix window after :make, :grep,
-" :lvimgrep and friends if there are valid locations/errors
 augroup qf
     autocmd!
+    " automatically open the location/quickfix window after :make, :grep,
+    " :lvimgrep and friends if there are valid locations/errors
     autocmd QuickFixCmdPost [^l]* cwindow | if get(g:, 'qf_window_bottom', 1) | wincmd J | endif
     autocmd QuickFixCmdPost l*    lwindow | if get(g:, 'qf_loclist_window_bottom', 1) | wincmd J | endif
+
+    " automatically close corresponding loclist when quitting a window
+    autocmd qf QuitPre * if &buftype != 'quickfix' | silent! lclose | endif
 augroup END
 
 let &cpo = s:save_cpo
