@@ -253,11 +253,23 @@ is focused:
 
     Lists all currently saved lists.
 
+    The name is the user-given name and the title is parsed from the command
+    that generates the saved list.
+
     Example: >
 
+        :grep zsh
+        :SaveList shell
+        :grep bash
+        :SaveListAdd shell
+        :grep setopt
+        :SaveList options
+        :grep shopt
+        :SaveListAdd options
         :ListLists
-        curlist
-        another_list
+            Name Title
+           shell zsh bash
+         options setopt shopt
 <
 *:RemoveList*
 

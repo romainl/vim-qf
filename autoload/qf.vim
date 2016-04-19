@@ -290,6 +290,25 @@ endfunction
 let s:named_lists = {}
 let s:last_saved_list = ''
 
+function qf#GetNamedListTitle()
+    " get the searched term from the window title
+    if w:quickfix_title =~ '^:set'
+        " if the title starts with ':set' the qf/loclist window was
+        " filled with an empty list - hence :setqflist() / :setloclist()
+        " in this case the title doesn't need to be parsed
+        return ''
+    elseif w:quickfix_title =~ '^Named List:'
+        let len = strlen('Named List:')
+    elseif w:quickfix_title =~ '^:helpgrep'
+        let len = strlen(':helpgrep')
+    else
+        let len = strlen(&grepprg)
+    endif
+
+    " +2 to cut off spaces
+    return w:quickfix_title[len + 2:]
+endfunction
+
 function qf#SaveList(add, name) abort
     if a:name != ''
         let curname = a:name
@@ -323,18 +342,23 @@ function qf#SaveList(add, name) abort
         unlet entry.valid
     endfor
 
+    let title = qf#GetNamedListTitle()
+
     if a:add
-        let s:named_lists[curname] += curlist
+        let s:named_lists[curname].list += curlist
+        let s:named_lists[curname].title .= ' ' . title
     else
-        let s:named_lists[curname] = curlist
+        let s:named_lists[curname] = {}
+        let s:named_lists[curname].list = curlist
+        let s:named_lists[curname].title = title
     endif
 endfunction
 
-function qf#LoadList(add, ...)
-    if empty(a:000)
+function qf#LoadList(add, names)
+    if empty(a:names)
         let names = [ s:last_saved_list ]
     else
-        let names = a:000
+        let names = a:names
     endif
 
     if !a:add
@@ -345,12 +369,13 @@ function qf#LoadList(add, ...)
         endif
     endif
 
-    for name in names
+    for name in split(names, ' ')
         if has_key(s:named_lists, name)
+            let w:quickfix_title = 'Named List: ' . qf#GetNamedListTitle() . s:named_lists[name].title
             if get(b:, 'isLoc', 0)
-                call setloclist(0, s:named_lists[name], 'a')
+                call setloclist(0, s:named_lists[name].list, 'a')
             else
-                call setqflist(s:named_lists[name], 'a')
+                call setqflist(s:named_lists[name].list, 'a')
             endif
         else
             echomsg 'No list named "' . name . '" saved'
@@ -359,8 +384,19 @@ function qf#LoadList(add, ...)
 endfunction
 
 function qf#ListLists()
+    if len(s:named_lists) == 0
+        return
+    endif
+
+    let name_lengths = []
     for name in keys(s:named_lists)
-        echo name
+        call add(name_lengths, strlen(name))
+    endfor
+    let max_length = max(name_lengths) + 1
+
+    echo printf('%' . max_length . 'S %s', 'Name', 'Titles')
+    for name in keys(s:named_lists)
+        echo printf('%' . max_length . 'S %s', name, s:named_lists[name].title)
     endfor
 endfunction
 
