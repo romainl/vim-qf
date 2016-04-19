@@ -381,6 +381,12 @@ function qf#LoadList(add, names)
             echomsg 'No list named "' . name . '" saved'
         endif
     endfor
+
+    set modifiable
+    %sort
+    %!uniq
+    set nomodifiable
+    set nomodified
 endfunction
 
 function qf#ListLists()

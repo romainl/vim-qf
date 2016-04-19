@@ -237,6 +237,9 @@ is focused:
     Replaces the current quickfix/location list with one or more saved named
     lists. If no name is supplied, the last saved list is used.
 
+    The list is being sorted and uniq'd, so the result is as if |:grep| with
+    an appropriate expression would have been run.
+
     Example: >
 
         :LoadList curlist
