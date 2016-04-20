@@ -34,11 +34,11 @@ augroup qf
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    autocmd QuickFixCmdPost [^l]* cwindow | if get(g:, 'qf_window_bottom', 1) | wincmd J | endif
-    autocmd QuickFixCmdPost l*    lwindow | if get(g:, 'qf_loclist_window_bottom', 1) | wincmd J | endif
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
 
     " automatically close corresponding loclist when quitting a window
-    autocmd QuitPre * if &buftype != 'quickfix' | silent! lclose | endif
+    autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
 augroup END
 
 let &cpo = s:save_cpo

@@ -84,6 +84,22 @@ command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
 "   :Dofile %s/^/---
 command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
 
+" save current loc/qf list and associate it with a given name or the
+" last used name
+command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveList    call qf#SaveList(0, <q-args>)
+" like SaveList, but add to a potentially existing named list
+command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveListAdd call qf#SaveList(1, <q-args>)
+
+" replace loc/qf list with named lists
+command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadList    call qf#LoadList(0, <q-args>)
+" like LoadList but append instead of replace
+command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadListAdd call qf#LoadList(1, <q-args>)
+
+" list currently saved lists
+command! -buffer ListLists call qf#ListLists()
+" remove given lists or all
+command! -buffer -nargs=* -bang -complete=customlist,qf#CompleteList RemoveList call qf#RemoveList(expand("<bang>") == "!" ? 1 : 0, <q-args>)
+
 " TODO: allow customization
 " jump to previous/next file grouping
 nnoremap <silent> <buffer> } :call qf#NextFile()<CR>
@@ -92,5 +108,17 @@ nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
+
+if exists("b:isLoc")
+    if b:isLoc == 1
+        if get(g:, 'qf_loclist_window_bottom', 1)
+            wincmd J
+        endif
+    else
+        if get(g:, 'qf_window_bottom', 1)
+            wincmd J
+        endif
+    endif
+endif
 
 let &cpo = s:save_cpo

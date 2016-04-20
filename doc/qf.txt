@@ -238,6 +238,55 @@ is focused:
 
         :Dofile norm @q
 <
+*:SaveList*
+
+    Saves the current quickfix/location list and associates it
+    with a given name. If no name is supplied the last saved
+    list is used.
+
+    Example: >
+
+        :SaveList curlist
+<
+*:SaveListAdd*
+
+    Like |:SaveList|, but adds to an existing named list.
+
+    Example: >
+
+        :SaveListAdd curlist
+<
+*:LoadList*
+
+    Replaces the current quickfix/location list with one or more saved named
+    lists. If no name is supplied, the last saved list is used.
+
+    Example: >
+
+        :LoadList curlist
+<
+*:LoadListAdd*
+
+    Like |:LoadList|, but adds to an existing quickfix/location list.
+
+    Example: >
+
+        :LoadListAdd curlist
+<
+*:ListLists*
+
+    Lists all currently saved lists.
+
+    Example: >
+
+        :ListLists
+        curlist
+        another_list
+<
+*:RemoveList*
+
+    Removes given lists. With a bang all saved lists are removed.
+
 NOTE: In most cases it is possible to only type a few characters to
 disembiguate commands. Assuming you don't already have custom commands with
 clashing names, you can shorten the commands above to:
@@ -249,7 +298,42 @@ clashing names, you can shorten the commands above to:
     |:Dofile| ..................................... :Dof
 
 ==============================================================================
- 5. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
+ 5. NAMED LISTS                                                *qf-named-lists*
+
+While vim remembers the last ten quickfix/location lists and provides commands
+to switch between them (|:colder|, |:lolder|, |:cnewer|, |:lnewer|), this doesn't
+necessarily suffice and doesn't include changes made with |:Reject| et al.
+
+So vim-qf provides commands to save quickfix and location lists for later reuse
+and concatenation. This can be handy to compose a long list of matches to act
+on with |:cdo|, |:ldo| and family.
+
+These named lists share the same space, so a location list can be converted to
+a quickfix list: >
+    :SaveList current_loclist
+    :cwindow
+    :LoadList current_loclist
+<
+Concatenating multiple location lists to use as a quickfix list: >
+    :SaveListAdd current_loclist
+< in each location list you want to use, then >
+    :cwindow
+    :LoadList current_loclist
+<
+Composing a list of files to attach a license to: >
+    :grep _GNU_SOURCE
+    :Reject false_positives
+    :SaveListAdd floss_files
+    :grep POSIX_ME_HARDER
+    :Reject false_positives
+    :SaveListAdd floss_files
+< and so on >
+    :cwindow
+    :LoadList floss_files
+    :cdo 0r /path/to/license
+<
+==============================================================================
+ 6. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
 
 The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 
@@ -273,13 +357,14 @@ a proper plugin come from Barry Arthur's Area 41 plugin:
     - https://github.com/dahu/Area-41
 
 ==============================================================================
- 6. TODO                                                              *qf-todo*
+ 7. TODO                                                              *qf-todo*
 
     - Export more options?
     - Add a gifcast to the README?
+    - Add titles to saved lists, e.g. to display in :ListLists?
 
 ==============================================================================
- 7. DONE                                                              *qf-done*
+ 8. DONE                                                              *qf-done*
 
     - Use <Plug> mappings.
     - Add proper attribution for a few features.
