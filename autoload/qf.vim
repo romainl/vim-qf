@@ -336,6 +336,10 @@ function qf#LoadList(add, ...)
 
     for name in names
         if has_key(s:named_lists, name)
+            " TODO remove duplicates
+            " filter bufnr, lnum, col, 
+            " or filter whole dict?
+            let current_list = getqflist()
             if get(b:, 'isLoc', 0)
                 call setloclist(0, s:named_lists[name], 'a')
             else
