@@ -230,8 +230,12 @@ function qf#SetTitle(pat, reject)
         if b:isLoc == 1
             let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
         else
-            if len(g:qf_quickfix_titles) > 0
-                let w:quickfix_title = g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']"
+            if exists("g:qf_quickfix_titles")
+                if len(g:qf_quickfix_titles) > 0
+                    let w:quickfix_title = g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']"
+                else
+                    let w:quickfix_title = w:quickfix_title . " [" . str . ": '" . a:pat . "']"
+                endif
             else
                 let w:quickfix_title = w:quickfix_title . " [" . str . ": '" . a:pat . "']"
             endif
@@ -336,10 +340,6 @@ function qf#LoadList(add, ...)
 
     for name in names
         if has_key(s:named_lists, name)
-            " TODO remove duplicates
-            " filter bufnr, lnum, col, 
-            " or filter whole dict?
-            let current_list = getqflist()
             if get(b:, 'isLoc', 0)
                 call setloclist(0, s:named_lists[name], 'a')
             else
