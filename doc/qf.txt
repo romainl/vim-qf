@@ -102,8 +102,8 @@ Go up and down the quickfix list and wrap around.
 
 Example: >
 
-    nnoremap <Home> <Plug>QfCprevious
-    nnoremap <End>  <Plug>QfCnext
+    nmap <Home> <Plug>QfCprevious
+    nmap <End>  <Plug>QfCnext
 <
 ------------------------------------------------------------------------------
                                                                   *QfLprevious*
@@ -115,8 +115,8 @@ Go up and down the location list and wrap around.
 
 Example: >
 
-    nnoremap <C-Home> <Plug>QfLprevious
-    nnoremap <C-End>  <Plug>QfLnext
+    nmap <C-Home> <Plug>QfLprevious
+    nmap <C-End>  <Plug>QfLnext
 <
 ------------------------------------------------------------------------------
                                                                      *QfSwitch*
@@ -127,7 +127,7 @@ Jump to and from the location/quickfix window.
 
 Example: >
 
-    nnoremap ç <Plug>QfSwitch
+    nmap ç <Plug>QfSwitch
 <
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*
