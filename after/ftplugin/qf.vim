@@ -109,16 +109,9 @@ nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
 autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
 
-if exists("b:isLoc")
-    if b:isLoc == 1
-        if get(g:, 'qf_loclist_window_bottom', 1)
-            wincmd J
-        endif
-    else
-        if get(g:, 'qf_window_bottom', 1)
-            wincmd J
-        endif
-    endif
+if (b:isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
+            \ || (b:isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+    wincmd J
 endif
 
 let &cpo = s:save_cpo
