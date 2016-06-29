@@ -4,17 +4,18 @@
 
 ## Features
 
-* disable soft-wrapping in the quickfix window,
-* disable relative numbers in the quickfix window,
-* quickfix buffers are hidden from `:ls` and buffer navigation,
-* optional Ack.vim-inspired mappings,
+* disable soft-wrapping in the quickfix window
+* disable relative numbers in the quickfix window
+* quickfix buffers are hidden from `:ls` and buffer navigation
+* optional Ack.vim-inspired mappings
 * optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
-* that wrap around the beginning an end of the list,
-* optional mapping for jumping to and from the location/quickfix window,
-* filter/restore the list,
-* perform commands on each line in the list,
-* perform commands on each file in the list,
-* open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
+  that wrap around the beginning and end of the list
+* optional mapping for jumping to and from the location/quickfix window
+* filter/restore the list
+* perform commands on each line in the list
+* perform commands on each file in the list
+* open the location/quickfix window automatically after `:make`, `:grep`,
+  `:lvimgrep` and friends if there are valid locations/errors
 * quit Vim if the last window is a location/quickfix window
 * close location window automatically when quitting parent window
 

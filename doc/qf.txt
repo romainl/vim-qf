@@ -23,16 +23,16 @@ list/window smoother.
 
 Here are the features provided by this plugin:
 
-    - disable soft-wrapping in the quickfix window,
-    - disable relative numbers in the quickfix window,
-    - quickfix buffers are hidden from |:ls| and buffer navigation,
-    - optional Ack.vim-inspired mappings,
+    - disable soft-wrapping in the quickfix window
+    - disable relative numbers in the quickfix window
+    - quickfix buffers are hidden from |:ls| and buffer navigation
+    - optional Ack.vim-inspired mappings
     - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
-      that wrap around the beginning an end of the list,
+      that wrap around the beginning and end of the list
     - optional mapping for jumping to and from the location/quickfix window,
-    - filter/restore the list,
-    - perform commands on each line in the list,
-    - perform commands on each file in the list,
+    - filter/restore the list
+    - perform commands on each line in the list
+    - perform commands on each file in the list
     - open the location/quickfix window automatically after |:make|, |:grep|,
       |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
@@ -145,12 +145,12 @@ Default: 0                                                                   ~
 Ack.vim-inspired mappings available only in the quickfix window:
 
     s - open entry in a new horizontal window
-    v - open entry in a new vertical window.
-    t - open entry in a new tab.
+    v - open entry in a new vertical window
+    t - open entry in a new tab
     o - open entry and come back
-    O - open entry and close the location/quickfix window.
+    O - open entry and close the location/quickfix window
 
-Add the line below to your vimrc to enable that feature: >
+Add the line below to your vimrc to enable this feature: >
 
     let g:qf_mapping_ack_style = 1
 <
@@ -161,7 +161,7 @@ Default: 1                                                                   ~
 
 Open quickfix window at the bottom.
 
-Add the line below to your vimrc to disable that feature: >
+Add the line below to your vimrc to disable this feature: >
 
     let g:qf_window_bottom = 0
 <
@@ -172,7 +172,7 @@ Default: 1                                                                   ~
 
 Open location list windows at the bottom.
 
-Add the line below to your vimrc to disable that feature: >
+Add the line below to your vimrc to disable this feature: >
 
     let g:qf_loclist_window_bottom = 0
 <
