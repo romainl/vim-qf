@@ -37,6 +37,7 @@ Here are the features provided by this plugin:
     - open the location/quickfix window automatically after |:make|, |:grep|,
       |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
+    - close location window automatically when quitting parent window
     - jump to next group of entries belonging to same file ("file grouping")
     - save the current list
 
@@ -60,8 +61,8 @@ on Windows... >
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
 <
-Don't forget to execute the following command to make the documentation
-globally available:
+If you go with the manual method, don't forget to execute the following
+command to make the documentation globally available:
 
 on Unix-like systems... >
 
