@@ -19,7 +19,7 @@ let b:undo_ftplugin = "setl fo< com< ofu<"
 setlocal nowrap
 
 " relative line numbers don't make much sense either
-" but absolute numbers do
+" but absolute numbers definitely do
 setlocal norelativenumber
 setlocal number
 
