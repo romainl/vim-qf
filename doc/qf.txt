@@ -10,14 +10,15 @@ Help on using vim-qf                                                *qf* *vim-qf
     2. Installation ............................... |qf-installation|
     3. Configuration .............................. |qf-configuration|
     4. Usage ...................................... |qf-usage|
-    5. Acknowledgements ........................... |qf-acknowledgements|
-    6. TODO ....................................... |qf-todo|
-    7. DONE ....................................... |qf-done|
+    5. Named lists ................................ |qf-named-lists|
+    6. Acknowledgements ........................... |qf-acknowledgements|
+    7. TODO ....................................... |qf-todo|
+    8. DONE ....................................... |qf-done|
 
 ==============================================================================
  1. INTRODUCTION                                                     *qf-intro*
 
-vim-qf – short for "vim-quickfix" – is a small collection of settings,
+vim-qf–short for "vim-quickfix"–is a small collection of settings,
 commands and mappings put together to make working with the quickfix
 list/window smoother.
 
@@ -30,13 +31,14 @@ Here are the features provided by this plugin:
     - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
       that wrap around the beginning and end of the list
     - optional mapping for jumping to and from the location/quickfix window,
-    - filter/restore the list
+    - filter/restore the current list
     - perform commands on each line in the list
     - perform commands on each file in the list
     - open the location/quickfix window automatically after |:make|, |:grep|,
       |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
     - jump to next group of entries belonging to same file ("file grouping")
+    - save the current list
 
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*
@@ -296,6 +298,12 @@ clashing names, you can shorten the commands above to:
     |:Restore| .................................... :Res
     |:Doline| ..................................... :Dol
     |:Dofile| ..................................... :Dof
+    |:SaveList| ................................... :SaveList
+    |:SaveListAdd| ................................ :SaveListA
+    |:LoadList| ................................... :LoadList
+    |:LoadListAdd| ................................ :LoadListA
+    |:ListLists| .................................. :ListL
+    |:RemoveList| ................................. :RemoveL
 
 ==============================================================================
  5. NAMED LISTS                                                *qf-named-lists*
@@ -310,24 +318,31 @@ on with |:cdo|, |:ldo| and family.
 
 These named lists share the same space, so a location list can be converted to
 a quickfix list: >
+
     :SaveList current_loclist
     :cwindow
     :LoadList current_loclist
 <
 Concatenating multiple location lists to use as a quickfix list: >
+
     :SaveListAdd current_loclist
+
 < in each location list you want to use, then >
+
     :cwindow
     :LoadList current_loclist
 <
 Composing a list of files to attach a license to: >
+
     :grep _GNU_SOURCE
     :Reject false_positives
     :SaveListAdd floss_files
     :grep POSIX_ME_HARDER
     :Reject false_positives
     :SaveListAdd floss_files
-< and so on >
+
+< and so on... >
+
     :cwindow
     :LoadList floss_files
     :cdo 0r /path/to/license
