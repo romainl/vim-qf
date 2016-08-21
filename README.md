@@ -1,6 +1,6 @@
 # vim-qf
 
-**vim-qf** – short for *vim-quickfix* – is a small collection of settings, commands and mappings put together to make working with the quickfix list/window smoother.
+**vim-qf**—short for *vim-quickfix*—is a small collection of settings, commands and mappings put together to make working with the location/quickfix list/window smoother.
 
 ## Features
 
@@ -11,15 +11,15 @@
 * optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
   that wrap around the beginning and end of the list
 * optional mapping for jumping to and from the location/quickfix window
-* filter/restore the current list
-* perform commands on each line in the list
-* perform commands on each file in the list
+* filter and restore the current list
+* perform commands on each line in the current list
+* perform commands on each file in the current list
 * open the location/quickfix window automatically after `:make`, `:grep`,
   `:lvimgrep` and friends if there are valid locations/errors
 * quit Vim if the last window is a location/quickfix window
 * close location window automatically when quitting parent window
 * jump to next group of entries belonging to same file ("file grouping")
-* save the current list
+* save and load named lists
 
 
 ## Installation
