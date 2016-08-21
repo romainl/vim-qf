@@ -53,25 +53,23 @@ endfunction
 
 " wrap around
 function qf#WrapCommand(direction, prefix)
-    if exists("b:isLoc")
-        if a:direction == "up"
-            try
-                execute a:prefix . "previous"
-            catch /^Vim\%((\a\+)\)\=:E553/
-                execute a:prefix . "last"
-            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-            endtry
-        else
-            try
-                execute a:prefix . "next"
-            catch /^Vim\%((\a\+)\)\=:E553/
-                execute a:prefix . "first"
-            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-            endtry
-        endif
-        if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
-            normal zv
-        endif
+    if a:direction == "up"
+        try
+            execute a:prefix . "previous"
+        catch /^Vim\%((\a\+)\)\=:E553/
+            execute a:prefix . "last"
+        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+        endtry
+    else
+        try
+            execute a:prefix . "next"
+        catch /^Vim\%((\a\+)\)\=:E553/
+            execute a:prefix . "first"
+        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+        endtry
+    endif
+    if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
+        normal zv
     endif
 endfunction
 
