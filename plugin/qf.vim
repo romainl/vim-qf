@@ -25,6 +25,9 @@ nnoremap <silent> <Plug>QfCnext     :call qf#WrapCommand('down', 'c')<CR>
 " <Plug>QfLprevious and <Plug>QfLnext go up and down the location list and wrap around
 nnoremap <silent> <Plug>QfLprevious :call qf#WrapCommand('down', 'l')<CR>
 nnoremap <silent> <Plug>QfLnext     :call qf#WrapCommand('up', 'l')<CR>
+" qf#ToggleLocWindow()
+nnoremap <silent> <Plug>QfToggleQf  :call qf#ToggleQfWindow()<CR>
+nnoremap <silent> <Plug>QfToggleLoc :call qf#ToggleLocWindow()<CR>
 
 " jump to and from the location/quickfix window
 nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"

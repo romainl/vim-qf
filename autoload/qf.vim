@@ -13,6 +13,75 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+function qf#IsQfWindow(nmbr)
+    return getwinvar(a:nmbr, "&filetype") == "qf" ? 1 : 0
+endfunction
+
+function qf#IsLocWindow(nmbr)
+    return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
+endfunction
+
+function qf#ToggleQfWindow()
+    let has_qf_window = 0
+
+    if qf#IsQfWindow(winnr()) == 0
+        let my_winview = winsaveview()
+    endif
+
+    for winnumber in range(winnr("$"))
+        if qf#IsQfWindow(winnumber + 1) == 1
+            if qf#IsLocWindow(winnumber + 1) == 0
+                let has_qf_window = has_qf_window + 1
+            endif
+        endif
+    endfor
+
+    if has_qf_window > 0
+        cclose
+
+        if exists("my_winview")
+            call winrestview(my_winview)
+        endif
+    else
+        cwindow
+    endif
+endfunction
+
+function qf#ToggleLocWindow()
+    let has_loc_window = 0
+
+    if qf#IsQfWindow(winnr()) == 0
+
+        for winnumber in range(winnr("$"))
+            if qf#IsQfWindow(winnumber + 1) == 1
+                if qf#IsLocWindow(winnumber + 1) == 1
+                    let has_loc_window = has_loc_window + 1
+                endif
+            endif
+        endfor
+
+        if has_loc_window > 0
+            let my_winview = winsaveview()
+
+            lclose
+
+            if exists("my_winview")
+                call winrestview(my_winview)
+            endif
+        else
+            lwindow
+        endif
+    else
+        let my_winview = winsaveview()
+
+        lclose
+
+        if exists("my_winview")
+            call winrestview(my_winview)
+        endif
+    endif
+endfunction
+
 " jump to previous/next file grouping
 function qf#GetFilePath(line) abort
     return substitute(a:line, '|.*$', '', '')
