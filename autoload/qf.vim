@@ -14,7 +14,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function qf#IsQfWindow(nmbr)
-    return getwinvar(a:nmbr, "&filetype") == "qf" ? 1 : 0
+    if getwinvar(a:nmbr, "&filetype") == "qf"
+        return qf#IsLocWindow(a:nmbr) ? 0 : 1
+    endif
+
+    return 0
 endfunction
 
 function qf#IsLocWindow(nmbr)
@@ -24,82 +28,61 @@ endfunction
 function qf#ToggleQfWindow()
     let has_qf_window = 0
 
-    if qf#IsQfWindow(winnr()) == 0
-        let my_winview = winsaveview()
+    if ! qf#IsQfWindow(winnr())
+        let t:my_winview = winsaveview()
     endif
 
     for winnumber in range(winnr("$"))
-        if qf#IsQfWindow(winnumber + 1) == 1
-            if qf#IsLocWindow(winnumber + 1) == 0
-                let has_qf_window = has_qf_window + 1
-            endif
+        if qf#IsQfWindow(winnumber + 1)
+            call s:CloseWindow('c')
+            return
         endif
     endfor
 
-    if has_qf_window > 0
-        cclose
-
-        if exists("my_winview")
-            call winrestview(my_winview)
-        endif
-    else
-        cwindow
-
-        wincmd p
-
-        if exists("my_winview")
-            call winrestview(my_winview)
-        endif
-
-        wincmd p
-    endif
+    call s:OpenWindow('c')
 endfunction
 
 function qf#ToggleLocWindow()
     let has_loc_window = 0
 
-    if qf#IsQfWindow(winnr()) == 0
-        let my_winview = winsaveview()
+    if ! qf#IsLocWindow(winnr())
+        let t:my_winview = winsaveview()
     endif
 
-    if qf#IsQfWindow(winnr()) == 0
-        if !empty(getloclist(winnr()))
-            for winnumber in range(winnr("$"))
-                if qf#IsQfWindow(winnumber + 1) == 1
-                    if qf#IsLocWindow(winnumber + 1) == 1
-                        let has_loc_window = has_loc_window + 1
-                    endif
-                endif
-            endfor
+    if qf#IsLocWindow(winnr())
+        call s:CloseWindow('l')
+        return
+    endif
 
-            if has_loc_window > 0
-                lclose
-
-                if exists("my_winview")
-                    call winrestview(my_winview)
-                endif
-            else
-                lwindow
-
-                wincmd p
-
-                if exists("my_winview")
-                    call winrestview(my_winview)
-                endif
-
-                wincmd p
-            endif
+    for i in range(winnr("$"))
+        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
+            call s:CloseWindow('l')
         endif
-    else
-        if qf#IsLocWindow(winnr()) == 1
-            lclose
+    endfor
 
-            if exists("my_winview")
-                call winrestview(my_winview)
-            endif
-        endif
+    call s:OpenWindow('l')
+endfunction
+
+function s:OpenWindow(prefix)
+    exec a:prefix . 'window'
+
+    wincmd p
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
+    endif
+
+    wincmd p
+endfunction
+
+function s:CloseWindow(prefix)
+    exec a:prefix . 'close'
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
     endif
 endfunction
+
 
 " jump to previous/next file grouping
 function qf#GetFilePath(line) abort
