@@ -29,77 +29,66 @@ function qf#ToggleQfWindow()
     let has_qf_window = 0
 
     if ! qf#IsQfWindow(winnr())
-        let my_winview = winsaveview()
+        let t:my_winview = winsaveview()
     endif
 
     for winnumber in range(winnr("$"))
         if qf#IsQfWindow(winnumber + 1)
-            let has_qf_window = has_qf_window + 1
+            call s:CloseWindow('c')
+            return
         endif
     endfor
 
-    if has_qf_window > 0
-        cclose
-
-        if exists("my_winview")
-            call winrestview(my_winview)
-        endif
-    else
-        cwindow
-
-        wincmd p
-
-        if exists("my_winview")
-            call winrestview(my_winview)
-        endif
-
-        wincmd p
-    endif
+    call s:OpenWindow('c')
 endfunction
 
 function qf#ToggleLocWindow()
     let has_loc_window = 0
 
     if ! qf#IsLocWindow(winnr())
-        let my_winview = winsaveview()
+        let t:my_winview = winsaveview()
     endif
 
     if qf#IsLocWindow(winnr())
-        lclose
-
-        if exists("my_winview")
-            call winrestview(my_winview)
-        endif
-
+        call s:CloseWindow('l')
         return
     endif
 
     if !empty(getloclist(winnr()))
         for winnumber in range(winnr("$"))
             if qf#IsLocWindow(winnumber + 1)
-                let has_loc_window = has_loc_window + 1
+                call s:OpenWindow('l')
             endif
         endfor
 
         if has_loc_window > 0
-            lclose
-
-            if exists("my_winview")
-                call winrestview(my_winview)
-            endif
+            call s:CloseWindow('l')
         else
-            lwindow
-
-            wincmd p
-
-            if exists("my_winview")
-                call winrestview(my_winview)
-            endif
-
-            wincmd p
+            call s:OpenWindow('l')
         endif
     endif
 endfunction
+
+function s:OpenWindow(prefix)
+    exec a:prefix . 'window'
+
+    wincmd p
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
+    endif
+
+    wincmd p
+endfunction
+
+function s:CloseWindow(prefix)
+    exec a:prefix . 'close'
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
+    endif
+endfunction
+
 
 " jump to previous/next file grouping
 function qf#GetFilePath(line) abort
