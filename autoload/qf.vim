@@ -54,19 +54,13 @@ function qf#ToggleLocWindow()
         return
     endif
 
-    if !empty(getloclist(winnr()))
-        for winnumber in range(winnr("$"))
-            if qf#IsLocWindow(winnumber + 1)
-                call s:OpenWindow('l')
-            endif
-        endfor
-
-        if has_loc_window > 0
+    for i in range(winnr("$"))
+        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
             call s:CloseWindow('l')
-        else
-            call s:OpenWindow('l')
         endif
-    endif
+    endfor
+
+    call s:OpenWindow('l')
 endfunction
 
 function s:OpenWindow(prefix)
