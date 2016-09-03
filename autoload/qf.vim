@@ -34,9 +34,7 @@ function qf#ToggleQfWindow()
 
     for winnumber in range(winnr("$"))
         if qf#IsQfWindow(winnumber + 1) == 1
-            if qf#IsLocWindow(winnumber + 1) == 0
-                let has_qf_window = has_qf_window + 1
-            endif
+            let has_qf_window = has_qf_window + 1
         endif
     endfor
 
