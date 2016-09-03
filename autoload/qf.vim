@@ -28,12 +28,12 @@ endfunction
 function qf#ToggleQfWindow()
     let has_qf_window = 0
 
-    if qf#IsQfWindow(winnr()) == 0
+    if ! qf#IsQfWindow(winnr())
         let my_winview = winsaveview()
     endif
 
     for winnumber in range(winnr("$"))
-        if qf#IsQfWindow(winnumber + 1) == 1
+        if qf#IsQfWindow(winnumber + 1)
             let has_qf_window = has_qf_window + 1
         endif
     endfor
@@ -60,7 +60,7 @@ endfunction
 function qf#ToggleLocWindow()
     let has_loc_window = 0
 
-    if qf#IsLocWindow(winnr()) == 0
+    if ! qf#IsLocWindow(winnr())
         let my_winview = winsaveview()
     endif
 
@@ -76,7 +76,7 @@ function qf#ToggleLocWindow()
 
     if !empty(getloclist(winnr()))
         for winnumber in range(winnr("$"))
-            if qf#IsLocWindow(winnumber + 1) == 1
+            if qf#IsLocWindow(winnumber + 1)
                 let has_loc_window = has_loc_window + 1
             endif
         endfor
