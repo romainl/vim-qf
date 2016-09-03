@@ -62,45 +62,43 @@ endfunction
 function qf#ToggleLocWindow()
     let has_loc_window = 0
 
-    if qf#IsQfWindow(winnr()) == 0
+    if qf#IsLocWindow(winnr()) == 0
         let my_winview = winsaveview()
     endif
 
-    if qf#IsQfWindow(winnr()) == 0
-        if !empty(getloclist(winnr()))
-            for winnumber in range(winnr("$"))
-                if qf#IsQfWindow(winnumber + 1) == 1
-                    if qf#IsLocWindow(winnumber + 1) == 1
-                        let has_loc_window = has_loc_window + 1
-                    endif
-                endif
-            endfor
+    if qf#IsLocWindow(winnr())
+        lclose
 
-            if has_loc_window > 0
-                lclose
-
-                if exists("my_winview")
-                    call winrestview(my_winview)
-                endif
-            else
-                lwindow
-
-                wincmd p
-
-                if exists("my_winview")
-                    call winrestview(my_winview)
-                endif
-
-                wincmd p
-            endif
+        if exists("my_winview")
+            call winrestview(my_winview)
         endif
-    else
-        if qf#IsLocWindow(winnr()) == 1
+
+        return
+    endif
+
+    if !empty(getloclist(winnr()))
+        for winnumber in range(winnr("$"))
+            if qf#IsLocWindow(winnumber + 1) == 1
+                let has_loc_window = has_loc_window + 1
+            endif
+        endfor
+
+        if has_loc_window > 0
             lclose
 
             if exists("my_winview")
                 call winrestview(my_winview)
             endif
+        else
+            lwindow
+
+            wincmd p
+
+            if exists("my_winview")
+                call winrestview(my_winview)
+            endif
+
+            wincmd p
         endif
     endif
 endfunction
