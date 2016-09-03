@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.8
+" Version:	0.0.9
 " License:	MIT
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -44,6 +44,14 @@ function qf#ToggleQfWindow()
         endif
     else
         cwindow
+
+        wincmd p
+
+        if exists("my_winview")
+            call winrestview(my_winview)
+        endif
+
+        wincmd p
     endif
 endfunction
 
@@ -51,33 +59,44 @@ function qf#ToggleLocWindow()
     let has_loc_window = 0
 
     if qf#IsQfWindow(winnr()) == 0
+        let my_winview = winsaveview()
+    endif
 
-        for winnumber in range(winnr("$"))
-            if qf#IsQfWindow(winnumber + 1) == 1
-                if qf#IsLocWindow(winnumber + 1) == 1
-                    let has_loc_window = has_loc_window + 1
+    if qf#IsQfWindow(winnr()) == 0
+        if !empty(getloclist(winnr()))
+            for winnumber in range(winnr("$"))
+                if qf#IsQfWindow(winnumber + 1) == 1
+                    if qf#IsLocWindow(winnumber + 1) == 1
+                        let has_loc_window = has_loc_window + 1
+                    endif
                 endif
+            endfor
+
+            if has_loc_window > 0
+                lclose
+
+                if exists("my_winview")
+                    call winrestview(my_winview)
+                endif
+            else
+                lwindow
+
+                wincmd p
+
+                if exists("my_winview")
+                    call winrestview(my_winview)
+                endif
+
+                wincmd p
             endif
-        endfor
-
-        if has_loc_window > 0
-            let my_winview = winsaveview()
-
+        endif
+    else
+        if qf#IsLocWindow(winnr()) == 1
             lclose
 
             if exists("my_winview")
                 call winrestview(my_winview)
             endif
-        else
-            lwindow
-        endif
-    else
-        let my_winview = winsaveview()
-
-        lclose
-
-        if exists("my_winview")
-            call winrestview(my_winview)
         endif
     endif
 endfunction

@@ -4,22 +4,28 @@
 
 ## Features
 
-* disable soft-wrapping in the location/quickfix window
-* disable relative numbers in the location/quickfix window
-* quickfix buffers are hidden from `:ls` and buffer navigation
-* optional Ack.vim-inspired mappings
-* optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
-  that wrap around the beginning and end of the list
-* optional mapping for jumping to and from the location/quickfix window
-* filter and restore the current list
-* perform commands on each line in the current list
-* perform commands on each file in the current list
-* open the location/quickfix window automatically after `:make`, `:grep`,
-  `:lvimgrep` and friends if there are valid locations/errors
-* quit Vim if the last window is a location/quickfix window
-* close location window automatically when quitting parent window
-* jump to next group of entries belonging to same file ("file grouping")
-* save and load named lists
+### Global features
+
+    - quickfix buffers are hidden from `:ls` and buffer navigation
+    - optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious`
+      that wrap around the beginning and end of the list
+    - optional mapping for jumping to and from the location/quickfix window,
+    - optional mappings for toggling location/quickfix windows
+    - open the location/quickfix window automatically after `:make`, `:grep`,
+      `:lvimgrep` and friends if there are valid locations/errors
+    - quit Vim if the last window is a location/quickfix window
+    - close the location window automatically when quitting parent window
+
+### Local features
+
+    - disable soft-wrapping in the location/quickfix window
+    - disable relative numbers in the location/quickfix window
+    - optional Ack.vim-inspired mappings
+    - filter and restore the current list
+    - perform commands on each line in the current list
+    - perform commands on each file in the current list
+    - jump to next group of entries belonging to same file ("file grouping")
+    - save and load named lists
 
 
 ## Installation
