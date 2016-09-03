@@ -14,7 +14,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function qf#IsQfWindow(nmbr)
-    return getwinvar(a:nmbr, "&filetype") == "qf" ? 1 : 0
+    if getwinvar(a:nmbr, "&filetype") == "qf"
+        return qf#IsLocWindow(a:nmbr) ? 0 : 1
+    endif
+
+    return 0
 endfunction
 
 function qf#IsLocWindow(nmbr)
