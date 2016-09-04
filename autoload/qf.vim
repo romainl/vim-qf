@@ -21,8 +21,26 @@ function qf#IsQfWindow(nmbr)
     return 0
 endfunction
 
+function qf#GetQfWindow()
+    for i in range(winnr("$"))
+        let i = i + 1
+        if qf#IsQfWindow(i)
+            return i
+        endif
+    endfor
+endfunction
+
 function qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
+endfunction
+
+function qf#GetLocWindow()
+    for i in range(winnr("$"))
+        let i = i + 1
+        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
+            return i
+        endif
+    endfor
 endfunction
 
 function qf#ToggleQfWindow()
@@ -32,12 +50,10 @@ function qf#ToggleQfWindow()
         let t:my_winview = winsaveview()
     endif
 
-    for winnumber in range(winnr("$"))
-        if qf#IsQfWindow(winnumber + 1)
-            call s:CloseWindow('c')
-            return
-        endif
-    endfor
+    if qf#GetQfWindow() > 0
+        call s:CloseWindow('c')
+        return
+    endif
 
     call s:OpenWindow('c')
 endfunction
@@ -54,11 +70,10 @@ function qf#ToggleLocWindow()
         return
     endif
 
-    for i in range(winnr("$"))
-        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
-            call s:CloseWindow('l')
-        endif
-    endfor
+    if qf#GetLocWindow() > 0
+        call s:CloseWindow('l')
+        return
+    endif
 
     call s:OpenWindow('l')
 endfunction
