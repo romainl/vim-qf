@@ -100,6 +100,8 @@ command! -buffer ListLists call qf#ListLists()
 " remove given lists or all
 command! -buffer -nargs=* -bang -complete=customlist,qf#CompleteList RemoveList call qf#RemoveList(expand("<bang>") == "!" ? 1 : 0, <q-args>)
 
+command! -buffer Sort call qf#SortCurrentFileFirst(b:isLoc ? 'loc' : 'qf')
+
 " TODO: allow customization
 " jump to previous/next file grouping
 nnoremap <silent> <buffer> } :call qf#NextFile()<CR>
