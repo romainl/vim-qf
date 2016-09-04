@@ -34,6 +34,9 @@ nnoremap <silent> <Plug>QfLtoggle   :call qf#ToggleLocWindow()<CR>
 " jump to and from the location/quickfix window
 nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"
 
+command QfCsort call qf#SortCurrentFileFirst('qf')
+command QfLsort call qf#SortCurrentFileFirst('loc')
+
 augroup qf
     autocmd!
 

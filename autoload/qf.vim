@@ -159,6 +159,31 @@ function qf#WrapCommand(direction, prefix)
     endif
 endfunction
 
+" Sorts qf or location list with
+function qf#SortCurrentFileFirst(type)
+    let target = a:type == 'qf' ?
+                \ getqflist()
+                \ : getloclist(winnr())
+
+    let file = &buftype == 'quickfix' ?
+                \ qf#GetFilePath(getline('.'))
+                \ : expand('%')
+
+    let result = s:SortListFirst(target, file)
+
+    if a:type == 'qf'
+        call setqflist(result)
+    else
+        call setloclist(winnr(), result)
+    endif
+endfunction
+
+function s:SortListFirst(target, file)
+    return  filter(copy(a:target), 'bufname(v:val.bufnr) =~ "^' . a:file . '"')
+                \ + filter(copy(a:target), 'bufname(v:val.bufnr) !~ "^' . a:file . '"')
+endfunction
+
+
 " do something with each entry
 " a single function for :Doline and :Dofile both in a quickfix list and
 " a location list
