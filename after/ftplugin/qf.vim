@@ -39,7 +39,7 @@ if exists("g:qf_mapping_ack_style")
     " open entry in a new horizontal window
     nnoremap <buffer> s <C-w><CR>
     " open entry in a new vertical window.
-    nnoremap <buffer> v <C-w><CR><C-w>L<C-w>p<C-w>J<C-w>p
+    nnoremap <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
     " open entry in a new tab.
     nnoremap <buffer> t <C-w><CR><C-w>T
     " open entry and come back
