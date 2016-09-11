@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.8
+" Version:	0.0.9
 " License:	MIT
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -12,6 +12,77 @@
 
 let s:save_cpo = &cpo
 set cpo&vim
+
+function qf#IsQfWindow(nmbr)
+    if getwinvar(a:nmbr, "&filetype") == "qf"
+        return qf#IsLocWindow(a:nmbr) ? 0 : 1
+    endif
+
+    return 0
+endfunction
+
+function qf#IsLocWindow(nmbr)
+    return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
+endfunction
+
+function qf#ToggleQfWindow()
+    let has_qf_window = 0
+
+    if ! qf#IsQfWindow(winnr())
+        let t:my_winview = winsaveview()
+    endif
+
+    for winnumber in range(winnr("$"))
+        if qf#IsQfWindow(winnumber + 1)
+            call s:CloseWindow('c')
+            return
+        endif
+    endfor
+
+    call s:OpenWindow('c')
+endfunction
+
+function qf#ToggleLocWindow()
+    let has_loc_window = 0
+
+    if ! qf#IsLocWindow(winnr())
+        let t:my_winview = winsaveview()
+    endif
+
+    if qf#IsLocWindow(winnr())
+        call s:CloseWindow('l')
+        return
+    endif
+
+    for i in range(winnr("$"))
+        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
+            call s:CloseWindow('l')
+        endif
+    endfor
+
+    call s:OpenWindow('l')
+endfunction
+
+function s:OpenWindow(prefix)
+    exec a:prefix . 'window'
+
+    wincmd p
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
+    endif
+
+    wincmd p
+endfunction
+
+function s:CloseWindow(prefix)
+    exec a:prefix . 'close'
+
+    if exists("my_winview")
+        call winrestview(t:my_winview)
+    endif
+endfunction
+
 
 " jump to previous/next file grouping
 function qf#GetFilePath(line) abort

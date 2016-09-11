@@ -1,7 +1,7 @@
 *qf.txt*	A plugin to make working with the quickfix list/window smoother.
 
 
-			VIM-QF DOCUMENTATION by Romain Lafourcade
+                  VIM-QF DOCUMENTATION by Romain Lafourcade
 
 
 Help on using vim-qf                                                *qf* *vim-qf*
@@ -22,22 +22,26 @@ vim-qf--short for "vim-quickfix"--is a small collection of settings,
 commands and mappings put together to make working with the location/quickfix
 list/window smoother.
 
-Here are the features provided by this plugin:
+Here are the features provided globally by this plugin:
 
-    - disable soft-wrapping in the location/quickfix window
-    - disable relative numbers in the location/quickfix window
     - quickfix buffers are hidden from |:ls| and buffer navigation
-    - optional Ack.vim-inspired mappings
     - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
       that wrap around the beginning and end of the list
     - optional mapping for jumping to and from the location/quickfix window,
-    - filter and restore the current list
-    - perform commands on each line in the curent list
-    - perform commands on each file in the curent list
+    - optional mappings for toggling location/quickfix windows
     - open the location/quickfix window automatically after |:make|, |:grep|,
       |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
-    - close location window automatically when quitting parent window
+    - close the location window automatically when quitting parent window
+
+And the local features:
+
+    - disable soft-wrapping in the location/quickfix window
+    - disable relative numbers in the location/quickfix window
+    - optional Ack.vim-inspired mappings
+    - filter and restore the current list
+    - perform commands on each line in the current list
+    - perform commands on each file in the current list
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
 
@@ -82,6 +86,8 @@ Available global mappings:
     <Plug>QfLprevious ............................. |QfLprevious|
     <Plug>QfLnext ................................. |QfLnext|
     <Plug>QfSwitch ................................ |QfSwitch|
+    <Plug>QfCtoggle ............................... |QfCtoggle|
+    <Plug>QfLtoggle ............................... |QfLtoggle|
 
 Available local mappings:
 
@@ -129,6 +135,29 @@ Jump to and from the location/quickfix window.
 Example: >
 
     nmap ç <Plug>QfSwitch
+<
+------------------------------------------------------------------------------
+                                                                    *QfCtoggle*
+Scope: global                                                                 ~
+Default: none                                                                ~
+
+Toggle the quickfix window. Uses |:cwindow| and |:cclose| under the hood.
+
+Example: >
+
+    nmap <F5> <Plug>QfCtoggle
+<
+------------------------------------------------------------------------------
+                                                                    *QfLtoggle*
+Scope: global                                                                 ~
+Default: none                                                                ~
+
+Toggle the current window's location window or the current location window.
+Uses |:lwindow| and |:lclose| under the hood.
+
+Example: >
+
+    nmap <F6> <Plug>QfLtoggle
 <
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*
