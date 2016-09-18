@@ -13,6 +13,9 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" helper function
+" " returns 1 if the window with the given number is a quickfix window
+" "         0 if the window with the given number is not a quickfix window
 function qf#IsQfWindow(nmbr)
     if getwinvar(a:nmbr, "&filetype") == "qf"
         return qf#IsLocWindow(a:nmbr) ? 0 : 1
@@ -21,17 +24,24 @@ function qf#IsQfWindow(nmbr)
     return 0
 endfunction
 
+" helper function
+" " returns 1 if the window with the given number is a location window
+" "         0 if the window with the given number is not a location window
 function qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
 
+" toggles the quickfix window
 function qf#ToggleQfWindow()
+    " assume we don't have a quickfix window
     let has_qf_window = 0
 
+    " save the view if the current window is not a quickfix window
     if ! qf#IsQfWindow(winnr())
         let t:my_winview = winsaveview()
     endif
 
+    " if one of the windows is a quickfix window close it and return
     for winnumber in range(winnr("$"))
         if qf#IsQfWindow(winnumber + 1)
             call s:CloseWindow('c')
@@ -39,16 +49,22 @@ function qf#ToggleQfWindow()
         endif
     endfor
 
+    " there's no quickfix window so open one
     call s:OpenWindow('c')
 endfunction
 
+" toggles the location window associated with the current window
+" " or whatever location window has the focus
 function qf#ToggleLocWindow()
+    " assume we don't have a location window
     let has_loc_window = 0
 
+    " save the view if the current window is not a location window
     if ! qf#IsLocWindow(winnr())
         let t:my_winview = winsaveview()
     endif
 
+    " close the current window if it's a location window and return
     if qf#IsLocWindow(winnr())
         call s:CloseWindow('l')
         return
@@ -214,6 +230,7 @@ function qf#RestoreList()
     call qf#ResetLists()
 endfunction
 
+" deletes every original list
 function qf#ResetLists()
     if exists("b:isLoc")
         if b:isLoc == 1
@@ -226,6 +243,7 @@ function qf#ResetLists()
     endif
 endfunction
 
+" used to inject the current title into the current status line
 function qf#SetStatusline()
     if exists("b:isLoc")
         if b:isLoc == 1
@@ -293,6 +311,7 @@ function qf#AddList()
     endif
 endfunction
 
+" sets the proper title for the current window
 function qf#SetTitle(pat, reject)
     let str = a:reject == 0 ? "filter" : "reject"
     if exists("b:isLoc")
@@ -392,6 +411,7 @@ function qf#SaveList(add, name) abort
     endif
 endfunction
 
+" loads the given named list
 function qf#LoadList(add, ...)
     if empty(a:000)
         let names = [ s:last_saved_list ]
@@ -420,12 +440,14 @@ function qf#LoadList(add, ...)
     endfor
 endfunction
 
+" echoes a simple list of the current named lists
 function qf#ListLists()
     for name in keys(s:named_lists)
         echo name
     endfor
 endfunction
 
+" removes lists from the current named lists
 function qf#RemoveList(bang, ...)
     if a:bang
         let s:named_lists = {}
@@ -436,6 +458,7 @@ function qf#RemoveList(bang, ...)
     endif
 endfunction
 
+" pulls suggestions from the current named lists
 function qf#CompleteList(ArgLead, CmdLine, CursorPos)
     let completions = []
 
