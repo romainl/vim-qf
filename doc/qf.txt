@@ -22,7 +22,7 @@ vim-qf--short for "vim-quickfix"--is a small collection of settings,
 commands and mappings put together to make working with the location/quickfix
 list/window smoother.
 
-Here are the features provided globally by this plugin:
+These "global" features are available from any window:
 
     - quickfix buffers are hidden from |:ls| and buffer navigation
     - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
@@ -34,10 +34,10 @@ Here are the features provided globally by this plugin:
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
 
-And the local features:
+These "local" features are only available in location/quickfix windows:
 
-    - disable soft-wrapping in the location/quickfix window
-    - disable relative numbers in the location/quickfix window
+    - disable soft-wrapping
+    - disable relative numbers
     - optional Ack.vim-inspired mappings
     - filter and restore the current list
     - perform commands on each line in the current list
@@ -79,7 +79,7 @@ on Windows... >
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
 
-Available global mappings:
+Global mappings:
 
     <Plug>QfCprevious ............................. |QfCprevious|
     <Plug>QfCnext ................................. |QfCnext|
@@ -89,12 +89,12 @@ Available global mappings:
     <Plug>QfCtoggle ............................... |QfCtoggle|
     <Plug>QfLtoggle ............................... |QfLtoggle|
 
-Available local mappings:
+Local mappings:
 
     { ............................................. |QfPreviousFile|
     } ............................................. |QfNextFile|
 
-Available options:
+Options:
 
     qf_mapping_ack_style .......................... |qf_mapping_ack_style|
     qf_statusline ................................. |qf_statusline|
@@ -118,7 +118,7 @@ Example: >
 Scope: global                                                                 ~
 Default: none                                                                ~
 
-Go up and down the location list and wrap around.
+Go up and down the current location list and wrap around.
 
 Example: >
 
@@ -172,7 +172,7 @@ Jump to the next group of lines corresponding to a file.
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
-Ack.vim-inspired mappings available only in the quickfix window:
+Ack.vim-inspired mappings available only in location/quickfix windows:
 
     s - open entry in a new horizontal window
     v - open entry in a new vertical window
@@ -189,7 +189,7 @@ Add the line below to your vimrc to enable this feature: >
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
-Open quickfix window at the bottom.
+Open the quickfix window at the bottom of the screen.
 
 Add the line below to your vimrc to disable this feature: >
 
@@ -200,7 +200,7 @@ Add the line below to your vimrc to disable this feature: >
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
-Open location list windows at the bottom.
+Open location list windows at the bottom of the screen.
 
 Add the line below to your vimrc to disable this feature: >
 
@@ -228,7 +228,7 @@ is focused:
 
 *:Keep*
 
-    Removes all entries that don't contain the given argument, either in the
+    Remove all entries that don't contain the given argument, either in the
     filename or in the description. Note: the argument is not a regular
     expression pattern.
 
@@ -238,7 +238,7 @@ is focused:
 >
 *:Reject*
 
-    Removes all entries that contain the given argument in the filename or
+    Remove all entries that contain the given argument in the filename or
     in the description. Note: the argument is not a regular expression
     pattern.
 
@@ -248,11 +248,11 @@ is focused:
 >
 *:Restore*
 
-    Restores the list to its original state.
+    Restore the list to its original state.
 
 *:Doline*
 
-    Executes an Ex command on every line in the current list.
+    Execute an Ex command on every line in the current list.
     Aliased to the built-in `:cdo` and `:ldo` when applicable.
 
     Example: >
@@ -261,7 +261,7 @@ is focused:
 <
 *:Dofile*
 
-    Executes an Ex command on every file in the current list.
+    Execute an Ex command on every file in the current list.
     Aliased to the built-in `:cfdo` and `:lfdo` when applicable.
 
     Example: >
@@ -270,7 +270,7 @@ is focused:
 <
 *:SaveList*
 
-    Saves the current quickfix/location list and associates it
+    Save the current quickfix/location list and associates it
     with a given name. If no name is supplied the last saved
     list is used.
 
@@ -288,7 +288,7 @@ is focused:
 <
 *:LoadList*
 
-    Replaces the current quickfix/location list with one or more saved named
+    Replace the current quickfix/location list with one or more saved named
     lists. If no name is supplied, the last saved list is used.
 
     Example: >
@@ -305,7 +305,7 @@ is focused:
 <
 *:ListLists*
 
-    Lists all currently saved lists.
+    List all currently saved lists.
 
     Example: >
 
@@ -315,7 +315,7 @@ is focused:
 <
 *:RemoveList*
 
-    Removes given lists. With a bang all saved lists are removed.
+    Remove given lists. With a bang all saved lists are removed.
 
 NOTE: In most cases it is possible to only type a few characters to
 disembiguate commands. Assuming you don't already have custom commands with
@@ -398,6 +398,10 @@ All the templates used to turn this multifarious collection of snippets into
 a proper plugin come from Barry Arthur's Area 41 plugin:
 
     - https://github.com/dahu/Area-41
+
+The named lists feature is the brainchild of Nelo-T. Wallus:
+
+    - https://ntnn.de/
 
 ==============================================================================
  7. TODO                                                              *qf-todo*

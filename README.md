@@ -4,7 +4,7 @@
 
 ## Features
 
-### Global features
+### Global features (available from any window)
 
 - quickfix buffers are hidden from `:ls` and buffer navigation
 - optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
@@ -14,10 +14,10 @@
 - quit Vim if the last window is a location/quickfix window
 - close the location window automatically when quitting parent window
 
-### Local features
+### Local features (available only in location/quickfix windows)
 
-- disable soft-wrapping in the location/quickfix window
-- disable relative numbers in the location/quickfix window
+- disable soft-wrapping
+- disable relative numbers
 - optional Ack.vim-inspired mappings
 - filter and restore the current list
 - perform commands on each line in the current list
@@ -56,6 +56,7 @@ on Windows.
 
 * Export more options?
 * Add a gifcast to the README?
+* Add titles to saved lists, e.g. to display in :ListLists?
 
 ## DONE
 

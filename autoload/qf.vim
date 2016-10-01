@@ -111,6 +111,7 @@ endfunction
 
 function qf#JumpToFirstItemOfFileChunk() abort
     let l:chunk_file_path = qf#GetFilePath(getline('.'))
+
     while line('.') - 1 != 0 && l:chunk_file_path == qf#GetFilePath(getline(line('.') - 1))
         normal! k
     endwhile
@@ -120,9 +121,11 @@ function qf#JumpFileChunk(down) abort
     let l:start_file_path = qf#GetFilePath(getline('.'))
     let l:direction       = a:down ? 'j' : 'k'
     let l:end             = a:down ? '$' : 1
+
     while l:start_file_path == qf#GetFilePath(getline('.')) && getline('.') != getline(l:end)
         execute 'normal! ' . l:direction
     endwhile
+
     call qf#JumpToFirstItemOfFileChunk()
 endfunction
 
@@ -155,6 +158,7 @@ function qf#WrapCommand(direction, prefix)
         catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
         endtry
     endif
+
     if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
         normal zv
     endif
@@ -170,12 +174,14 @@ function qf#DoList(line, cmd)
     else
         let prefix = "c"
     endif
+
     if v:version >= 705 || v:version == 704 && has("patch858")
         if a:line == 1
             let modifier = ""
         else
             let modifier = "f"
         endif
+
         try
             execute prefix . modifier . "do " . a:cmd
         catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
@@ -185,6 +191,7 @@ function qf#DoList(line, cmd)
             silent execute prefix . "first"
             while 1
                 execute a:cmd
+
                 silent execute a:line == 1 ? prefix . "next" : prefix . "nfile"
             endwhile
         catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
@@ -210,8 +217,10 @@ function qf#RestoreList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
+
             if len(lists) > 0
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
+
                 let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
             else
                 echo "No filter applied. Nothing to restore."
@@ -220,6 +229,7 @@ function qf#RestoreList()
             if exists("g:qf_quickfix_lists")
                 if len(g:qf_quickfix_lists) > 0
                     call setqflist(g:qf_quickfix_lists[0], "r")
+
                     let w:quickfix_title = g:qf_quickfix_titles[0]
                 else
                     echo "No filter applied. Nothing to restore."
@@ -227,6 +237,7 @@ function qf#RestoreList()
             endif
         endif
     endif
+
     call qf#ResetLists()
 endfunction
 
@@ -248,6 +259,7 @@ function qf#SetStatusline()
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
+
             if len(titles) > 0
                 return titles[-1]
             else
@@ -280,8 +292,9 @@ function qf#SetStatusline()
 endfunction
 
 function qf#SetList(pat, reject)
-    let operator = a:reject == 0 ? "=~" : "!~"
+    let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
+
     if exists("b:isLoc")
         if b:isLoc == 1
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
@@ -295,6 +308,7 @@ function qf#AddList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let locations = getwinvar(winnr("#"), "qf_location_lists")
+
             if len(locations) > 0
                 call add(locations, getloclist(0))
                 call setwinvar(winnr("#"), "qf_location_lists", locations)
@@ -311,9 +325,17 @@ function qf#AddList()
     endif
 endfunction
 
-" sets the proper title for the current window
+" sets the proper title for the current window after :Keep and :Reject
+"   - location window:
+"       :lgrep foo sample.txt [keep: 'bar']
+"       :lgrep foo sample.txt [reject: 'bar']
+"   - quickfix window:
+"       :grep foo sample.txt [keep: 'bar']
+"       :grep foo sample.txt [reject: 'bar']
 function qf#SetTitle(pat, reject)
-    let str = a:reject == 0 ? "filter" : "reject"
+    " did we use :Keep or :Reject?
+    let str = a:reject == 0 ? "keep" : "reject"
+
     if exists("b:isLoc")
         if b:isLoc == 1
             let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
@@ -331,10 +353,12 @@ function qf#SetTitle(pat, reject)
     endif
 endfunction
 
+" store the current title
 function qf#AddTitle(title)
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
+
             if len(titles) > 0
                 call add(titles, a:title)
                 call setwinvar(winnr("#"), "qf_location_titles", titles)
@@ -351,10 +375,12 @@ function qf#AddTitle(title)
     endif
 endfunction
 
+" replace the current title
 function qf#ReuseTitle()
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
+
             if len(titles) > 0
                 let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]"
             endif
@@ -373,13 +399,15 @@ let s:last_saved_list = ''
 
 function qf#SaveList(add, name) abort
     if a:name != ''
-        let curname = a:name
+        let curname           = a:name
         let s:last_saved_list = curname
     else
         if s:last_saved_list == ''
             echomsg 'No last saved list'
+
             return
         endif
+
         let curname = s:last_saved_list
     endif
 
