@@ -19,12 +19,19 @@
 - disable soft-wrapping
 - disable relative numbers
 - optional Ack.vim-inspired mappings
-- filter and restore the current list
+- filter and restore the current list:
+
+  ![filter](https://romainl.github.io/vim-qf/filter.gif)
+
 - perform commands on each line in the current list
 - perform commands on each file in the current list
-- jump to next group of entries belonging to same file ("file grouping")
-- save and load named lists
+- jump to next group of entries belonging to same file ("file grouping"):
 
+  ![group](https://romainl.github.io/vim-qf/group.gif)
+
+- save and load named lists:
+
+  ![list](https://romainl.github.io/vim-qf/list.gif)
 
 ## Installation
 
