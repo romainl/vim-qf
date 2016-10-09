@@ -98,6 +98,8 @@ Options:
 
     qf_mapping_ack_style .......................... |qf_mapping_ack_style|
     qf_statusline ................................. |qf_statusline|
+    qf_window_bottom .............................. |qf_window_bottom|
+    qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*

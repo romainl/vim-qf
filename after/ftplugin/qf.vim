@@ -5,10 +5,15 @@
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
 "
-" See qf.txt for help.  This can be accessed by doing:
+" See :help qf for help.
+"
+" If this doesn't work and you installed vim-qf
+" manually, use the following command to index vim-qf's documentation:
 "
 " :helptags ~/.vim/doc
-" :help qf
+"
+" If this doesn't work and you use a runtimepath/plugin manager, consult its
+" documentation.
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -38,12 +43,16 @@ endif
 if exists("g:qf_mapping_ack_style")
     " open entry in a new horizontal window
     nnoremap <buffer> s <C-w><CR>
+
     " open entry in a new vertical window.
     nnoremap <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
+
     " open entry in a new tab.
     nnoremap <buffer> t <C-w><CR><C-w>T
+
     " open entry and come back
     nnoremap <buffer> o <CR><C-w>p
+
     " open entry and close the location/quickfix window.
     if b:isLoc == 1
         nnoremap <buffer> O <CR>:lclose<CR>
@@ -53,7 +62,7 @@ if exists("g:qf_mapping_ack_style")
 endif
 
 " filter the location/quickfix list
-" (kept for backward compatibility)
+" (kept for backward compatibility, use :Keep and :Reject instead)
 " usage:
 "   :Filter foo     <-- same as :Keep foo
 "   :Filter! foo    <-- same as :Reject foo
@@ -84,13 +93,13 @@ command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
 "   :Dofile %s/^/---
 command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
 
-" save current loc/qf list and associate it with a given name or the
+" save current location/quickfix list and associate it with a given name or the
 " last used name
 command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveList    call qf#SaveList(0, <q-args>)
 " like SaveList, but add to a potentially existing named list
 command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveListAdd call qf#SaveList(1, <q-args>)
 
-" replace loc/qf list with named lists
+" replace location/quickfix list with named lists
 command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadList    call qf#LoadList(0, <q-args>)
 " like LoadList but append instead of replace
 command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadListAdd call qf#LoadList(1, <q-args>)
@@ -109,6 +118,7 @@ nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
 autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
 
+" decide where to open the location/quickfix window
 if (b:isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
             \ || (b:isLoc == 0 && get(g:, 'qf_window_bottom', 1))
     wincmd J

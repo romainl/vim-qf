@@ -5,10 +5,15 @@
 " Location:	plugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
 "
-" See qf.txt for help.  This can be accessed by doing:
+" See :help qf for help.
+"
+" If this doesn't work and you installed vim-qf
+" manually, use the following command to index vim-qf's documentation:
 "
 " :helptags ~/.vim/doc
-" :help qf
+"
+" If this doesn't work and you use a runtimepath/plugin manager, consult its
+" documentation.
 
 if exists("g:loaded_qf") || v:version < 703 || &compatible
     finish
