@@ -36,7 +36,7 @@ let b:isLoc = len(getloclist(0)) > 0 ? 1 : 0
 
 " customize the statusline
 if exists("g:qf_statusline")
-    execute "setlocal statusline=" . g:qf_statusline.before . "%{qf#SetStatusline()}" . g:qf_statusline.after
+    execute "setlocal statusline=" . g:qf_statusline.before . "%{qf#statusline#SetStatusline()}" . g:qf_statusline.after
 endif
 
 " inspired by Ack.vim
@@ -66,57 +66,57 @@ endif
 " usage:
 "   :Filter foo     <-- same as :Keep foo
 "   :Filter! foo    <-- same as :Reject foo
-command! -buffer -nargs=1 -bang Filter call qf#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
+command! -buffer -nargs=1 -bang Filter call qf#filter#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
 
 " keep entries matching the argument
 " usage:
 "   :Keep foo
-command! -buffer -nargs=1 Keep call qf#FilterList(<q-args>, 0)
+command! -buffer -nargs=1 Keep call qf#filter#FilterList(<q-args>, 0)
 
 " reject entries matching the argument
 " usage:
 "   :Reject foo
-command! -buffer -nargs=1 Reject call qf#FilterList(<q-args>, 1)
+command! -buffer -nargs=1 Reject call qf#filter#FilterList(<q-args>, 1)
 
 " restore the location/quickfix list
 " usage:
 "   :Restore
-command! -buffer Restore call qf#RestoreList()
+command! -buffer Restore call qf#filter#RestoreList()
 
 " do something on each line in the location/quickfix list
 " usage:
 "   :Doline s/^/---
-command! -buffer -nargs=1 Doline call qf#DoList(1, <q-args>)
+command! -buffer -nargs=1 Doline call qf#do#DoList(1, <q-args>)
 
 " do something on each file in the location/quickfix list
 " usage:
 "   :Dofile %s/^/---
-command! -buffer -nargs=1 Dofile call qf#DoList(0, <q-args>)
+command! -buffer -nargs=1 Dofile call qf#do#DoList(0, <q-args>)
 
 " save current location/quickfix list and associate it with a given name or the
 " last used name
-command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveList    call qf#SaveList(0, <q-args>)
+command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList SaveList    call qf#namedlist#SaveList(0, <q-args>)
 " like SaveList, but add to a potentially existing named list
-command! -buffer -nargs=? -complete=customlist,qf#CompleteList SaveListAdd call qf#SaveList(1, <q-args>)
+command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList SaveListAdd call qf#namedlist#SaveList(1, <q-args>)
 
 " replace location/quickfix list with named lists
-command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadList    call qf#LoadList(0, <q-args>)
+command! -buffer -nargs=+ -complete=customlist,qf#namedlist#CompleteList LoadList    call qf#namedlist#LoadList(0, <q-args>)
 " like LoadList but append instead of replace
-command! -buffer -nargs=+ -complete=customlist,qf#CompleteList LoadListAdd call qf#LoadList(1, <q-args>)
+command! -buffer -nargs=+ -complete=customlist,qf#namedlist#CompleteList LoadListAdd call qf#namedlist#LoadList(1, <q-args>)
 
 " list currently saved lists
-command! -buffer ListLists call qf#ListLists()
+command! -buffer ListLists call qf#namedlist#ListLists()
 " remove given lists or all
-command! -buffer -nargs=* -bang -complete=customlist,qf#CompleteList RemoveList call qf#RemoveList(expand("<bang>") == "!" ? 1 : 0, <q-args>)
+command! -buffer -nargs=* -bang -complete=customlist,qf#namedlist#CompleteList RemoveList call qf#namedlist#RemoveList(expand("<bang>") == "!" ? 1 : 0, <q-args>)
 
 " TODO: allow customization
 " jump to previous/next file grouping
-nnoremap <silent> <buffer> } :call qf#NextFile()<CR>
-nnoremap <silent> <buffer> { :call qf#PreviousFile()<CR>
+nnoremap <silent> <buffer> } :call qf#filegroup#NextFile()<CR>
+nnoremap <silent> <buffer> { :call qf#filegroup#PreviousFile()<CR>
 
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
-autocmd qf BufWinEnter <buffer> call qf#ReuseTitle()
+autocmd qf BufWinEnter <buffer> call qf#filter#ReuseTitle()
 
 " decide where to open the location/quickfix window
 if (b:isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))

@@ -24,17 +24,17 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " <Plug>QfCprevious and <Plug>QfCnext go up and down the quickfix list and wrap around
-nnoremap <silent> <Plug>QfCprevious :call qf#WrapCommand('up', 'c')<CR>
-nnoremap <silent> <Plug>QfCnext     :call qf#WrapCommand('down', 'c')<CR>
+nnoremap <silent> <Plug>QfCprevious :call qf#wrap#WrapCommand('up', 'c')<CR>
+nnoremap <silent> <Plug>QfCnext     :call qf#wrap#WrapCommand('down', 'c')<CR>
 
 " <Plug>QfLprevious and <Plug>QfLnext go up and down the location list and wrap around
-nnoremap <silent> <Plug>QfLprevious :call qf#WrapCommand('down', 'l')<CR>
-nnoremap <silent> <Plug>QfLnext     :call qf#WrapCommand('up', 'l')<CR>
+nnoremap <silent> <Plug>QfLprevious :call qf#wrap#WrapCommand('down', 'l')<CR>
+nnoremap <silent> <Plug>QfLnext     :call qf#wrap#WrapCommand('up', 'l')<CR>
 
 " <Plug>QfCtoggle toggles the quickfix window
 " <Plug>QfLtoggle toggles the location window
-nnoremap <silent> <Plug>QfCtoggle   :call qf#ToggleQfWindow()<CR>
-nnoremap <silent> <Plug>QfLtoggle   :call qf#ToggleLocWindow()<CR>
+nnoremap <silent> <Plug>QfCtoggle   :call qf#toggle#ToggleQfWindow()<CR>
+nnoremap <silent> <Plug>QfLtoggle   :call qf#toggle#ToggleLocWindow()<CR>
 
 " jump to and from the location/quickfix window
 nnoremap <expr> <silent> <Plug>QfSwitch &filetype == "qf" ? "<C-w>p" : "<C-w>b"
