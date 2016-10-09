@@ -7,8 +7,8 @@
 "
 " See :help qf for help.
 "
-" If this doesn't work and you installed vim-qf
-" manually, use the following command to index vim-qf's documentation:
+" If this doesn't work and you installed vim-qf manually, use the following
+" command to index vim-qf's documentation:
 "
 " :helptags ~/.vim/doc
 "
