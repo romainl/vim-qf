@@ -13,6 +13,14 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+function qf#PreviewFileUnderCursor()
+    let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
+    let cur_line = getline(line('.'))
+    let cur_file = substitute(cur_line, '|.*$', '', '')
+    let cur_pos = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
+    execute "pedit +" . cur_pos . " " cur_file
+endfunction
+
 " helper function
 " " returns 1 if the window with the given number is a quickfix window
 " "         0 if the window with the given number is not a quickfix window

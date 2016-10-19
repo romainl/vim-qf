@@ -50,6 +50,8 @@ if exists("g:qf_mapping_ack_style")
     else
         nnoremap <buffer> O <CR>:cclose<CR>
     endif
+    " preview entry under the cursor
+    nnoremap <buffer> p :call qf#PreviewFileUnderCursor()<CR>
 endif
 
 " filter the location/quickfix list
