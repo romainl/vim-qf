@@ -17,9 +17,13 @@ set cpo&vim
 function qf#PreviewFileUnderCursor()
     let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
     let cur_line = getline(line('.'))
-    let cur_file = substitute(cur_line, '|.*$', '', '')
-    let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
-    execute "pedit +" . cur_pos . " " cur_file
+    let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
+    if cur_line =~ '|\d\+'
+        let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
+        execute "pedit +" . cur_pos . " " . cur_file
+    else
+        execute "pedit " . cur_file
+    endif
 endfunction
 
 " helper function
