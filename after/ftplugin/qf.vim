@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.9
+" Version:	0.1.0
 " License:	MIT
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -50,6 +50,8 @@ if exists("g:qf_mapping_ack_style")
     else
         nnoremap <buffer> O <CR>:cclose<CR>
     endif
+    " preview entry under the cursor
+    nnoremap <buffer> p :call qf#PreviewFileUnderCursor()<CR>
 endif
 
 " filter the location/quickfix list
