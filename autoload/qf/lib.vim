@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.9
+" Version:	0.1.0
 " License:	MIT
 " Location:	autoload/lib.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -22,7 +22,7 @@ set cpo&vim
 " "         0 if the window with the given number is not a quickfix window
 function qf#lib#IsQfWindow(nmbr)
     if getwinvar(a:nmbr, "&filetype") == "qf"
-        return qf#IsLocWindow(a:nmbr) ? 0 : 1
+        return qf#lib#IsLocWindow(a:nmbr) ? 0 : 1
     endif
 
     return 0

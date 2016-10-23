@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.9
+" Version:	0.1.0
 " License:	MIT
 " Location:	autoload/toggle.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -77,8 +77,16 @@ function qf#toggle#ToggleLocWindow()
     endif
 
     for i in range(winnr("$"))
-        if qf#lib#IsLocWindow(i) && getloclist(0) == getloclist(i)
-            call s:CloseWindow('l')
+        " if qf#lib#IsLocWindow(i) && getloclist(0) == getloclist(i)
+        "     echom "-------"
+        "     call s:CloseWindow('l')
+        "     echom "--------"
+        " endif
+        if qf#lib#IsLocWindow(i)
+            echo "hum"
+            if getloclist(0) == getloclist(i)
+                call s:CloseWindow('l')
+            endif
         endif
     endfor
 

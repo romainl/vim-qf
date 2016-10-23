@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.9
+" Version:	0.1.0
 " License:	MIT
 " Location:	autoload/filegroup.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -32,6 +32,8 @@ function s:JumpToFirstItemOfFileChunk() abort
     while line('.') - 1 != 0 && l:chunk_file_path == s:GetFilePath(getline(line('.') - 1))
         normal! k
     endwhile
+
+    normal! zz
 endfunction
 
 function s:JumpFileChunk(down) abort
