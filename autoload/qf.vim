@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.0.9
+" Version:	0.1.0
 " License:	MIT
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -13,11 +13,12 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" open the current entry in th preview window
 function qf#PreviewFileUnderCursor()
     let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
     let cur_line = getline(line('.'))
     let cur_file = substitute(cur_line, '|.*$', '', '')
-    let cur_pos = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
+    let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
     execute "pedit +" . cur_pos . " " cur_file
 endfunction
 
