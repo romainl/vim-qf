@@ -220,6 +220,28 @@ Example: >
     let g:qf_statusline = {}
     let g:qf_statusline.before = '%<\ '
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+
+------------------------------------------------------------------------------
+                                                       *'qf_auto_open_quickfix'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open the Quickfix window automatically if there are any errors.
+
+Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_open_quickfix = 0
+<
+------------------------------------------------------------------------------
+                                                        *'qf_auto_open_loclist'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open the Location List automatically if there are any locations.
+
+Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_open_loclist = 0
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*

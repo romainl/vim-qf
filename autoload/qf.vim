@@ -523,4 +523,16 @@ function qf#FunctionName(argument)
     endif
 endfunction
 
+function qf#OpenQuickfix()
+  if get(g:, 'qf_auto_open_quickfix', 1)
+    cwindow
+  endif
+endfunction
+
+function qf#OpenLoclist()
+  if get(g:, 'qf_auto_open_loclist', 1)
+    lwindow
+  endif
+endfunction
+
 let &cpo = s:save_cpo
