@@ -20,6 +20,8 @@ set cpo&vim
 " helper function
 " " returns 1 if the window with the given number is a quickfix window
 " "         0 if the window with the given number is not a quickfix window
+" TODO (Nelo-T. Wallus): make a:nbmr optional and return current window
+"                        by default
 function qf#IsQfWindow(nmbr)
     if getwinvar(a:nmbr, "&filetype") == "qf"
         return qf#IsLocWindow(a:nmbr) ? 0 : 1
