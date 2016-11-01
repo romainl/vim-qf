@@ -54,13 +54,6 @@ if exists("g:qf_mapping_ack_style")
     nnoremap <buffer> p :call qf#PreviewFileUnderCursor()<CR>
 endif
 
-" filter the location/quickfix list
-" (kept for backward compatibility)
-" usage:
-"   :Filter foo     <-- same as :Keep foo
-"   :Filter! foo    <-- same as :Reject foo
-command! -buffer -nargs=1 -bang Filter call qf#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
-
 " keep entries matching the argument
 " usage:
 "   :Keep foo
@@ -70,6 +63,13 @@ command! -buffer -nargs=1 Keep call qf#FilterList(<q-args>, 0)
 " usage:
 "   :Reject foo
 command! -buffer -nargs=1 Reject call qf#FilterList(<q-args>, 1)
+
+" filter the location/quickfix list
+" (kept for backward compatibility)
+" usage:
+"   :Filter foo     <-- same as :Keep foo
+"   :Filter! foo    <-- same as :Reject foo
+command! -buffer -nargs=1 -bang Filter call qf#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
 
 " restore the location/quickfix list
 " usage:
