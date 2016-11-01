@@ -17,7 +17,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" jump to previous/next file grouping
 function s:GetFilePath(line) abort
     "                          +- match from the first pipe to the end of line
     "                          |  declaring EOL explicitly is faster than implicitly
