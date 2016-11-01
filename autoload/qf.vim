@@ -20,9 +20,9 @@ set cpo&vim
 " helper function
 " " returns 1 if the window with the given number is a quickfix window
 " "         0 if the window with the given number is not a quickfix window
-function qf#lib#IsQfWindow(nmbr)
+function qf#IsQfWindow(nmbr)
     if getwinvar(a:nmbr, "&filetype") == "qf"
-        return qf#lib#IsLocWindow(a:nmbr) ? 0 : 1
+        return qf#IsLocWindow(a:nmbr) ? 0 : 1
     endif
 
     return 0
@@ -31,7 +31,7 @@ endfunction
 " helper function
 " " returns 1 if the window with the given number is a location window
 " "         0 if the window with the given number is not a location window
-function qf#lib#IsLocWindow(nmbr)
+function qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
 
@@ -40,7 +40,7 @@ let &cpo = s:save_cpo
 finish
 
 " template
-function qf#lib#FunctionName(argument)
+function qf#FunctionName(argument)
     if exists("b:isLoc")
         if b:isLoc == 1
             " do something if we are in a location list

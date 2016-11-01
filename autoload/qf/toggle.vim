@@ -43,13 +43,13 @@ function qf#toggle#ToggleQfWindow()
     let has_qf_window = 0
 
     " save the view if the current window is not a quickfix window
-    if ! qf#lib#IsQfWindow(winnr())
+    if ! qf#IsQfWindow(winnr())
         let t:my_winview = winsaveview()
     endif
 
     " if one of the windows is a quickfix window close it and return
     for winnumber in range(winnr("$"))
-        if qf#lib#IsQfWindow(winnumber + 1)
+        if qf#IsQfWindow(winnumber + 1)
             call s:CloseWindow('c')
             return
         endif
@@ -66,23 +66,23 @@ function qf#toggle#ToggleLocWindow()
     let has_loc_window = 0
 
     " save the view if the current window is not a location window
-    if ! qf#lib#IsLocWindow(winnr())
+    if ! qf#IsLocWindow(winnr())
         let t:my_winview = winsaveview()
     endif
 
     " close the current window if it's a location window and return
-    if qf#lib#IsLocWindow(winnr())
+    if qf#IsLocWindow(winnr())
         call s:CloseWindow('l')
         return
     endif
 
     for i in range(winnr("$"))
-        " if qf#lib#IsLocWindow(i) && getloclist(0) == getloclist(i)
+        " if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
         "     echom "-------"
         "     call s:CloseWindow('l')
         "     echom "--------"
         " endif
-        if qf#lib#IsLocWindow(i)
+        if qf#IsLocWindow(i)
             echo "hum"
             if getloclist(0) == getloclist(i)
                 call s:CloseWindow('l')
