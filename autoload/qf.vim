@@ -56,6 +56,15 @@ function qf#SetList(newlist, ...)
     call call(Func, a:000)
 endfunction
 
+function qf#GetEntryPath(line) abort
+    "                          +- match from the first pipe to the end of line
+    "                          |  declaring EOL explicitly is faster than implicitly
+    "                          |      +- replace match with nothing
+    "                          |      |   +- no flags
+    return substitute(a:line, '|.*$', '', '')
+endfunction
+
+
 let &cpo = s:save_cpo
 
 finish
