@@ -67,23 +67,16 @@ function qf#namedlist#LoadList(add, ...)
     endif
 
     if !a:add
-        if get(b:, 'isLoc', 0)
-            call setloclist(0, [])
-        else
-            call setqflist([])
-        endif
+        call qf#SetList([])
     endif
 
     for name in names
-        if has_key(s:named_lists, name)
-            if get(b:, 'isLoc', 0)
-                call setloclist(0, s:named_lists[name], 'a')
-            else
-                call setqflist(s:named_lists[name], 'a')
-            endif
-        else
+        if ! has_key(s:named_lists, name)
             echomsg 'No list named "' . name . '" saved'
+            return
         endif
+
+        call qf#SetList(s:named_lists[name], 'a')
     endfor
 endfunction
 

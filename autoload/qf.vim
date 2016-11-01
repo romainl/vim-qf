@@ -45,6 +45,17 @@ function qf#GetList()
     endif
 endfunction
 
+" sets location or qf list based in b:isLoc to passed newlist
+function qf#SetList(newlist, ...)
+    " generate partial
+    let Func = get(b:, 'isLoc', 0)
+                \ ? function('setloclist', [0, newlist])
+                \ : function('setqflist', [newlist])
+
+    " call partial with optional arguments
+    call call(Func, a:000)
+endfunction
+
 let &cpo = s:save_cpo
 
 finish
