@@ -128,6 +128,8 @@ function qf#JumpToFirstItemOfFileChunk() abort
     while line('.') - 1 != 0 && l:chunk_file_path == qf#GetFilePath(getline(line('.') - 1))
         normal! k
     endwhile
+
+    normal zz
 endfunction
 
 function qf#JumpFileChunk(down) abort
