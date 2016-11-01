@@ -512,6 +512,20 @@ function qf#CompleteList(ArgLead, CmdLine, CursorPos)
     return completions
 endfunction
 
+" open the quickfix window if there are valid errors
+function qf#OpenQuickfix()
+    if get(g:, 'qf_auto_open_quickfix', 1)
+        cwindow
+    endif
+endfunction
+
+" open a location window if there are valid locations
+function qf#OpenLoclist()
+    if get(g:, 'qf_auto_open_loclist', 1)
+        lwindow
+    endif
+endfunction
+
 " template
 function qf#FunctionName(argument)
     if exists("b:isLoc")
