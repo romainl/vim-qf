@@ -34,11 +34,7 @@ function qf#namedlist#SaveList(add, name) abort
         let curname = s:last_saved_list
     endif
 
-    if get(b:, 'isLoc', 0)
-        let curlist = getloclist(0)
-    else
-        let curlist = getqflist()
-    endif
+    let curlist = qf#GetList()
 
     if empty(curlist)
         " fail silently on empty lists

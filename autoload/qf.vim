@@ -35,6 +35,16 @@ function qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
 
+" returns location list of the current loclist if isLoc is set
+"         qf list otherwise
+function qf#GetList()
+    if get(b:, 'isLoc', 0)
+        return getloclist(0)
+    else
+        return getqflist()
+    endif
+endfunction
+
 let &cpo = s:save_cpo
 
 finish
