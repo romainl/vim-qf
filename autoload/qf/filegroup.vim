@@ -19,11 +19,11 @@ set cpo&vim
 
 " jump to previous/next file grouping
 function s:GetFilePath(line) abort
-    return substitute(a:line, '|.*$', '', '')
-    "                          |      |   +- no flags
-    "                          |      +- replace match with nothing
     "                          +- match from the first pipe to the end of line
-    "                             declaring EOL explicitly is faster than implicitly
+    "                          |  declaring EOL explicitly is faster than implicitly
+    "                          |      +- replace match with nothing
+    "                          |      |   +- no flags
+    return substitute(a:line, '|.*$', '', '')
 endfunction
 
 function s:JumpToFirstItemOfFileChunk() abort
