@@ -55,16 +55,3 @@ function qf#filegroup#NextFile() abort
 endfunction
 
 let &cpo = s:save_cpo
-
-finish
-
-" template
-function qf#filegroup#FunctionName(argument)
-    if exists("b:isLoc")
-        if b:isLoc == 1
-            " do something if we are in a location list
-        else
-            " do something else if we are in a quickfix list
-        endif
-    endif
-endfunction

@@ -19,6 +19,9 @@ set cpo&vim
 
 " wrap around
 " TODO (Nelo-T. Wallus): I actually don't know what this does
+" TODO (romainl): Built-in :cn/:cp/:ln/:lp stop at the beginning
+"                 and end of the list. This allows us to wrap
+"                 around.
 function qf#wrap#WrapCommand(direction, prefix)
     if a:direction == "up"
         try
@@ -42,16 +45,3 @@ function qf#wrap#WrapCommand(direction, prefix)
 endfunction
 
 let &cpo = s:save_cpo
-
-finish
-
-" template
-function qf#wrap#FunctionName(argument)
-    if exists("b:isLoc")
-        if b:isLoc == 1
-            " do something if we are in a location list
-        else
-            " do something else if we are in a quickfix list
-        endif
-    endif
-endfunction

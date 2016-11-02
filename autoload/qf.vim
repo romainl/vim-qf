@@ -66,18 +66,18 @@ function qf#GetEntryPath(line) abort
     return substitute(a:line, '|.*$', '', '')
 endfunction
 
-
-let &cpo = s:save_cpo
-
-finish
-
-" template
-function qf#FunctionName(argument)
-    if exists("b:isLoc")
-        if b:isLoc == 1
-            " do something if we are in a location list
-        else
-            " do something else if we are in a quickfix list
-        endif
+" open the quickfix window if there are valid errors
+function qf#OpenQuickfix()
+    if get(g:, 'qf_auto_open_quickfix', 1)
+        cwindow
     endif
 endfunction
+
+" open a location window if there are valid locations
+function qf#OpenLoclist()
+    if get(g:, 'qf_auto_open_loclist', 1)
+        lwindow
+    endif
+endfunction
+
+let &cpo = s:save_cpo
