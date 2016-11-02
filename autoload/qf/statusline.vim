@@ -18,6 +18,8 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " used to inject the current title into the current status line
+" TODO (Nelo-T. Wallus): This is pretty heavy spaghetti code. I'll take
+" a close look at it and try to break it up into smaller portions
 function! qf#statusline#SetStatusline()
     if exists("b:isLoc")
         if b:isLoc == 1

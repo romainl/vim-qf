@@ -19,9 +19,10 @@ set cpo&vim
 
 " open the current entry in th preview window
 function qf#preview#PreviewFileUnderCursor()
-    let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
+    let cur_list = qf#GetList()
     let cur_line = getline(line('.'))
-    let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
+    let cur_file = fnameescape(qf#GetEntryPath(cur_line))
+
     if cur_line =~ '|\d\+'
         let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
         execute "pedit +" . cur_pos . " " . cur_file

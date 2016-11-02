@@ -28,7 +28,8 @@ function qf#do#DoList(line, cmd)
         let prefix = "c"
     endif
 
-    if v:version >= 705 || v:version == 704 && has("patch858")
+    if v:version >= 705
+                \ || v:version == 704 && has("patch858")
         if a:line == 1
             let modifier = ""
         else

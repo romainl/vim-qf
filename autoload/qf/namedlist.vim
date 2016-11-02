@@ -21,10 +21,7 @@ let s:named_lists = {}
 let s:last_saved_list = ''
 
 function qf#namedlist#SaveList(add, name) abort
-    if a:name != ''
-        let curname           = a:name
-        let s:last_saved_list = curname
-    else
+    if a:name == ''
         if s:last_saved_list == ''
             echomsg 'No last saved list'
 
@@ -32,13 +29,12 @@ function qf#namedlist#SaveList(add, name) abort
         endif
 
         let curname = s:last_saved_list
+    else
+        let curname           = a:name
+        let s:last_saved_list = curname
     endif
 
-    if get(b:, 'isLoc', 0)
-        let curlist = getloclist(0)
-    else
-        let curlist = getqflist()
-    endif
+    let curlist = qf#GetList()
 
     if empty(curlist)
         " fail silently on empty lists
@@ -71,23 +67,16 @@ function qf#namedlist#LoadList(add, ...)
     endif
 
     if !a:add
-        if get(b:, 'isLoc', 0)
-            call setloclist(0, [])
-        else
-            call setqflist([])
-        endif
+        call qf#SetList([])
     endif
 
     for name in names
-        if has_key(s:named_lists, name)
-            if get(b:, 'isLoc', 0)
-                call setloclist(0, s:named_lists[name], 'a')
-            else
-                call setqflist(s:named_lists[name], 'a')
-            endif
-        else
+        if ! has_key(s:named_lists, name)
             echomsg 'No list named "' . name . '" saved'
+            return
         endif
+
+        call qf#SetList(s:named_lists[name], 'a')
     endfor
 endfunction
 

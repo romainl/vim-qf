@@ -17,19 +17,11 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" jump to previous/next file grouping
-function s:GetFilePath(line) abort
-    return substitute(a:line, '|.*$', '', '')
-    "                          |      |   +- no flags
-    "                          |      +- replace match with nothing
-    "                          +- match from the first pipe to the end of line
-    "                             declaring EOL explicitly is faster than implicitly
-endfunction
-
 function s:JumpToFirstItemOfFileChunk() abort
-    let l:chunk_file_path = s:GetFilePath(getline('.'))
+    let l:chunk_file_path = qf#GetEntryPath(getline('.'))
 
-    while line('.') - 1 != 0 && l:chunk_file_path == s:GetFilePath(getline(line('.') - 1))
+    while line('.') - 1 != 0
+                \ && l:chunk_file_path == qf#GetEntryPath(getline(line('.') - 1))
         normal! k
     endwhile
 
@@ -37,11 +29,13 @@ function s:JumpToFirstItemOfFileChunk() abort
 endfunction
 
 function s:JumpFileChunk(down) abort
-    let l:start_file_path = s:GetFilePath(getline('.'))
+    let l:start_file_path = qf#GetEntryPath(getline('.'))
     let l:direction       = a:down ? 'j' : 'k'
     let l:end             = a:down ? '$' : 1
 
-    while l:start_file_path == s:GetFilePath(getline('.')) && getline('.') != getline(l:end)
+    while l:start_file_path
+                \ == qf#GetEntryPath(getline('.'))
+                \    && getline('.') != getline(l:end)
         execute 'normal! ' . l:direction
     endwhile
 

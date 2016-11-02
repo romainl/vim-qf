@@ -18,6 +18,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " wrap around
+" TODO (Nelo-T. Wallus): I actually don't know what this does
 function qf#wrap#WrapCommand(direction, prefix)
     if a:direction == "up"
         try
