@@ -29,8 +29,8 @@ These "global" features are available from any window:
       that wrap around the beginning and end of the list
     - optional mapping for jumping to and from the location/quickfix window,
     - optional mappings for toggling location/quickfix windows
-    - open the location/quickfix window automatically after |:make|, |:grep|,
-      |:lvimgrep| and friends if there are valid locations/errors
+    - optionally open the location/quickfix window automatically after |:make|,
+      |:grep|, |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
 
@@ -100,6 +100,9 @@ Options:
     qf_statusline ................................. |qf_statusline|
     qf_window_bottom .............................. |qf_window_bottom|
     qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
+    qf_statusline ................................. |qf_statusline|
+    qf_auto_open_quickfix ......................... |qf_auto_open_quickfix|
+    qf_auto_open_loclist .......................... |qf_auto_open_loclist|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
@@ -222,6 +225,28 @@ Example: >
     let g:qf_statusline = {}
     let g:qf_statusline.before = '%<\ '
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+<
+------------------------------------------------------------------------------
+                                                       *'qf_auto_open_quickfix'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open the quickfix window automatically if there are any errors.
+
+Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_open_quickfix = 0
+<
+------------------------------------------------------------------------------
+                                                        *'qf_auto_open_loclist'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Open the location window automatically if there are any locations.
+
+Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_open_loclist = 0
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*
