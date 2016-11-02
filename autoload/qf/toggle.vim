@@ -77,13 +77,9 @@ function qf#toggle#ToggleLocWindow()
     endif
 
     for i in range(winnr("$"))
-        " if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
-        "     echom "-------"
-        "     call s:CloseWindow('l')
-        "     echom "--------"
-        " endif
+        let i += 1
+
         if qf#IsLocWindow(i)
-            echo "hum"
             if getloclist(0) == getloclist(i)
                 call s:CloseWindow('l')
             endif
