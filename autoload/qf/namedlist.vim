@@ -21,10 +21,7 @@ let s:named_lists = {}
 let s:last_saved_list = ''
 
 function qf#namedlist#SaveList(add, name) abort
-    if a:name != ''
-        let curname           = a:name
-        let s:last_saved_list = curname
-    else
+    if a:name == ''
         if s:last_saved_list == ''
             echomsg 'No last saved list'
 
@@ -32,6 +29,9 @@ function qf#namedlist#SaveList(add, name) abort
         endif
 
         let curname = s:last_saved_list
+    else
+        let curname           = a:name
+        let s:last_saved_list = curname
     endif
 
     let curlist = qf#GetList()
