@@ -100,7 +100,6 @@ Options:
     qf_statusline ................................. |qf_statusline|
     qf_window_bottom .............................. |qf_window_bottom|
     qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
-    qf_statusline ................................. |qf_statusline|
     qf_auto_open_quickfix ......................... |qf_auto_open_quickfix|
     qf_auto_open_loclist .......................... |qf_auto_open_loclist|
 
