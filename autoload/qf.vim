@@ -129,7 +129,7 @@ function qf#JumpToFirstItemOfFileChunk() abort
         normal! k
     endwhile
 
-    normal zz
+    normal! zz
 endfunction
 
 function qf#JumpFileChunk(down) abort
@@ -175,7 +175,7 @@ function qf#WrapCommand(direction, prefix)
     endif
 
     if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
-        normal zv
+        normal! zv
     endif
 endfunction
 
