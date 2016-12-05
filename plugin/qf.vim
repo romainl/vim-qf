@@ -23,8 +23,8 @@ nnoremap <silent> <Plug>QfCprevious :call qf#WrapCommand('up', 'c')<CR>
 nnoremap <silent> <Plug>QfCnext     :call qf#WrapCommand('down', 'c')<CR>
 
 " <Plug>QfLprevious and <Plug>QfLnext go up and down the location list and wrap around
-nnoremap <silent> <Plug>QfLprevious :call qf#WrapCommand('down', 'l')<CR>
-nnoremap <silent> <Plug>QfLnext     :call qf#WrapCommand('up', 'l')<CR>
+nnoremap <silent> <Plug>QfLprevious :call qf#WrapCommand('up', 'l')<CR>
+nnoremap <silent> <Plug>QfLnext     :call qf#WrapCommand('down', 'l')<CR>
 
 " <Plug>QfCtoggle toggles the quickfix window
 " <Plug>QfLtoggle toggles the location window
