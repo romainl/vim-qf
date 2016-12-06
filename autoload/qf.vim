@@ -26,92 +26,90 @@ function qf#PreviewFileUnderCursor()
     endif
 endfunction
 
-" helper function
-" " returns 1 if the window with the given number is a quickfix window
-" "         0 if the window with the given number is not a quickfix window
-function qf#IsQfWindow(nmbr)
-    if getwinvar(a:nmbr, "&filetype") == "qf"
+" returns bool: Is the window a:nmbr a quickfix window?
+function! qf#IsQfWindow(nmbr) abort
+    if getwinvar(a:nmbr, "&filetype") ==# "qf"
         return qf#IsLocWindow(a:nmbr) ? 0 : 1
     endif
 
     return 0
 endfunction
 
-" helper function
-" " returns 1 if the window with the given number is a location window
-" "         0 if the window with the given number is not a location window
-function qf#IsLocWindow(nmbr)
+" returns bool: Is the window a:nmbr a location window?
+function! qf#IsLocWindow(nmbr) abort
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
 
-" toggles the quickfix window
-function qf#ToggleQfWindow()
-    " assume we don't have a quickfix window
-    let has_qf_window = 0
-
-    " save the view if the current window is not a quickfix window
-    if ! qf#IsQfWindow(winnr())
-        let t:my_winview = winsaveview()
-    endif
-
-    " if one of the windows is a quickfix window close it and return
-    for winnumber in range(winnr("$"))
-        if qf#IsQfWindow(winnumber + 1)
-            call s:CloseWindow('c')
-            return
+" returns bool: Is quickfix window is open?
+function! qf#IsQfWindowOpen() abort
+    for l:winnum in range(1, winnr("$") + 1)
+        if qf#IsQfWindow(l:winnum)
+            return 1
         endif
     endfor
+    return 0
+endfunction
 
-    " there's no quickfix window so open one
-    call s:OpenWindow('c')
+" returns bool: Is location window for window with given number open?
+function! qf#IsLocWindowOpen(nmbr) abort
+    let l:loclist = getloclist(a:nmbr)
+    for l:winnum in range(1, winnr("$") + 1)
+        if qf#IsLocWindow(l:winnum) && l:loclist == getloclist(l:winnum)
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
+" toggles the quickfix window
+function! qf#ToggleQfWindow(stay) abort
+    " save the view if the current window is not a quickfix window
+    let l:winview = qf#IsQfWindow(winnr()) ? {} : winsaveview()
+
+    " if one of the windows is a quickfix window close it and return
+    if qf#IsQfWindowOpen()
+        cclose
+        if !empty(l:winview)
+            call winrestview(l:winview)
+        endif
+    else
+        cwindow
+        if qf#IsQfWindowOpen()
+            wincmd p
+            if !empty(l:winview)
+                call winrestview(l:winview)
+            endif
+            if !a:stay
+                wincmd p
+            endif
+        endif
+    endif
 endfunction
 
 " toggles the location window associated with the current window
 " " or whatever location window has the focus
-function qf#ToggleLocWindow()
-    " assume we don't have a location window
-    let has_loc_window = 0
-
+function! qf#ToggleLocWindow(stay) abort
     " save the view if the current window is not a location window
-    if ! qf#IsLocWindow(winnr())
-        let t:my_winview = winsaveview()
-    endif
+    let l:winview = qf#IsLocWindow(winnr()) ? {} : winsaveview()
 
-    " close the current window if it's a location window and return
-    if qf#IsLocWindow(winnr())
-        call s:CloseWindow('l')
-        return
-    endif
-
-    for i in range(winnr("$"))
-        if qf#IsLocWindow(i) && getloclist(0) == getloclist(i)
-            call s:CloseWindow('l')
+    if qf#IsLocWindowOpen(0)
+        lclose
+        if !empty(l:winview)
+            call winrestview(l:winview)
         endif
-    endfor
-
-    call s:OpenWindow('l')
-endfunction
-
-function s:OpenWindow(prefix)
-    exec a:prefix . 'window'
-
-    wincmd p
-
-    if exists("my_winview")
-        call winrestview(t:my_winview)
-    endif
-
-    wincmd p
-endfunction
-
-function s:CloseWindow(prefix)
-    exec a:prefix . 'close'
-
-    if exists("my_winview")
-        call winrestview(t:my_winview)
+    else
+        lwindow
+        if qf#IsLocWindowOpen(0)
+            wincmd p
+            if !empty(l:winview)
+                call winrestview(l:winview)
+            endif
+            if !a:stay
+                wincmd p
+            endif
+        endif
     endif
 endfunction
-
 
 " jump to previous/next file grouping
 function qf#GetFilePath(line) abort

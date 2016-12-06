@@ -81,13 +81,15 @@ on Windows... >
 
 Global mappings:
 
-    <Plug>QfCprevious ............................. |QfCprevious|
-    <Plug>QfCnext ................................. |QfCnext|
-    <Plug>QfLprevious ............................. |QfLprevious|
-    <Plug>QfLnext ................................. |QfLnext|
-    <Plug>QfSwitch ................................ |QfSwitch|
-    <Plug>QfCtoggle ............................... |QfCtoggle|
-    <Plug>QfLtoggle ............................... |QfLtoggle|
+    <Plug>(qf_qf_previous) ........................ |<Plug>(qf_qf_previous)|
+    <Plug>(qf_qf_next) ............................ |<Plug>(qf_qf_next)|
+    <Plug>(qf_loc_previous) ....................... |<Plug>(qf_loc_previous)|
+    <Plug>(qf_loc_next) ........................... |<Plug>(qf_loc_next)|
+    <Plug>(qf_switch) ............................. |<Plug>(qf_switch)|
+    <Plug>(qf_qf_toggle) .......................... |<Plug>(qf_qf_toggle)|
+    <Plug>(qf_qf_toggle_stay) ..................... |<Plug>(qf_qf_toggle_stay)|
+    <Plug>(qf_loc_toggle) ......................... |<Plug>(qf_loc_toggle)|
+    <Plug>(qf_loc_toggle_stay) .................... |<Plug>(qf_loc_toggle_stay)|
 
 Local mappings:
 
@@ -104,56 +106,69 @@ Options:
     qf_auto_open_loclist .......................... |qf_auto_open_loclist|
 
 ------------------------------------------------------------------------------
-                                                                  *QfCprevious*
-                                                                      *QfCnext*
-Scope: global                                                                 ~
+                                                       *<Plug>(qf_qf_previous)*
+                                                           *<Plug>(qf_qf_next)*
+Scope: global                                                                ~
 Default: none                                                                ~
 
 Go up and down the quickfix list and wrap around.
 
 Example: >
 
-    nmap <Home> <Plug>QfCprevious
-    nmap <End>  <Plug>QfCnext
+    nmap <Home> <Plug>(qf_qf_previous)
+    nmap <End>  <Plug>(qf_qf_next)
 <
 ------------------------------------------------------------------------------
-                                                                  *QfLprevious*
-                                                                      *QfLnext*
-Scope: global                                                                 ~
+                                                      *<Plug>(qf_loc_previous)*
+                                                          *<Plug>(qf_loc_next)*
+Scope: global                                                                ~
 Default: none                                                                ~
 
 Go up and down the current location list and wrap around.
 
 Example: >
 
-    nmap <C-Home> <Plug>QfLprevious
-    nmap <C-End>  <Plug>QfLnext
+    nmap <C-Home> <Plug>(qf_loc_previous)
+    nmap <C-End>  <Plug>(qf_loc_next)
 <
 ------------------------------------------------------------------------------
-                                                                     *QfSwitch*
-Scope: global                                                                 ~
+                                                            *<Plug>(qf_switch)*
+Scope: global                                                                ~
 Default: none                                                                ~
 
 Jump to and from location/quickfix windows.
 
 Example: >
 
-    nmap ç <Plug>QfSwitch
+    nmap ç <Plug>(qf_switch)
 <
 ------------------------------------------------------------------------------
-                                                                    *QfCtoggle*
-Scope: global                                                                 ~
+                                                         *<Plug>(qf_qf_toggle)*
+Scope: global                                                                ~
 Default: none                                                                ~
 
-Toggle the quickfix window. Uses |:cwindow| and |:cclose| under the hood.
+Toggle the quickfix window.
+Uses |:cwindow| and |:cclose| under the hood.
 
 Example: >
 
-    nmap <F5> <Plug>QfCtoggle
+    nmap <F5> <Plug>(qf_qf_toggle)
 <
 ------------------------------------------------------------------------------
-                                                                    *QfLtoggle*
-Scope: global                                                                 ~
+                                                    *<Plug>(qf_qf_toggle_stay)*
+Scope: global                                                                ~
+Default: none                                                                ~
+
+Toggle the quickfix window and do not move if toggled open.
+Uses |:cwindow| and |:cclose| under the hood.
+
+Example: >
+
+    nmap <F5> <Plug>(qf_qf_toggle_stay)
+<
+------------------------------------------------------------------------------
+                                                        *<Plug>(qf_loc_toggle)*
+Scope: global                                                                ~
 Default: none                                                                ~
 
 Toggle the current window's location window or the current location window.
@@ -161,7 +176,20 @@ Uses |:lwindow| and |:lclose| under the hood.
 
 Example: >
 
-    nmap <F6> <Plug>QfLtoggle
+    nmap <F6> <Plug>(qf_loc_toggle)
+<
+------------------------------------------------------------------------------
+                                                   *<Plug>(qf_loc_toggle_stay)*
+Scope: global                                                                ~
+Default: none                                                                ~
+
+Toggle the current window's location window or the current location window and
+do not move if toggled open.
+Uses |:lwindow| and |:lclose| under the hood.
+
+Example: >
+
+    nmap <F6> <Plug>(qf_loc_toggle_stay)
 <
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*
