@@ -15,7 +15,7 @@ set cpo&vim
 
 " open the current entry in th preview window
 function qf#PreviewFileUnderCursor()
-    let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
+    let cur_list = b:qf_is_loc == 1 ? getloclist('.') : getqflist()
     let cur_line = getline(line('.'))
     let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
     if cur_line =~ '|\d\+'
@@ -37,7 +37,7 @@ endfunction
 
 " returns bool: Is the window a:nmbr a location window?
 function! qf#IsLocWindow(nmbr) abort
-    return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
+    return getbufvar(winbufnr(a:nmbr), "qf_is_loc") == 1
 endfunction
 
 " returns bool: Is quickfix window is open?
@@ -143,13 +143,13 @@ function qf#JumpFileChunk(down) abort
 endfunction
 
 function qf#PreviousFile() abort
-    if exists("b:isLoc")
+    if exists("b:qf_is_loc")
         call qf#JumpFileChunk(0)
     endif
 endfunction
 
 function qf#NextFile() abort
-    if exists("b:isLoc")
+    if exists("b:qf_is_loc")
         call qf#JumpFileChunk(1)
     endif
 endfunction
@@ -182,8 +182,8 @@ endfunction
 " a location list
 " falls back to :cdo, :cfdo, :ldo, :lfdo when possible
 function qf#DoList(line, cmd)
-    if exists("b:isLoc")
-        let prefix = b:isLoc == 1 ? "l" : "c"
+    if exists("b:qf_is_loc")
+        let prefix = b:qf_is_loc == 1 ? "l" : "c"
     else
         let prefix = "c"
     endif
@@ -214,7 +214,7 @@ endfunction
 
 " filter the current list
 function qf#FilterList(pat, reject)
-    if exists("b:isLoc")
+    if exists("b:qf_is_loc")
         call qf#AddList()
         call qf#AddTitle(w:quickfix_title)
 
@@ -227,8 +227,8 @@ endfunction
 
 " restore the original list
 function qf#RestoreList()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
 
             if len(lists) > 0
@@ -256,8 +256,8 @@ endfunction
 
 " deletes every original list
 function qf#ResetLists()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             call setwinvar(winnr("#"), "qf_location_lists", [])
             call setwinvar(winnr("#"), "qf_location_titles", [])
         else
@@ -269,8 +269,8 @@ endfunction
 
 " used to inject the current title into the current status line
 function qf#SetStatusline()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0
@@ -308,8 +308,8 @@ function qf#SetList(pat, reject)
     let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
 
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
         else
             call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
@@ -318,8 +318,8 @@ function qf#SetList(pat, reject)
 endfunction
 
 function qf#AddList()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let locations = getwinvar(winnr("#"), "qf_location_lists")
 
             if len(locations) > 0
@@ -349,8 +349,8 @@ function qf#SetTitle(pat, reject)
     " did we use :Keep or :Reject?
     let str = a:reject == 0 ? "keep" : "reject"
 
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
         else
             if exists("g:qf_quickfix_titles")
@@ -368,8 +368,8 @@ endfunction
 
 " store the current title
 function qf#AddTitle(title)
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0
@@ -390,8 +390,8 @@ endfunction
 
 " replace the current title
 function qf#ReuseTitle()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0
@@ -424,7 +424,7 @@ function qf#SaveList(add, name) abort
         let curname = s:last_saved_list
     endif
 
-    if get(b:, 'isLoc', 0)
+    if get(b:, 'qf_is_loc', 0)
         let curlist = getloclist(0)
     else
         let curlist = getqflist()
@@ -461,7 +461,7 @@ function qf#LoadList(add, ...)
     endif
 
     if !a:add
-        if get(b:, 'isLoc', 0)
+        if get(b:, 'qf_is_loc', 0)
             call setloclist(0, [])
         else
             call setqflist([])
@@ -470,7 +470,7 @@ function qf#LoadList(add, ...)
 
     for name in names
         if has_key(s:named_lists, name)
-            if get(b:, 'isLoc', 0)
+            if get(b:, 'qf_is_loc', 0)
                 call setloclist(0, s:named_lists[name], 'a')
             else
                 call setqflist(s:named_lists[name], 'a')
@@ -528,8 +528,8 @@ endfunction
 
 " template
 function qf#FunctionName(argument)
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_is_loc")
+        if b:qf_is_loc == 1
             " do something
         else
             " do something else
