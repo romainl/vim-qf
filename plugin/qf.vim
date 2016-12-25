@@ -47,4 +47,24 @@ augroup qf
     autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
 augroup END
 
+function NextRelative(list, direction)
+    let current_line = line(".")
+    let listed_lines = []
+    for line in a:list
+        call add(listed_lines, line.lnum)
+    endfor
+    " let index_of_current_line = index(listed_lines, current_line)
+    let lines_above = filter(copy(listed_lines), 'v:val <= current_line')
+    let lines_below = filter(copy(listed_lines), 'v:val >= current_line')
+    if a:direction == "down"
+        if index(lines_below, current_line) != -1
+            execute "cc" . (len(lines_above) + 1)
+        else
+            execute "cc" . (len(lines_above) + index(lines_below, current_line) + 1)
+        endif
+    else
+        execute "cc" . len(lines_above)
+    endif
+endfunction
+
 let &cpo = s:save_cpo
