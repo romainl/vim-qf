@@ -84,6 +84,7 @@ function qf#toggle#ToggleLocWindow()
         if qf#IsLocWindow(i)
             if getloclist(0) == getloclist(i)
                 call s:CloseWindow('l')
+                return
             endif
         endif
     endfor
