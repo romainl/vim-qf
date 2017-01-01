@@ -1,24 +1,23 @@
 # vim-qf
 
-**vim-qf**—short for *vim-quickfix*—is a small collection of settings, commands and mappings put together to make working with the location/quickfix list/window smoother.
+**vim-qf**—short for *vim-quickfix*—is a growing collection of settings, commands and mappings put together to make working with the location list/window and the quickfix list/window smoother.
 
 ## Features
 
 ### Global features (available from any window)
 
 - quickfix buffers are hidden from `:ls` and buffer navigation
-- optional mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
-- optional mapping for jumping to and from the location/quickfix window,
-- optional mappings for toggling location/quickfix windows
-- optionally open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 - quit Vim if the last window is a location/quickfix window
 - close the location window automatically when quitting parent window
+- (optional) mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
+- (optional) mapping for jumping to and from the location/quickfix window,
+- (optional) mappings for toggling location/quickfix windows
+- (optional) open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 
 ### Local features (available only in location/quickfix windows)
 
 - disable soft-wrapping
 - disable relative numbers
-- optional Ack.vim-inspired mappings
 - filter and restore the current list:
 
   ![filter](https://romainl.github.io/vim-qf/filter.gif)
@@ -33,31 +32,45 @@
 
   ![list](https://romainl.github.io/vim-qf/list.gif)
 
+- (optional) Ack.vim-inspired mappings
+
 ## Installation
 
-Use your favorite plugin manager or dump the files below in their standard location:
+Use your favorite runtimepath/plugin manager or dump the files below in their standard location:
 
     # Unix-like systems
     ~/.vim/after/ftplugin/qf.vim
     ~/.vim/autoload/qf.vim
+    ~/.vim/autoload/qf/*.vim
     ~/.vim/doc/qf.txt
     ~/.vim/plugin/qf.vim
 
     # Windows
     %userprofile%\vimfiles\after\ftplugin\qf.vim
     %userprofile%\vimfiles\autoload\qf.vim
+    %userprofile%\vimfiles\autoload\qf\*.vim
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
 
-If you go with the manual method, don't forget to index the documentation with:
+If you go with the manual method, don't forget to index the documentation:
+
+    # Unix-like systems
+    :helptags ~/.vim/doc
+
+    # Windows
+    :helptags %userprofile%\vimfiles\doc
+
+## Documentation
+
+Use this command to get help on vim-qf:
+
+    :help qf
+
+If this doesn't work and you installed vim-qf manually, use the following command to index vim-qf's documentation:
 
     :helptags ~/.vim/doc
 
-on Unix-like systems, or:
-
-    :helptags %userprofile%\vimfiles\doc
-
-on Windows.
+or read your runtimepath/plugin manager documentation.
 
 ## TODO
 
