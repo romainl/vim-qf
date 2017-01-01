@@ -358,7 +358,7 @@ clashing names, you can shorten the commands above to:
     |:LoadList| ................................... :LoadList
     |:LoadListAdd| ................................ :LoadListA
     |:ListLists| .................................. :ListL
-    |:RemoveList| ................................. :RemoveL
+    |:RemoveList| ................................. :Rem
 
 ==============================================================================
  5. NAMED LISTS                                                *qf-named-lists*

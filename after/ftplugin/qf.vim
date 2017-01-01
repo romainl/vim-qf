@@ -5,15 +5,16 @@
 " Location:	after/ftplugin/qf.vim
 " Website:	https://github.com/romainl/vim-qf
 "
-" See :help qf for help.
+" Use this command to get help on vim-qf:
+"
+"     :help qf
 "
 " If this doesn't work and you installed vim-qf manually, use the following
 " command to index vim-qf's documentation:
 "
-" :helptags ~/.vim/doc
+"     :helptags ~/.vim/doc
 "
-" If this doesn't work and you use a runtimepath/plugin manager, consult its
-" documentation.
+" or read your runtimepath/plugin manager documentation.
 
 let s:save_cpo = &cpo
 set cpo&vim

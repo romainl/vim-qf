@@ -5,21 +5,23 @@
 " Location:	autoload/lib.vim
 " Website:	https://github.com/romainl/vim-qf
 "
-" See :help qf for help.
+" Use this command to get help on vim-qf:
+"
+"     :help qf
 "
 " If this doesn't work and you installed vim-qf manually, use the following
 " command to index vim-qf's documentation:
 "
-" :helptags ~/.vim/doc
+"     :helptags ~/.vim/doc
 "
-" If you use a runtimepath/plugin manager, read its documentation.
+" or read your runtimepath/plugin manager documentation.
 
 let s:save_cpo = &cpo
 set cpo&vim
 
 " helper function
-" " returns 1 if the window with the given number is a quickfix window
-" "         0 if the window with the given number is not a quickfix window
+" returns 1 if the window with the given number is a quickfix window
+"         0 if the window with the given number is not a quickfix window
 " TODO (Nelo-T. Wallus): make a:nbmr optional and return current window
 "                        by default
 function qf#IsQfWindow(nmbr)
@@ -31,8 +33,8 @@ function qf#IsQfWindow(nmbr)
 endfunction
 
 " helper function
-" " returns 1 if the window with the given number is a location window
-" "         0 if the window with the given number is not a location window
+" returns 1 if the window with the given number is a location window
+"         0 if the window with the given number is not a location window
 function qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
