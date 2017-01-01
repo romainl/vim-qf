@@ -53,8 +53,8 @@ endfunction
 function qf#SetList(newlist, ...)
     " generate partial
     let Func = get(b:, 'isLoc', 0)
-                \ ? function('setloclist', [0, newlist])
-                \ : function('setqflist', [newlist])
+                \ ? function('setloclist', [0, a:newlist])
+                \ : function('setqflist', [a:newlist])
 
     " call partial with optional arguments
     call call(Func, a:000)
