@@ -517,14 +517,14 @@ endfunction
 " open the quickfix window if there are valid errors
 function qf#OpenQuickfix()
     if get(g:, 'qf_auto_open_quickfix', 1)
-        cwindow
+        exe min([ 10, len(getqflist()) ]) 'cwindow'
     endif
 endfunction
 
 " open a location window if there are valid locations
 function qf#OpenLoclist()
     if get(g:, 'qf_auto_open_loclist', 1)
-        lwindow
+        exe min([ 10, len(getloclist(0)) ]) 'lwindow'
     endif
 endfunction
 

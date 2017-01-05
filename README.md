@@ -11,6 +11,7 @@
 - optional mapping for jumping to and from the location/quickfix window,
 - optional mappings for toggling location/quickfix windows
 - optionally open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
+- set height of location/quickfix windows automatically to the number of list items if less than the default height (10)
 - quit Vim if the last window is a location/quickfix window
 - close the location window automatically when quitting parent window
 
