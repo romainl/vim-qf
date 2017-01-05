@@ -14,7 +14,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " open the current entry in th preview window
-function qf#PreviewFileUnderCursor()
+function! qf#PreviewFileUnderCursor()
     let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
     let cur_line = getline(line('.'))
     let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
@@ -29,7 +29,7 @@ endfunction
 " helper function
 " " returns 1 if the window with the given number is a quickfix window
 " "         0 if the window with the given number is not a quickfix window
-function qf#IsQfWindow(nmbr)
+function! qf#IsQfWindow(nmbr)
     if getwinvar(a:nmbr, "&filetype") == "qf"
         return qf#IsLocWindow(a:nmbr) ? 0 : 1
     endif
@@ -40,12 +40,12 @@ endfunction
 " helper function
 " " returns 1 if the window with the given number is a location window
 " "         0 if the window with the given number is not a location window
-function qf#IsLocWindow(nmbr)
+function! qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
 endfunction
 
 " toggles the quickfix window
-function qf#ToggleQfWindow()
+function! qf#ToggleQfWindow()
     " assume we don't have a quickfix window
     let has_qf_window = 0
 
@@ -68,7 +68,7 @@ endfunction
 
 " toggles the location window associated with the current window
 " " or whatever location window has the focus
-function qf#ToggleLocWindow()
+function! qf#ToggleLocWindow()
     " assume we don't have a location window
     let has_loc_window = 0
 
@@ -92,7 +92,7 @@ function qf#ToggleLocWindow()
     call s:OpenWindow('l')
 endfunction
 
-function s:OpenWindow(prefix)
+function! s:OpenWindow(prefix)
     exec a:prefix . 'window'
 
     wincmd p
@@ -104,7 +104,7 @@ function s:OpenWindow(prefix)
     wincmd p
 endfunction
 
-function s:CloseWindow(prefix)
+function! s:CloseWindow(prefix)
     exec a:prefix . 'close'
 
     if exists("my_winview")
@@ -114,7 +114,7 @@ endfunction
 
 
 " jump to previous/next file grouping
-function qf#GetFilePath(line) abort
+function! qf#GetFilePath(line) abort
     return substitute(a:line, '|.*$', '', '')
     "                          |      |   +- no flags
     "                          |      +- replace match with nothing
@@ -122,7 +122,7 @@ function qf#GetFilePath(line) abort
     "                             declaring EOL explicitly is faster than implicitly
 endfunction
 
-function qf#JumpToFirstItemOfFileChunk() abort
+function! qf#JumpToFirstItemOfFileChunk() abort
     let l:chunk_file_path = qf#GetFilePath(getline('.'))
 
     while line('.') - 1 != 0 && l:chunk_file_path == qf#GetFilePath(getline(line('.') - 1))
@@ -132,7 +132,7 @@ function qf#JumpToFirstItemOfFileChunk() abort
     normal! zz
 endfunction
 
-function qf#JumpFileChunk(down) abort
+function! qf#JumpFileChunk(down) abort
     let l:start_file_path = qf#GetFilePath(getline('.'))
     let l:direction       = a:down ? 'j' : 'k'
     let l:end             = a:down ? '$' : 1
@@ -144,20 +144,20 @@ function qf#JumpFileChunk(down) abort
     call qf#JumpToFirstItemOfFileChunk()
 endfunction
 
-function qf#PreviousFile() abort
+function! qf#PreviousFile() abort
     if exists("b:isLoc")
         call qf#JumpFileChunk(0)
     endif
 endfunction
 
-function qf#NextFile() abort
+function! qf#NextFile() abort
     if exists("b:isLoc")
         call qf#JumpFileChunk(1)
     endif
 endfunction
 
 " wrap around
-function qf#WrapCommand(direction, prefix)
+function! qf#WrapCommand(direction, prefix)
     if a:direction == "up"
         try
             execute a:prefix . "previous"
@@ -183,7 +183,7 @@ endfunction
 " a single function for :Doline and :Dofile both in a quickfix list and
 " a location list
 " falls back to :cdo, :cfdo, :ldo, :lfdo when possible
-function qf#DoList(line, cmd)
+function! qf#DoList(line, cmd)
     if exists("b:isLoc")
         let prefix = b:isLoc == 1 ? "l" : "c"
     else
@@ -215,7 +215,7 @@ function qf#DoList(line, cmd)
 endfunction
 
 " filter the current list
-function qf#FilterList(pat, reject)
+function! qf#FilterList(pat, reject)
     if exists("b:isLoc")
         call qf#AddList()
         call qf#AddTitle(w:quickfix_title)
@@ -228,7 +228,7 @@ function qf#FilterList(pat, reject)
 endfunction
 
 " restore the original list
-function qf#RestoreList()
+function! qf#RestoreList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
@@ -257,7 +257,7 @@ function qf#RestoreList()
 endfunction
 
 " deletes every original list
-function qf#ResetLists()
+function! qf#ResetLists()
     if exists("b:isLoc")
         if b:isLoc == 1
             call setwinvar(winnr("#"), "qf_location_lists", [])
@@ -270,7 +270,7 @@ function qf#ResetLists()
 endfunction
 
 " used to inject the current title into the current status line
-function qf#SetStatusline()
+function! qf#SetStatusline()
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
@@ -306,7 +306,7 @@ function qf#SetStatusline()
     endif
 endfunction
 
-function qf#SetList(pat, reject)
+function! qf#SetList(pat, reject)
     let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
 
@@ -319,7 +319,7 @@ function qf#SetList(pat, reject)
     endif
 endfunction
 
-function qf#AddList()
+function! qf#AddList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let locations = getwinvar(winnr("#"), "qf_location_lists")
@@ -347,7 +347,7 @@ endfunction
 "   - quickfix window:
 "       :grep foo sample.txt [keep: 'bar']
 "       :grep foo sample.txt [reject: 'bar']
-function qf#SetTitle(pat, reject)
+function! qf#SetTitle(pat, reject)
     " did we use :Keep or :Reject?
     let str = a:reject == 0 ? "keep" : "reject"
 
@@ -369,7 +369,7 @@ function qf#SetTitle(pat, reject)
 endfunction
 
 " store the current title
-function qf#AddTitle(title)
+function! qf#AddTitle(title)
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
@@ -391,7 +391,7 @@ function qf#AddTitle(title)
 endfunction
 
 " replace the current title
-function qf#ReuseTitle()
+function! qf#ReuseTitle()
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
@@ -412,7 +412,7 @@ endfunction
 let s:named_lists = {}
 let s:last_saved_list = ''
 
-function qf#SaveList(add, name) abort
+function! qf#SaveList(add, name) abort
     if a:name != ''
         let curname           = a:name
         let s:last_saved_list = curname
@@ -455,7 +455,7 @@ function qf#SaveList(add, name) abort
 endfunction
 
 " loads the given named list
-function qf#LoadList(add, ...)
+function! qf#LoadList(add, ...)
     if empty(a:000)
         let names = [ s:last_saved_list ]
     else
@@ -484,14 +484,14 @@ function qf#LoadList(add, ...)
 endfunction
 
 " echoes a simple list of the current named lists
-function qf#ListLists()
+function! qf#ListLists()
     for name in keys(s:named_lists)
         echo name
     endfor
 endfunction
 
 " removes lists from the current named lists
-function qf#RemoveList(bang, ...)
+function! qf#RemoveList(bang, ...)
     if a:bang
         let s:named_lists = {}
     else
@@ -502,7 +502,7 @@ function qf#RemoveList(bang, ...)
 endfunction
 
 " pulls suggestions from the current named lists
-function qf#CompleteList(ArgLead, CmdLine, CursorPos)
+function! qf#CompleteList(ArgLead, CmdLine, CursorPos)
     let completions = []
 
     for name in keys(s:named_lists)
@@ -515,21 +515,21 @@ function qf#CompleteList(ArgLead, CmdLine, CursorPos)
 endfunction
 
 " open the quickfix window if there are valid errors
-function qf#OpenQuickfix()
+function! qf#OpenQuickfix()
     if get(g:, 'qf_auto_open_quickfix', 1)
         cwindow
     endif
 endfunction
 
 " open a location window if there are valid locations
-function qf#OpenLoclist()
+function! qf#OpenLoclist()
     if get(g:, 'qf_auto_open_loclist', 1)
         lwindow
     endif
 endfunction
 
 " template
-function qf#FunctionName(argument)
+function! qf#FunctionName(argument)
     if exists("b:isLoc")
         if b:isLoc == 1
             " do something
