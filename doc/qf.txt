@@ -257,23 +257,25 @@ is focused:
 
 *:Keep*
 
-    Remove all entries that don't contain the given argument, either in the
+    Keep only entries that contain the given argument, either in the
     filename or in the description. Note: the argument is not a regular
     expression pattern.
 
     Example: >
 
         :Keep model
+        :Keep <C-r><C-f>
 >
 *:Reject*
 
-    Remove all entries that contain the given argument in the filename or
+    Reject all entries that contain the given argument in the filename or
     in the description. Note: the argument is not a regular expression
     pattern.
 
     Example: >
 
         :Reject build
+        :Reject <C-r><C-w>
 >
 *:Restore*
 
