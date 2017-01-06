@@ -7,24 +7,35 @@
 ### Global features (available from any window)
 
 - quickfix buffers are hidden from `:ls` and buffer navigation
+
 - quit Vim if the last window is a location/quickfix window
+
 - close the location window automatically when quitting parent window
+
 - set height of location/quickfix windows automatically to the number of list items if less than the default height (10)
+
 - (optional) mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
+
 - (optional) mapping for jumping to and from the location/quickfix window,
+
 - (optional) mappings for toggling location/quickfix windows
+
 - (optional) open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 
 ### Local features (available only in location/quickfix windows)
 
 - disable soft-wrapping
+
 - disable relative numbers
+
 - filter and restore the current list:
 
   ![filter](https://romainl.github.io/vim-qf/filter.gif)
 
 - perform commands on each line in the current list
+
 - perform commands on each file in the current list
+
 - jump to next group of entries belonging to same file ("file grouping"):
 
   ![group](https://romainl.github.io/vim-qf/group.gif)
@@ -75,13 +86,18 @@ or read your runtimepath/plugin manager documentation.
 
 ## TODO
 
-* Export more options?
-* Add a gifcast to the README?
-* Add titles to saved lists, e.g. to display in :ListLists?
+- Export more options?
+
+- Add a gifcast to the README?
+
+- Add titles to saved lists, e.g. to display in :ListLists?
 
 ## DONE
 
-* Use `<Plug>` mappings.
-* Add proper attribution for a few features.
-* Write a proper `help` file.
-* Ask #vim's opinion.
+- Use `<Plug>` mappings.
+
+- Add proper attribution for a few features.
+
+- Write a proper `help` file.
+
+- Ask #vim's opinion.
