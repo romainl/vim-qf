@@ -25,25 +25,27 @@ list/window smoother.
 These "global" features are available from any window:
 
     - quickfix buffers are hidden from |:ls| and buffer navigation
-    - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
-      that wrap around the beginning and end of the list
-    - optional mapping for jumping to and from the location/quickfix window,
-    - optional mappings for toggling location/quickfix windows
-    - optionally open the location/quickfix window automatically after |:make|,
-      |:grep|, |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
+    - set height of location/quickfix windows automatically to the number of
+      list items if less than the default height (10)
+    - (optional) mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
+      that wrap around the beginning and end of the list
+    - (optional) mapping for jumping to and from the location/quickfix window,
+    - (optional) mappings for toggling location/quickfix windows
+    - (optional) open the location/quickfix window automatically after |:make|,
+      |:grep|, |:lvimgrep| and friends if there are valid locations/errors
 
 These "local" features are only available in location/quickfix windows:
 
     - disable soft-wrapping
     - disable relative numbers
-    - optional Ack.vim-inspired mappings
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
+    - (optional) Ack.vim-inspired mappings
 
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*

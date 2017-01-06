@@ -39,8 +39,12 @@ function s:SetList(pat, reject)
     if exists("b:isLoc")
         if b:isLoc == 1
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
+            lclose
+            execute min([ 10, len(getloclist(0)) ]) 'lwindow'
         else
             call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
+            cclose
+            execute min([ 10, len(getqflist()) ]) 'cwindow'
         endif
     endif
 endfunction
@@ -137,6 +141,8 @@ function qf#filter#RestoreList()
 
             if len(lists) > 0
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
+                lclose
+                execute min([ 10, len(getloclist(0)) ]) 'lwindow'
 
                 let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
             else
@@ -146,6 +152,8 @@ function qf#filter#RestoreList()
             if exists("g:qf_quickfix_lists")
                 if len(g:qf_quickfix_lists) > 0
                     call setqflist(g:qf_quickfix_lists[0], "r")
+                    cclose
+                    execute min([ 10, len(getqflist()) ]) 'cwindow'
 
                     let w:quickfix_title = g:qf_quickfix_titles[0]
                 else

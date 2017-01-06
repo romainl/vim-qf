@@ -22,13 +22,9 @@ set cpo&vim
 function s:OpenWindow(prefix)
     exec a:prefix . 'window'
 
-    wincmd p
-
     if exists("my_winview")
         call winrestview(t:my_winview)
     endif
-
-    wincmd p
 endfunction
 
 function s:CloseWindow(prefix)

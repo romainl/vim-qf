@@ -9,6 +9,7 @@
 - quickfix buffers are hidden from `:ls` and buffer navigation
 - quit Vim if the last window is a location/quickfix window
 - close the location window automatically when quitting parent window
+- set height of location/quickfix windows automatically to the number of list items if less than the default height (10)
 - (optional) mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
 - (optional) mapping for jumping to and from the location/quickfix window,
 - (optional) mappings for toggling location/quickfix windows
