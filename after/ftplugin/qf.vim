@@ -33,7 +33,7 @@ setlocal number
 set nobuflisted
 
 " are we in a location list or a quickfix list?
-let b:isLoc = len(getloclist(0)) > 0 ? 1 : 0
+let b:qf_isLoc = len(getloclist(0)) > 0 ? 1 : 0
 
 " customize the statusline
 if exists("g:qf_statusline")
@@ -55,7 +55,7 @@ if exists("g:qf_mapping_ack_style")
     nnoremap <buffer> o <CR><C-w>p
 
     " open entry and close the location/quickfix window.
-    if b:isLoc == 1
+    if b:qf_isLoc == 1
         nnoremap <buffer> O <CR>:lclose<CR>
     else
         nnoremap <buffer> O <CR>:cclose<CR>
@@ -123,8 +123,8 @@ autocmd qf BufEnter    <buffer> if winnr('$') < 2 | q | endif
 autocmd qf BufWinEnter <buffer> call qf#filter#ReuseTitle()
 
 " decide where to open the location/quickfix window
-if (b:isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
-            \ || (b:isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
+            \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
     wincmd J
 endif
 

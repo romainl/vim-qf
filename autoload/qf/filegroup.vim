@@ -45,13 +45,13 @@ function! s:JumpFileChunk(down) abort
 endfunction
 
 function! qf#filegroup#PreviousFile() abort
-    if exists("b:isLoc")
+    if exists("b:qf_isLoc")
         call s:JumpFileChunk(0)
     endif
 endfunction
 
 function! qf#filegroup#NextFile() abort
-    if exists("b:isLoc")
+    if exists("b:qf_isLoc")
         call s:JumpFileChunk(1)
     endif
 endfunction

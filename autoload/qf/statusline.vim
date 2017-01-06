@@ -23,8 +23,8 @@ set cpo&vim
 " TODO (Nelo-T. Wallus): This is pretty heavy spaghetti code. I'll take
 " a close look at it and try to break it up into smaller portions
 function! qf#statusline#SetStatusline()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0

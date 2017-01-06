@@ -24,8 +24,8 @@ set cpo&vim
 " a location list
 " falls back to :cdo, :cfdo, :ldo, :lfdo when possible
 function! qf#do#DoList(line, cmd)
-    if exists("b:isLoc")
-        let prefix = b:isLoc == 1 ? "l" : "c"
+    if exists("b:qf_isLoc")
+        let prefix = b:qf_isLoc == 1 ? "l" : "c"
     else
         let prefix = "c"
     endif

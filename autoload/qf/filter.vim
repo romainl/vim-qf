@@ -21,8 +21,8 @@ set cpo&vim
 
 " deletes every original list
 function! s:ResetLists()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             call setwinvar(winnr("#"), "qf_location_lists", [])
             call setwinvar(winnr("#"), "qf_location_titles", [])
         else
@@ -36,8 +36,8 @@ function! s:SetList(pat, reject)
     let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
 
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
             lclose
             execute min([ 10, len(getloclist(0)) ]) 'lwindow'
@@ -50,8 +50,8 @@ function! s:SetList(pat, reject)
 endfunction
 
 function! s:AddList()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let locations = getwinvar(winnr("#"), "qf_location_lists")
 
             if len(locations) > 0
@@ -81,8 +81,8 @@ function! s:SetTitle(pat, reject)
     " did we use :Keep or :Reject?
     let str = a:reject == 0 ? "keep" : "reject"
 
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
         else
             if exists("g:qf_quickfix_titles")
@@ -100,8 +100,8 @@ endfunction
 
 " store the current title
 function! s:AddTitle(title)
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0
@@ -122,7 +122,7 @@ endfunction
 
 " filter the current list
 function! qf#filter#FilterList(pat, reject)
-    if exists("b:isLoc")
+    if exists("b:qf_isLoc")
         call s:AddList()
         call s:AddTitle(w:quickfix_title)
 
@@ -135,8 +135,8 @@ endfunction
 
 " restore the original list
 function! qf#filter#RestoreList()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
 
             if len(lists) > 0
@@ -168,8 +168,8 @@ endfunction
 
 " replace the current title
 function! qf#filter#ReuseTitle()
-    if exists("b:isLoc")
-        if b:isLoc == 1
+    if exists("b:qf_isLoc")
+        if b:qf_isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
 
             if len(titles) > 0

@@ -49,7 +49,7 @@ function! qf#GetList()
     endif
 endfunction
 
-" sets location or qf list based in b:isLoc to passed newlist
+" sets location or qf list based in b:qf_isLoc to passed newlist
 function! qf#SetList(newlist, ...)
     " generate partial
     let Func = get(b:, 'isLoc', 0)
