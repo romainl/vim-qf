@@ -24,7 +24,7 @@ set cpo&vim
 " TODO (romainl): Built-in :cn/:cp/:ln/:lp stop at the beginning
 "                 and end of the list. This allows us to wrap
 "                 around.
-function qf#wrap#WrapCommand(direction, prefix)
+function! qf#wrap#WrapCommand(direction, prefix)
     if a:direction == "up"
         try
             execute a:prefix . "previous"

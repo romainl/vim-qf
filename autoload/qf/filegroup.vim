@@ -19,7 +19,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function s:JumpToFirstItemOfFileChunk() abort
+function! s:JumpToFirstItemOfFileChunk() abort
     let l:chunk_file_path = qf#GetEntryPath(getline('.'))
 
     while line('.') - 1 != 0
@@ -30,7 +30,7 @@ function s:JumpToFirstItemOfFileChunk() abort
     normal! zz
 endfunction
 
-function s:JumpFileChunk(down) abort
+function! s:JumpFileChunk(down) abort
     let l:start_file_path = qf#GetEntryPath(getline('.'))
     let l:direction       = a:down ? 'j' : 'k'
     let l:end             = a:down ? '$' : 1
@@ -44,13 +44,13 @@ function s:JumpFileChunk(down) abort
     call s:JumpToFirstItemOfFileChunk()
 endfunction
 
-function qf#filegroup#PreviousFile() abort
+function! qf#filegroup#PreviousFile() abort
     if exists("b:isLoc")
         call s:JumpFileChunk(0)
     endif
 endfunction
 
-function qf#filegroup#NextFile() abort
+function! qf#filegroup#NextFile() abort
     if exists("b:isLoc")
         call s:JumpFileChunk(1)
     endif

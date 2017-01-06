@@ -23,7 +23,7 @@ set cpo&vim
 " a single function for :Doline and :Dofile both in a quickfix list and
 " a location list
 " falls back to :cdo, :cfdo, :ldo, :lfdo when possible
-function qf#do#DoList(line, cmd)
+function! qf#do#DoList(line, cmd)
     if exists("b:isLoc")
         let prefix = b:isLoc == 1 ? "l" : "c"
     else

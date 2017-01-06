@@ -19,7 +19,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function s:OpenWindow(prefix)
+function! s:OpenWindow(prefix)
     exec a:prefix . 'window'
 
     if exists("my_winview")
@@ -27,7 +27,7 @@ function s:OpenWindow(prefix)
     endif
 endfunction
 
-function s:CloseWindow(prefix)
+function! s:CloseWindow(prefix)
     exec a:prefix . 'close'
 
     if exists("my_winview")
@@ -36,7 +36,7 @@ function s:CloseWindow(prefix)
 endfunction
 
 " toggles the quickfix window
-function qf#toggle#ToggleQfWindow()
+function! qf#toggle#ToggleQfWindow()
     " assume we don't have a quickfix window
     let has_qf_window = 0
 
@@ -59,7 +59,7 @@ endfunction
 
 " toggles the location window associated with the current window
 " " or whatever location window has the focus
-function qf#toggle#ToggleLocWindow()
+function! qf#toggle#ToggleLocWindow()
     " assume we don't have a location window
     let has_loc_window = 0
 

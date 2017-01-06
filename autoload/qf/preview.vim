@@ -20,7 +20,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " open the current entry in th preview window
-function qf#preview#PreviewFileUnderCursor()
+function! qf#preview#PreviewFileUnderCursor()
     let cur_list = qf#GetList()
     let cur_line = getline(line('.'))
     let cur_file = fnameescape(qf#GetEntryPath(cur_line))

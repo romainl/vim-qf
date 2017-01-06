@@ -20,7 +20,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " deletes every original list
-function s:ResetLists()
+function! s:ResetLists()
     if exists("b:isLoc")
         if b:isLoc == 1
             call setwinvar(winnr("#"), "qf_location_lists", [])
@@ -32,7 +32,7 @@ function s:ResetLists()
     endif
 endfunction
 
-function s:SetList(pat, reject)
+function! s:SetList(pat, reject)
     let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
 
@@ -49,7 +49,7 @@ function s:SetList(pat, reject)
     endif
 endfunction
 
-function s:AddList()
+function! s:AddList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let locations = getwinvar(winnr("#"), "qf_location_lists")
@@ -77,7 +77,7 @@ endfunction
 "   - quickfix window:
 "       :grep foo sample.txt [keep: 'bar']
 "       :grep foo sample.txt [reject: 'bar']
-function s:SetTitle(pat, reject)
+function! s:SetTitle(pat, reject)
     " did we use :Keep or :Reject?
     let str = a:reject == 0 ? "keep" : "reject"
 
@@ -99,7 +99,7 @@ function s:SetTitle(pat, reject)
 endfunction
 
 " store the current title
-function s:AddTitle(title)
+function! s:AddTitle(title)
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")
@@ -121,7 +121,7 @@ function s:AddTitle(title)
 endfunction
 
 " filter the current list
-function qf#filter#FilterList(pat, reject)
+function! qf#filter#FilterList(pat, reject)
     if exists("b:isLoc")
         call s:AddList()
         call s:AddTitle(w:quickfix_title)
@@ -134,7 +134,7 @@ function qf#filter#FilterList(pat, reject)
 endfunction
 
 " restore the original list
-function qf#filter#RestoreList()
+function! qf#filter#RestoreList()
     if exists("b:isLoc")
         if b:isLoc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
@@ -167,7 +167,7 @@ function qf#filter#RestoreList()
 endfunction
 
 " replace the current title
-function qf#filter#ReuseTitle()
+function! qf#filter#ReuseTitle()
     if exists("b:isLoc")
         if b:isLoc == 1
             let titles = getwinvar(winnr("#"), "qf_location_titles")

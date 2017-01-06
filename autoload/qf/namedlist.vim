@@ -22,7 +22,7 @@ set cpo&vim
 let s:named_lists = {}
 let s:last_saved_list = ''
 
-function qf#namedlist#SaveList(add, name) abort
+function! qf#namedlist#SaveList(add, name) abort
     if a:name == ''
         if s:last_saved_list == ''
             echomsg 'No last saved list'
@@ -61,7 +61,7 @@ function qf#namedlist#SaveList(add, name) abort
 endfunction
 
 " loads the given named list
-function qf#namedlist#LoadList(add, ...)
+function! qf#namedlist#LoadList(add, ...)
     if empty(a:000)
         let names = [ s:last_saved_list ]
     else
@@ -83,14 +83,14 @@ function qf#namedlist#LoadList(add, ...)
 endfunction
 
 " echoes a simple list of the current named lists
-function qf#namedlist#ListLists()
+function! qf#namedlist#ListLists()
     for name in keys(s:named_lists)
         echo name
     endfor
 endfunction
 
 " removes lists from the current named lists
-function qf#namedlist#RemoveList(bang, ...)
+function! qf#namedlist#RemoveList(bang, ...)
     if a:bang
         let s:named_lists = {}
     else
@@ -101,7 +101,7 @@ function qf#namedlist#RemoveList(bang, ...)
 endfunction
 
 " pulls suggestions from the current named lists
-function qf#namedlist#CompleteList(ArgLead, CmdLine, CursorPos)
+function! qf#namedlist#CompleteList(ArgLead, CmdLine, CursorPos)
     let completions = []
 
     for name in keys(s:named_lists)
