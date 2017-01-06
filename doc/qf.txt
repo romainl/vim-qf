@@ -25,25 +25,27 @@ list/window smoother.
 These "global" features are available from any window:
 
     - quickfix buffers are hidden from |:ls| and buffer navigation
-    - optional mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
-      that wrap around the beginning and end of the list
-    - optional mapping for jumping to and from the location/quickfix window,
-    - optional mappings for toggling location/quickfix windows
-    - optionally open the location/quickfix window automatically after |:make|,
-      |:grep|, |:lvimgrep| and friends if there are valid locations/errors
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
+    - set height of location/quickfix windows automatically to the number of
+      list items if less than the default height (10)
+    - (optional) mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
+      that wrap around the beginning and end of the list
+    - (optional) mapping for jumping to and from the location/quickfix window,
+    - (optional) mappings for toggling location/quickfix windows
+    - (optional) open the location/quickfix window automatically after |:make|,
+      |:grep|, |:lvimgrep| and friends if there are valid locations/errors
 
 These "local" features are only available in location/quickfix windows:
 
     - disable soft-wrapping
     - disable relative numbers
-    - optional Ack.vim-inspired mappings
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
+    - (optional) Ack.vim-inspired mappings
 
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*
@@ -134,7 +136,7 @@ Example: >
 Scope: global                                                                 ~
 Default: none                                                                ~
 
-Jump to and from location/quickfix windows.
+Jump to and from the location/quickfix window.
 
 Example: >
 
@@ -169,8 +171,7 @@ Example: >
 Scope: local                                                                 ~
 Default: { and }                                                             ~
 
-In a location/quickfix window, jump to the next group of lines
-corresponding to a file.
+Jump to the next group of lines corresponding to a file.
 
 ------------------------------------------------------------------------------
                                                         *'qf_mapping_ack_style'*
@@ -206,7 +207,7 @@ Add the line below to your vimrc to disable this feature: >
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
-Open location windows at the bottom of the screen.
+Open location list windows at the bottom of the screen.
 
 Add the line below to your vimrc to disable this feature: >
 
@@ -225,7 +226,7 @@ Example: >
     let g:qf_statusline = {}
     let g:qf_statusline.before = '%<\ '
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
-
+<
 ------------------------------------------------------------------------------
                                                        *'qf_auto_open_quickfix'*
 Value: numeric                                                               ~
@@ -256,23 +257,25 @@ is focused:
 
 *:Keep*
 
-    Remove all entries that don't contain the given argument, either in the
+    Keep only entries that contain the given argument, either in the
     filename or in the description. Note: the argument is not a regular
     expression pattern.
 
     Example: >
 
         :Keep model
+        :Keep <C-r><C-f>
 >
 *:Reject*
 
-    Remove all entries that contain the given argument in the filename or
+    Reject all entries that contain the given argument in the filename or
     in the description. Note: the argument is not a regular expression
     pattern.
 
     Example: >
 
         :Reject build
+        :Reject <C-r><C-w>
 >
 *:Restore*
 
