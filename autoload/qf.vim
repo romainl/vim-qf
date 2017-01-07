@@ -21,7 +21,7 @@ set cpo&vim
 
 " open the current entry in th preview window
 function qf#PreviewFileUnderCursor()
-    let cur_list = b:isLoc == 1 ? getloclist('.') : getqflist()
+    let cur_list = b:qf_isLoc == 1 ? getloclist('.') : getqflist()
     let cur_line = getline(line('.'))
     let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
     if cur_line =~ '|\d\+'
@@ -49,13 +49,13 @@ endfunction
 " returns 1 if the window with the given number is a location window
 "         0 if the window with the given number is not a location window
 function! qf#IsLocWindow(nmbr)
-    return getbufvar(winbufnr(a:nmbr), "isLoc") == 1
+    return getbufvar(winbufnr(a:nmbr), "qf_isLoc") == 1
 endfunction
 
 " returns location list of the current loclist if isLoc is set
 "         qf list otherwise
 function! qf#GetList()
-    if get(b:, 'isLoc', 0)
+    if get(b:, 'qf_isLoc', 0)
         return getloclist(0)
     else
         return getqflist()
@@ -65,12 +65,20 @@ endfunction
 " sets location or qf list based in b:qf_isLoc to passed newlist
 function! qf#SetList(newlist, ...)
     " generate partial
-    let Func = get(b:, 'isLoc', 0)
+    let Func = get(b:, 'qf_isLoc', 0)
                 \ ? function('setloclist', [0, a:newlist])
                 \ : function('setqflist', [a:newlist])
 
     " call partial with optional arguments
     call call(Func, a:000)
+
+    if get(b:, 'qf_isLoc', 0)
+        lclose
+        execute min([ 10, len(getloclist(0)) ]) 'lwindow'
+    else
+        cclose
+        execute min([ 10, len(getqflist()) ]) 'cwindow'
+    endif
 endfunction
 
 function! qf#GetEntryPath(line) abort
