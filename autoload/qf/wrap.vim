@@ -41,8 +41,10 @@ function! qf#wrap#WrapCommand(direction, prefix)
         endtry
     endif
 
+    normal! zz
+
     if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
-        normal zv
+        normal! zv
     endif
 endfunction
 
