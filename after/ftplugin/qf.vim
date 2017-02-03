@@ -128,4 +128,8 @@ if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
     wincmd J
 endif
 
+if get(g:, 'qf_window_height', 0)
+    execute "resize " . g:qf_window_height
+endif
+
 let &cpo = s:save_cpo
