@@ -28,7 +28,7 @@ These "global" features are available from any window:
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
     - set height of location/quickfix windows automatically to the number of
-      list items if less than the default height (10)
+      list items if less than |g:qf_max_height| (default 10)
     - (optional) mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
       that wrap around the beginning and end of the list
     - (optional) mapping for jumping to and from the location/quickfix window,
@@ -250,6 +250,44 @@ Add the line below to your vimrc to disable this feature: >
 
     let g:qf_auto_open_loclist = 0
 <
+------------------------------------------------------------------------------
+                                                             *'g:qf_max_height'*
+Value: numeric                                                               ~
+Default: none                                                                ~
+
+The maximum height of location/quickfix windows.
+
+With a value of `0`:
+>
+    let g:qf_max_height = 0
+<
+    - If there is no existing location/quickfix window, the height of the
+      new window is adjusted to the lesser of those numbers: the number of
+      items in the list or `10`, Vim's default.
+    - If we are refreshing an existing window, its height is not adjusted.
+
+    This gives the user the most flexibility: the initial height of the window
+    is optimized within Vim's default constraints but further manual resizing,
+    if any, is respected when refreshing the content.
+
+With a value superior to `0`:
+>
+    let g:qf_max_height = 8
+<
+    - The height of location/quickfix windows is adjusted to the lesser of
+      those numbers: the number of items in the list or |g:qf_max_height|.
+
+    This gives the user the most control: the window height is relative to its
+    content within user-defined constraints.
+
+With no value (default behavior):
+
+    - The height of location/quickfix windows is adjusted to the lesser of
+      those numbers: the number of items in the list or `10`, Vim's default.
+
+    This gives the user the most predictability: the window height is relative
+    to its content within Vim's default constraints.
+
 ==============================================================================
  4. USAGE                                                            *qf-usage*
 

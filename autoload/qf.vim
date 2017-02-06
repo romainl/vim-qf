@@ -64,6 +64,9 @@ endfunction
 
 " sets location or qf list based in b:qf_isLoc to passed newlist
 function! qf#SetList(newlist, ...)
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10)
+
     " generate partial
     let Func = get(b:, 'qf_isLoc', 0)
                 \ ? function('setloclist', [0, a:newlist])
@@ -72,12 +75,11 @@ function! qf#SetList(newlist, ...)
     " call partial with optional arguments
     call call(Func, a:000)
 
+    " open the window with the right behavior
     if get(b:, 'qf_isLoc', 0)
-        lclose
-        execute min([ 10, len(getloclist(0)) ]) 'lwindow'
+        execute max_height == 0 ? 'lwindow' : 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow'
     else
-        cclose
-        execute min([ 10, len(getqflist()) ]) 'cwindow'
+        execute max_height == 0 ? 'cwindow' : 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow'
     endif
 endfunction
 
@@ -91,15 +93,19 @@ endfunction
 
 " open the quickfix window if there are valid errors
 function! qf#OpenQuickfix()
+    let max_height = get(g:, 'qf_max_height', 10)
+
     if get(g:, 'qf_auto_open_quickfix', 1)
-        execute min([ 10, len(getqflist()) ]) 'cwindow'
+        execute max_height == 0 ? 'cwindow' : 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow'
     endif
 endfunction
 
 " open a location window if there are valid locations
 function! qf#OpenLoclist()
+    let max_height = get(g:, 'qf_max_height', 10)
+
     if get(g:, 'qf_auto_open_loclist', 1)
-        execute min([ 10, len(getloclist(0)) ]) 'lwindow'
+        execute max_height == 0 ? 'lwindow' : 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow'
     endif
 endfunction
 

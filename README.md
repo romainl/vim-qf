@@ -12,7 +12,7 @@
 
 - close the location window automatically when quitting parent window
 
-- set height of location/quickfix windows automatically to the number of list items if less than the default height (10)
+- set height of location/quickfix windows automatically to the number of list items if less than `g:qf_max_height` (default 10)
 
 - (optional) mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
 
