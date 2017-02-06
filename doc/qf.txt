@@ -98,12 +98,13 @@ Local mappings:
 
 Options:
 
-    qf_mapping_ack_style .......................... |qf_mapping_ack_style|
-    qf_statusline ................................. |qf_statusline|
-    qf_window_bottom .............................. |qf_window_bottom|
-    qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
-    qf_auto_open_quickfix ......................... |qf_auto_open_quickfix|
-    qf_auto_open_loclist .......................... |qf_auto_open_loclist|
+    g:qf_mapping_ack_style ........................ |g:qf_mapping_ack_style|
+    g:qf_statusline ............................... |g:qf_statusline|
+    g:qf_window_bottom ............................ |g:qf_window_bottom|
+    g:qf_loclist_window_bottom .................... |g:qf_loclist_window_bottom|
+    g:qf_auto_open_quickfix ....................... |g:qf_auto_open_quickfix|
+    g:qf_auto_open_loclist ........................ |g:qf_auto_open_loclist|
+    g:qf_max_height ............................... |g:qf_max_height|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
@@ -174,7 +175,7 @@ Default: { and }                                                             ~
 Jump to the next group of lines corresponding to a file.
 
 ------------------------------------------------------------------------------
-                                                        *'qf_mapping_ack_style'*
+                                                      *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
@@ -192,7 +193,7 @@ Add the line below to your vimrc to enable this feature: >
     let g:qf_mapping_ack_style = 1
 <
 ------------------------------------------------------------------------------
-                                                            *'qf_window_bottom'*
+                                                          *'g:qf_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -203,7 +204,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                    *'qf_loclist_window_bottom'*
+                                                  *'g:qf_loclist_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -214,7 +215,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_loclist_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                               *'qf_statusline'*
+                                                             *'g:qf_statusline'*
 Value: dictionary                                                            ~
 Default: {}                                                                  ~
 
@@ -228,7 +229,7 @@ Example: >
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 <
 ------------------------------------------------------------------------------
-                                                       *'qf_auto_open_quickfix'*
+                                                     *'g:qf_auto_open_quickfix'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -239,7 +240,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_auto_open_quickfix = 0
 <
 ------------------------------------------------------------------------------
-                                                        *'qf_auto_open_loclist'*
+                                                      *'g:qf_auto_open_loclist'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
