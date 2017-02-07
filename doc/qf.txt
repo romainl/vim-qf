@@ -104,6 +104,7 @@ Options:
     qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
     qf_auto_open_quickfix ......................... |qf_auto_open_quickfix|
     qf_auto_open_loclist .......................... |qf_auto_open_loclist|
+    qf_window_height .............................. |qf_window_height|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
@@ -246,6 +247,18 @@ Default: 1                                                                   ~
 Open the location window automatically if there are any locations.
 
 Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_open_loclist = 0
+<
+------------------------------------------------------------------------------
+                                                            *'qf_window_height'*
+Value: numeric                                                               ~
+Default: 0                                                                   ~
+
+Set the size of the quickfix or loclist window. Setting this to 0 means the
+window will be automatically resized.
+
+Example:
 
     let g:qf_auto_open_loclist = 0
 <
