@@ -12,8 +12,6 @@
 
 - close the location window automatically when quitting parent window
 
-- set height of location/quickfix windows automatically to the number of list items if less than the default height (10)
-
 - (optional) mappings for `:cnext`, `:cprevious`, `:lnext`, `:lprevious` that wrap around the beginning and end of the list
 
 - (optional) mapping for jumping to and from the location/quickfix window,
@@ -27,6 +25,8 @@
 - disable soft-wrapping
 
 - disable relative numbers
+
+- set height of location/quickfix windows automatically to the number of listed items if less than the default height (10)
 
 - filter and restore the current list:
 
@@ -64,7 +64,9 @@ Use your favorite runtimepath/plugin manager or dump the files below in their st
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
 
-If you go with the manual method, don't forget to index the documentation:
+## Documentation
+
+If you go with the manual installation method, don't forget to index the documentation:
 
     # Unix-like systems
     :helptags ~/.vim/doc
@@ -72,17 +74,9 @@ If you go with the manual method, don't forget to index the documentation:
     # Windows
     :helptags %userprofile%\vimfiles\doc
 
-## Documentation
+Once the documentation is indexed, you can use this command to get help on vim-qf:
 
-Use this command to get help on vim-qf:
-
-    :help qf
-
-If this doesn't work and you installed vim-qf manually, use the following command to index vim-qf's documentation:
-
-    :helptags ~/.vim/doc
-
-or read your runtimepath/plugin manager documentation.
+    :help vim-qf
 
 ## TODO
 
