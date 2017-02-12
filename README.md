@@ -26,8 +26,6 @@
 
 - disable relative numbers
 
-- set height of location/quickfix windows automatically to the number of listed items if less than the default height (10)
-
 - filter and restore the current list:
 
   ![filter](https://romainl.github.io/vim-qf/filter.gif)
@@ -45,6 +43,8 @@
   ![list](https://romainl.github.io/vim-qf/list.gif)
 
 - (optional) Ack.vim-inspired mappings
+
+- (optional) set height of location/quickfix windows automatically to the number of listed items if less than the default height (10)
 
 ## Installation
 
@@ -82,9 +82,9 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 
 - Export more options?
 
-- Add a gifcast to the README?
-
 - Add titles to saved lists, e.g. to display in :ListLists?
+
+- Add `:packadd` support?
 
 ## DONE
 
@@ -95,3 +95,5 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 - Write a proper `help` file.
 
 - Ask #vim's opinion.
+
+- Add a gifcast to the README.

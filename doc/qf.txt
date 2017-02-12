@@ -27,14 +27,14 @@ These "global" features are available from any window:
     - quickfix buffers are hidden from |:ls| and buffer navigation
     - quit Vim if the last window is a location/quickfix window
     - close the location window automatically when quitting parent window
-    - set height of location/quickfix windows automatically to the number of
-      list items if less than the default height (10)
     - (optional) mappings for |:cnext|, |:cprevious|, |:lnext|, |:lprevious|
       that wrap around the beginning and end of the list
     - (optional) mapping for jumping to and from the location/quickfix window,
     - (optional) mappings for toggling location/quickfix windows
     - (optional) open the location/quickfix window automatically after |:make|,
       |:grep|, |:lvimgrep| and friends if there are valid locations/errors
+    - (optional) automatically set the height of location/quickfix windows
+      to the number of list items if less than Vim's default height (10)
 
 These "local" features are only available in location/quickfix windows:
 
@@ -83,27 +83,29 @@ on Windows... >
 
 Global mappings:
 
-    <Plug>QfCprevious ............................. |QfCprevious|
-    <Plug>QfCnext ................................. |QfCnext|
-    <Plug>QfLprevious ............................. |QfLprevious|
-    <Plug>QfLnext ................................. |QfLnext|
-    <Plug>QfSwitch ................................ |QfSwitch|
-    <Plug>QfCtoggle ............................... |QfCtoggle|
-    <Plug>QfLtoggle ............................... |QfLtoggle|
+    <Plug>QfCprevious .......................... |QfCprevious|
+    <Plug>QfCnext .............................. |QfCnext|
+    <Plug>QfLprevious .......................... |QfLprevious|
+    <Plug>QfLnext .............................. |QfLnext|
+    <Plug>QfSwitch ............................. |QfSwitch|
+    <Plug>QfCtoggle ............................ |QfCtoggle|
+    <Plug>QfLtoggle ............................ |QfLtoggle|
 
 Local mappings:
 
-    { ............................................. |QfPreviousFile|
-    } ............................................. |QfNextFile|
+    { .......................................... |QfPreviousFile|
+    } .......................................... |QfNextFile|
 
 Options:
 
-    qf_mapping_ack_style .......................... |qf_mapping_ack_style|
-    qf_statusline ................................. |qf_statusline|
-    qf_window_bottom .............................. |qf_window_bottom|
-    qf_loclist_window_bottom ...................... |qf_loclist_window_bottom|
-    qf_auto_open_quickfix ......................... |qf_auto_open_quickfix|
-    qf_auto_open_loclist .......................... |qf_auto_open_loclist|
+    g:qf_mapping_ack_style ..................... |'g:qf_mapping_ack_style'|
+    g:qf_statusline ............................ |'g:qf_statusline'|
+    g:qf_window_bottom ......................... |'g:qf_window_bottom'|
+    g:qf_loclist_window_bottom ................. |'g:qf_loclist_window_bottom'|
+    g:qf_auto_open_quickfix .................... |'g:qf_auto_open_quickfix'|
+    g:qf_auto_open_loclist ..................... |'g:qf_auto_open_loclist'|
+    g:qf_auto_resize ........................... |'g:qf_auto_resize'|
+    g:qf_max_height ............................ |'g:qf_max_height'|
 
 ------------------------------------------------------------------------------
                                                                   *QfCprevious*
@@ -174,7 +176,7 @@ Default: { and }                                                             ~
 Jump to the next group of lines corresponding to a file.
 
 ------------------------------------------------------------------------------
-                                                        *'qf_mapping_ack_style'*
+                                                      *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
@@ -192,7 +194,7 @@ Add the line below to your vimrc to enable this feature: >
     let g:qf_mapping_ack_style = 1
 <
 ------------------------------------------------------------------------------
-                                                            *'qf_window_bottom'*
+                                                          *'g:qf_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -203,7 +205,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                    *'qf_loclist_window_bottom'*
+                                                  *'g:qf_loclist_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -214,7 +216,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_loclist_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                               *'qf_statusline'*
+                                                             *'g:qf_statusline'*
 Value: dictionary                                                            ~
 Default: {}                                                                  ~
 
@@ -228,7 +230,7 @@ Example: >
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 <
 ------------------------------------------------------------------------------
-                                                       *'qf_auto_open_quickfix'*
+                                                     *'g:qf_auto_open_quickfix'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -239,7 +241,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_auto_open_quickfix = 0
 <
 ------------------------------------------------------------------------------
-                                                        *'qf_auto_open_loclist'*
+                                                      *'g:qf_auto_open_loclist'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -248,6 +250,30 @@ Open the location window automatically if there are any locations.
 Add the line below to your vimrc to disable this feature: >
 
     let g:qf_auto_open_loclist = 0
+<
+------------------------------------------------------------------------------
+                                                            *'g:qf_auto_resize'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Automatically adjust the height of location/quickfix windows to 10 lines
+(Vim's default height for location/quickfix windows) or to the number of items
+in the list if that number is inferior to 10.
+
+Add the line below to your vimrc to disable this feature: >
+
+    let g:qf_auto_resize = 0
+<
+------------------------------------------------------------------------------
+                                                             *'g:qf_max_height'*
+Value: numeric                                                               ~
+Default: 10                                                                  ~
+
+Define the maximum height of location/quickfix windows.
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_max_height = 8
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*

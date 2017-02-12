@@ -35,16 +35,16 @@ endfunction
 function! s:SetList(pat, reject)
     let operator  = a:reject == 0 ? "=~" : "!~"
     let condition = a:reject == 0 ? "||" : "&&"
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
             call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
-            lclose
-            execute min([ 10, len(getloclist(0)) ]) 'lwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
         else
             call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
-            cclose
-            execute min([ 10, len(getqflist()) ]) 'cwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
         endif
     endif
 endfunction
@@ -135,14 +135,16 @@ endfunction
 
 " restore the original list
 function! qf#filter#RestoreList()
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
             let lists = getwinvar(winnr("#"), "qf_location_lists")
 
             if len(lists) > 0
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
-                lclose
-                execute min([ 10, len(getloclist(0)) ]) 'lwindow'
+                execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
 
                 let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
             else
@@ -152,8 +154,7 @@ function! qf#filter#RestoreList()
             if exists("g:qf_quickfix_lists")
                 if len(g:qf_quickfix_lists) > 0
                     call setqflist(g:qf_quickfix_lists[0], "r")
-                    cclose
-                    execute min([ 10, len(getqflist()) ]) 'cwindow'
+                    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
 
                     let w:quickfix_title = g:qf_quickfix_titles[0]
                 else
