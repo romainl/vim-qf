@@ -33,7 +33,7 @@ setlocal number
 set nobuflisted
 
 " are we in a location list or a quickfix list?
-let b:qf_isLoc = len(getloclist(0)) > 0 ? 1 : 0
+let b:qf_isLoc = !empty(getloclist(0))
 
 " customize the statusline
 if exists("g:qf_statusline")

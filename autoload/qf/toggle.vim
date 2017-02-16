@@ -19,73 +19,54 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:OpenWindow(prefix)
-    exec a:prefix . 'window'
-
-    if exists("my_winview")
-        call winrestview(t:my_winview)
-    endif
-endfunction
-
-function! s:CloseWindow(prefix)
-    exec a:prefix . 'close'
-
-    if exists("my_winview")
-        call winrestview(t:my_winview)
-    endif
-endfunction
-
 " toggles the quickfix window
-function! qf#toggle#ToggleQfWindow()
-    " assume we don't have a quickfix window
-    let has_qf_window = 0
-
+function! qf#toggle#ToggleQfWindow(stay) abort
     " save the view if the current window is not a quickfix window
-    if ! qf#IsQfWindow(winnr())
-        let t:my_winview = winsaveview()
-    endif
+    let winview = qf#IsQfWindow(winnr()) ? {} : winsaveview()
 
     " if one of the windows is a quickfix window close it and return
-    for winnumber in range(winnr("$"))
-        if qf#IsQfWindow(winnumber + 1)
-            call s:CloseWindow('c')
-            return
+    if qf#IsQfWindowOpen()
+        cclose
+        if !empty(winview)
+            call winrestview(winview)
         endif
-    endfor
-
-    " there's no quickfix window so open one
-    call s:OpenWindow('c')
+    else
+        cwindow
+        if qf#IsQfWindowOpen()
+            wincmd p
+            if !empty(winview)
+                call winrestview(winview)
+            endif
+            if !a:stay
+                wincmd p
+            endif
+        endif
+    endif
 endfunction
 
 " toggles the location window associated with the current window
-" " or whatever location window has the focus
-function! qf#toggle#ToggleLocWindow()
-    " assume we don't have a location window
-    let has_loc_window = 0
-
+" or whatever location window has the focus
+function! qf#toggle#ToggleLocWindow(stay) abort
     " save the view if the current window is not a location window
-    if ! qf#IsLocWindow(winnr())
-        let t:my_winview = winsaveview()
-    endif
+    let winview = qf#IsLocWindow(winnr()) ? {} : winsaveview()
 
-    " close the current window if it's a location window and return
-    if qf#IsLocWindow(winnr())
-        call s:CloseWindow('l')
-        return
-    endif
-
-    for i in range(winnr("$"))
-        let i += 1
-
-        if qf#IsLocWindow(i)
-            if getloclist(0) == getloclist(i)
-                call s:CloseWindow('l')
-                return
+    if qf#IsLocWindowOpen(0)
+        lclose
+        if !empty(winview)
+            call winrestview(winview)
+        endif
+    else
+        lwindow
+        if qf#IsLocWindowOpen(0)
+            wincmd p
+            if !empty(winview)
+                call winrestview(winview)
+            endif
+            if !a:stay
+                wincmd p
             endif
         endif
-    endfor
-
-    call s:OpenWindow('l')
+    endif
 endfunction
 
 let &cpo = s:save_cpo
