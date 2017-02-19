@@ -20,17 +20,17 @@
 
 - (optional) open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 
+- (optional) automatically set the height of location/quickfix windows to the number of list items if less than Vim's default height (10) or the user's prefered height
+
 ### Local features (available only in location/quickfix windows)
 
 - disable soft-wrapping
 
 - disable relative numbers
 
-- set height of location/quickfix windows automatically to the number of listed items if less than the default height (10)
-
 - filter and restore the current list:
 
-  ![filter](https://romainl.github.io/vim-qf/filter.gif)
+  ![filter][1]
 
 - perform commands on each line in the current list
 
@@ -38,11 +38,11 @@
 
 - jump to next group of entries belonging to same file ("file grouping"):
 
-  ![group](https://romainl.github.io/vim-qf/group.gif)
+  ![group][2]
 
 - save and load named lists:
 
-  ![list](https://romainl.github.io/vim-qf/list.gif)
+  ![list][3]
 
 - (optional) Ack.vim-inspired mappings
 
@@ -82,9 +82,9 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 
 - Export more options?
 
-- Add a gifcast to the README?
-
 - Add titles to saved lists, e.g. to display in :ListLists?
+
+- Add `:packadd` support?
 
 ## DONE
 
@@ -95,3 +95,9 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 - Write a proper `help` file.
 
 - Ask #vim's opinion.
+
+- Add a gifcast to the README.
+
+[1]: https://romainl.github.io/vim-qf/filter.gif
+[2]: https://romainl.github.io/vim-qf/group.gif
+[3]: https://romainl.github.io/vim-qf/list.gif
