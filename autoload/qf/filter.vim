@@ -124,12 +124,12 @@ endfunction
 function! qf#filter#FilterList(pat, reject)
     if exists("b:qf_isLoc")
         call s:AddList()
-        call s:AddTitle(w:quickfix_title)
+        call s:AddTitle(get(w:, 'quickfix_title', ' '))
 
         call s:SetList(a:pat, a:reject)
 
         call s:SetTitle(a:pat, a:reject)
-        call s:AddTitle(w:quickfix_title)
+        call s:AddTitle(get(w:, 'quickfix_title', ' '))
     endif
 endfunction
 
