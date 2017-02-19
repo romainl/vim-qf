@@ -34,7 +34,8 @@ These "global" features are available from any window:
     - (optional) open the location/quickfix window automatically after |:make|,
       |:grep|, |:lvimgrep| and friends if there are valid locations/errors
     - (optional) automatically set the height of location/quickfix windows
-      to the number of list items if less than Vim's default height (10)
+      to the number of list items if less than Vim's default height (10) or
+      the user's prefered height
 
 These "local" features are only available in location/quickfix windows:
 
@@ -257,8 +258,8 @@ Value: numeric                                                               ~
 Default: 1                                                                   ~
 
 Automatically adjust the height of location/quickfix windows to 10 lines
-(Vim's default height for location/quickfix windows) or to the number of items
-in the list if that number is inferior to 10.
+(Vim's default) or to the number of items in the list if that number is
+inferior to 10.
 
 Add the line below to your vimrc to disable this feature: >
 
@@ -327,9 +328,8 @@ is focused:
 <
 *:SaveList*
 
-    Save the current quickfix/location list and associates it
-    with a given name. If no name is supplied the last saved
-    list is used.
+    Save the current quickfix/location under the given name. If no name is
+    supplied the last saved list is used.
 
     Example: >
 
