@@ -52,6 +52,27 @@ function! qf#IsLocWindow(nmbr)
     return getbufvar(winbufnr(a:nmbr), "qf_isLoc") == 1
 endfunction
 
+" returns bool: Is quickfix window open?
+function! qf#IsQfWindowOpen() abort
+    for winnum in range(1, winnr('$'))
+        if qf#IsQfWindow(winnum)
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
+" returns bool: Is location window for window with given number open?
+function! qf#IsLocWindowOpen(nmbr) abort
+    let loclist = getloclist(a:nmbr)
+    for winnum in range(1, winnr('$'))
+        if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
 " returns location list of the current loclist if isLoc is set
 "         qf list otherwise
 function! qf#GetList()
