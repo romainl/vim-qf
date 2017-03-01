@@ -109,6 +109,7 @@ Options:
     g:qf_auto_open_loclist ..................... |'g:qf_auto_open_loclist'|
     g:qf_auto_resize ........................... |'g:qf_auto_resize'|
     g:qf_max_height ............................ |'g:qf_max_height'|
+    g:qf_auto_quit ............................. |'g:qf_auto_quit'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -305,6 +306,17 @@ Add the line below to your vimrc to change the default value:
 >
     let g:qf_max_height = 8
 <
+------------------------------------------------------------------------------
+                                                              *'g:qf_auto_quit'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Automatically quit Vim if the quickfix window is the last window.
+
+Add the line below to your vimrc to disable this feature:
+>
+    let g:qf_auto_quit = 0
+<
 ==============================================================================
  4. USAGE                                                            *qf-usage*
 
@@ -315,7 +327,7 @@ is focused:
 
     Keep only entries that contain the given argument, either in the
     filename or in the description. Note: the argument is not a regular
-    expression pattern.
+    expression pattern (this may change in the future).
 
     Example: >
 
@@ -326,7 +338,7 @@ is focused:
 
     Reject all entries that contain the given argument in the filename or
     in the description. Note: the argument is not a regular expression
-    pattern.
+    pattern (this may change in the future).
 
     Example: >
 
