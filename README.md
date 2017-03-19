@@ -4,6 +4,10 @@
 
 ## Features
 
+### Anti-features
+
+Vim-qf and all quickfix-related plugins necessarily have overlapping features and thus undefined behaviors. Therefore, I don't recommend vim-qf to Syntastic/Neomake users.
+
 ### Global features (available from any window)
 
 - quickfix buffers are hidden from `:ls` and buffer navigation
