@@ -62,7 +62,7 @@ augroup qf
     autocmd VimEnter        *     call qf#OpenQuickfix()
 
     " automatically close corresponding loclist when quitting a window
-    if v:version > 703 || (v:version == 703 && has('patch544'))
+    if exists('##QuitPre')
         autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
     endif
 augroup END
