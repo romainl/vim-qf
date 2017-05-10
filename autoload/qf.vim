@@ -111,21 +111,56 @@ function! qf#GetEntryPath(line) abort
     return substitute(a:line, '|.*$', '', '')
 endfunction
 
+let s:prev_windows = []
+function! s:save_prev_windows() abort
+  let aw = winnr('#')
+  let pw = winnr()
+  if exists('*win_getid')
+    let aw_id = win_getid(aw)
+    let pw_id = win_getid(pw)
+  else
+    let aw_id = 0
+    let pw_id = 0
+  endif
+  call add(s:prev_windows, [aw, pw, aw_id, pw_id])
+endfunction
+
+function! s:restore_prev_windows() abort
+  let [aw, pw, aw_id, pw_id] = remove(s:prev_windows, 0)
+  if winnr() != pw
+    " Go back, maintaining the '#' window (CTRL-W_p).
+    if pw_id
+      let aw = win_id2win(aw_id)
+      let pw = win_id2win(pw_id)
+    endif
+    if pw
+      if aw
+        exec aw . 'wincmd w'
+      endif
+      exec pw . 'wincmd w'
+    endif
+  endif
+endfunction
+
 " open the quickfix window if there are valid errors
 function! qf#OpenQuickfix()
     if get(g:, 'qf_auto_open_quickfix', 1)
+        call s:save_prev_windows()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
         execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+        call s:restore_prev_windows()
     endif
 endfunction
 
 " open a location window if there are valid locations
 function! qf#OpenLoclist()
     if get(g:, 'qf_auto_open_loclist', 1)
+        call s:save_prev_windows()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
         execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+        call s:restore_prev_windows()
     endif
 endfunction
 
