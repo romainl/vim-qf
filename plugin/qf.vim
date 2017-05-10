@@ -62,7 +62,9 @@ augroup qf
     autocmd VimEnter        *     call qf#OpenQuickfix()
 
     " automatically close corresponding loclist when quitting a window
-    autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
+    if exists('##QuitPre')
+        autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
+    endif
 augroup END
 
 let &cpo = s:save_cpo
