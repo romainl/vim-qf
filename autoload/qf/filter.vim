@@ -122,13 +122,25 @@ endfunction
 
 " filter the current list
 function! qf#filter#FilterList(pat, reject)
+    let pat = ''
+
+    if a:pat != ''
+        let pat = a:pat
+    else
+        if col('.') == 1
+            let pat = split(getline('.'), '|')[0]
+        else
+            let pat = expand('<cword>')
+        endif
+    endif
+
     if exists("b:qf_isLoc")
         call s:AddList()
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
 
-        call s:SetList(a:pat, a:reject)
+        call s:SetList(pat, a:reject)
 
-        call s:SetTitle(a:pat, a:reject)
+        call s:SetTitle(pat, a:reject)
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
     endif
 endfunction

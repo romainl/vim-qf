@@ -75,12 +75,12 @@ command! -buffer -nargs=1 -bang Filter call qf#filter#FilterList(<q-args>, expan
 " keep entries matching the argument
 " usage:
 "   :Keep foo
-command! -buffer -nargs=1 Keep call qf#filter#FilterList(<q-args>, 0)
+command! -buffer -nargs=? Keep call qf#filter#FilterList(<q-args>, 0)
 
 " reject entries matching the argument
 " usage:
 "   :Reject foo
-command! -buffer -nargs=1 Reject call qf#filter#FilterList(<q-args>, 1)
+command! -buffer -nargs=? Reject call qf#filter#FilterList(<q-args>, 1)
 
 " restore the location/quickfix list
 " usage:
