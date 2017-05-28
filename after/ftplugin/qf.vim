@@ -43,26 +43,26 @@ endif
 " inspired by Ack.vim
 if exists("g:qf_mapping_ack_style")
     " open entry in a new horizontal window
-    nnoremap <buffer> s <C-w><CR>
+    nnoremap <silent> <buffer> s <C-w><CR>
 
     " open entry in a new vertical window.
-    nnoremap <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
+    nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
 
     " open entry in a new tab.
-    nnoremap <buffer> t <C-w><CR><C-w>T
+    nnoremap <silent> <buffer> t <C-w><CR><C-w>T
 
     " open entry and come back
-    nnoremap <buffer> o <CR><C-w>p
+    nnoremap <silent> <buffer> o <CR><C-w>p
 
     " open entry and close the location/quickfix window.
     if b:qf_isLoc == 1
-        nnoremap <buffer> O <CR>:lclose<CR>
+        nnoremap <silent> <buffer> O <CR>:lclose<CR>
     else
-        nnoremap <buffer> O <CR>:cclose<CR>
+        nnoremap <silent> <buffer> O <CR>:cclose<CR>
     endif
 
     " preview entry under the cursor
-    nnoremap <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
+    nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
 endif
 
 " filter the location/quickfix list
@@ -85,7 +85,7 @@ command! -buffer -nargs=? Reject call qf#filter#FilterList(<q-args>, 1)
 " restore the location/quickfix list
 " usage:
 "   :Restore
-command! -buffer Restore call qf#filter#RestoreList()
+command! -buffer -bar Restore call qf#filter#RestoreList()
 
 " do something on each line in the location/quickfix list
 " usage:
