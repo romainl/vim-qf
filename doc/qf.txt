@@ -110,6 +110,7 @@ Options:
     g:qf_auto_resize ........................... |'g:qf_auto_resize'|
     g:qf_max_height ............................ |'g:qf_max_height'|
     g:qf_auto_quit ............................. |'g:qf_auto_quit'|
+    g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -317,6 +318,21 @@ Add the line below to your vimrc to disable this feature:
 >
     let g:qf_auto_quit = 0
 <
+------------------------------------------------------------------------------
+                                                        *'g:qf_bufname_or_text'*
+Value: numeric                                                               ~
+Default: 0                                                                   ~
+
+Determines what fields to filter on. Possible values are:
+
+    `0` ........ filter on the buffer name AND the text (default)
+    `1` ........ filter ONLY on the buffer name
+    `2` ........ filter ONLY on the text
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_bufname_or_text = 1
+<
 ==============================================================================
  4. USAGE                                                            *qf-usage*
 
@@ -325,26 +341,42 @@ is focused:
 
 *:Keep*
 
-    Keep only entries that contain the given argument, either in the
-    filename or in the description. Note: the argument is not a regular
-    expression pattern (this may change in the future).
+    Keep all entries that contain the given |pattern|, either in the
+    buffer name or in the description.
 
     Example: >
 
+        :Keep
         :Keep model
         :Keep <C-r><C-f>
->
+<
+    Without an argument, the pattern used for filtering is:
+
+    - the buffer name if the cursor is on column 1,
+    - the word under the cursor if the cursor is on any other column.
+
+    With an argument, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option.
+
 *:Reject*
 
-    Reject all entries that contain the given argument in the filename or
-    in the description. Note: the argument is not a regular expression
-    pattern (this may change in the future).
+    Reject all entries that contain the given |pattern| in the buffer name or
+    in the description.
 
     Example: >
 
+        :Reject
         :Reject build
         :Reject <C-r><C-w>
->
+<
+    Without an argument, the pattern used for filtering is:
+
+    - the buffer name if the cursor is on column 1,
+    - the word under the cursor if the cursor is on any other column.
+
+    With an argument, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option.
+
 *:Restore*
 
     Restore the list to its original state.
