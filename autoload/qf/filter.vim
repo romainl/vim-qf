@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.1.1
+" Version:	0.1.2
 " License:	MIT
 " Location:	autoload/filter.vim
 " Website:	https://github.com/romainl/vim-qf
@@ -32,18 +32,45 @@ function! s:ResetLists()
     endif
 endfunction
 
-function! s:SetList(pat, reject)
+function! s:SetList(pat, reject, strategy)
     let operator  = a:reject == 0 ? "=~" : "!~"
-    let condition = a:reject == 0 ? "||" : "&&"
     " get user-defined maximum height
     let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
-            call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
+            " bufname && text
+            if a:strategy == 0
+                call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat || v:val['text'] " . operator . " a:pat"), "r")
+            endif
+
+            " only bufname
+            if a:strategy == 1
+                call setloclist(0, filter(getloclist(0), "bufname(v:val['bufnr']) " . operator . " a:pat"), "r")
+            endif
+
+            " only text
+            if a:strategy == 2
+                call setloclist(0, filter(getloclist(0), "v:val['text'] " . operator . " a:pat"), "r")
+            endif
+
             execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
         else
-            call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat " . condition . " v:val['text'] " . operator . " a:pat"), "r")
+            " bufname && text
+            if a:strategy == 0
+                call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat || v:val['text'] " . operator . " a:pat"), "r")
+            endif
+
+            " only bufname
+            if a:strategy == 1
+                call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator . " a:pat"), "r")
+            endif
+
+            " only text
+            if a:strategy == 2
+                call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:pat"), "r")
+            endif
+
             execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
         endif
     endif
@@ -122,13 +149,28 @@ endfunction
 
 " filter the current list
 function! qf#filter#FilterList(pat, reject)
+    let strategy  = get(g:, 'qf_bufname_or_text', 0)
+    let pat       = ''
+
+    if a:pat != ''
+        let pat = a:pat
+    else
+        if col('.') == 1
+            let pat      = split(getline('.'), '|')[0]
+            let strategy = 1
+        else
+            let pat      = expand('<cword>')
+            let strategy = 2
+        endif
+    endif
+
     if exists("b:qf_isLoc")
         call s:AddList()
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
 
-        call s:SetList(a:pat, a:reject)
+        call s:SetList(pat, a:reject, strategy)
 
-        call s:SetTitle(a:pat, a:reject)
+        call s:SetTitle(pat, a:reject)
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
     endif
 endfunction
