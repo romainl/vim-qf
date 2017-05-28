@@ -88,7 +88,7 @@ Global mappings:
     <Plug>(qf_qf_next) ......................... |<Plug>(qf_qf_next)|
     <Plug>(qf_loc_previous) .................... |<Plug>(qf_loc_previous)|
     <Plug>(qf_loc_next) ........................ |<Plug>(qf_loc_next)|
-    <Plug>(qf_switch) .......................... |<Plug>(qf_switch)|
+    <Plug>(qf_qf_switch) ....................... |<Plug>(qf_qf_switch)|
     <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
     <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
@@ -139,7 +139,7 @@ Example: >
     nmap <C-End>  <Plug>(qf_loc_next)
 <
 ------------------------------------------------------------------------------
-                                                            *<Plug>(qf_switch)*
+                                                            *<Plug>(qf_qf_switch)*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -147,7 +147,7 @@ Jump to and from location/quickfix windows.
 
 Example: >
 
-    nmap ç <Plug>(qf_switch)
+    nmap ç <Plug>(qf_qf_switch)
 <
 ------------------------------------------------------------------------------
                                                          *<Plug>(qf_qf_toggle)*
