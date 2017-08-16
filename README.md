@@ -6,7 +6,7 @@
 
 ### Anti-features
 
-Vim-qf and all quickfix-related plugins necessarily have overlapping features and thus undefined behaviors. Therefore, I don't recommend vim-qf to Syntastic/Neomake users.
+Vim-qf and all quickfix-related plugins necessarily have overlapping features and thus undefined behaviors. Therefore, I don't recommend vim-qf to Syntastic/Neomake/ALE users.
 
 ### Global features (available from any window)
 

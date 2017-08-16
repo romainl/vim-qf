@@ -84,15 +84,15 @@ on Windows... >
 
 Global mappings:
 
-    <Plug>(qf_qf_previous) ..................... |<Plug>(qf_qf_previous)|
-    <Plug>(qf_qf_next) ......................... |<Plug>(qf_qf_next)|
-    <Plug>(qf_loc_previous) .................... |<Plug>(qf_loc_previous)|
-    <Plug>(qf_loc_next) ........................ |<Plug>(qf_loc_next)|
-    <Plug>(qf_switch) .......................... |<Plug>(qf_switch)|
-    <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
-    <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
-    <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
-    <Plug>(qf_loc_toggle_stay) ................. |<Plug>(qf_loc_toggle_stay)|
+    <Plug>qf_qf_previous ....................... |<Plug>qf_qf_previous|
+    <Plug>qf_qf_next ........................... |<Plug>qf_qf_next|
+    <Plug>qf_loc_previous ...................... |<Plug>qf_loc_previous|
+    <Plug>qf_loc_next .......................... |<Plug>qf_loc_next|
+    <Plug>qf_switch ............................ |<Plug>qf_switch|
+    <Plug>qf_qf_toggle ......................... |<Plug>qf_qf_toggle|
+    <Plug>qf_qf_toggle_stay .................... |<Plug>qf_qf_toggle_stay|
+    <Plug>qf_loc_toggle ........................ |<Plug>qf_loc_toggle|
+    <Plug>qf_loc_toggle_stay ................... |<Plug>qf_loc_toggle_stay|
 
 Local mappings:
 
@@ -113,8 +113,8 @@ Options:
     g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
 
 ------------------------------------------------------------------------------
-                                                       *<Plug>(qf_qf_previous)*
-                                                           *<Plug>(qf_qf_next)*
+                                                         *<Plug>qf_qf_previous*
+                                                             *<Plug>qf_qf_next*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -122,12 +122,12 @@ Go up and down the quickfix list and wrap around.
 
 Example: >
 
-    nmap <Home> <Plug>(qf_qf_previous)
-    nmap <End>  <Plug>(qf_qf_next)
+    nmap <Home> <Plug>qf_qf_previous
+    nmap <End>  <Plug>qf_qf_next
 <
 ------------------------------------------------------------------------------
-                                                      *<Plug>(qf_loc_previous)*
-                                                          *<Plug>(qf_loc_next)*
+                                                        *<Plug>qf_loc_previous*
+                                                            *<Plug>qf_loc_next*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -135,11 +135,11 @@ Go up and down the current location list and wrap around.
 
 Example: >
 
-    nmap <C-Home> <Plug>(qf_loc_previous)
-    nmap <C-End>  <Plug>(qf_loc_next)
+    nmap <C-Home> <Plug>qf_loc_previous
+    nmap <C-End>  <Plug>qf_loc_next
 <
 ------------------------------------------------------------------------------
-                                                            *<Plug>(qf_switch)*
+                                                              *<Plug>qf_switch*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -147,10 +147,10 @@ Jump to and from location/quickfix windows.
 
 Example: >
 
-    nmap ç <Plug>(qf_switch)
+    nmap ç <Plug>qf_switch
 <
 ------------------------------------------------------------------------------
-                                                         *<Plug>(qf_qf_toggle)*
+                                                           *<Plug>qf_qf_toggle*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -159,10 +159,10 @@ Uses |:cwindow| and |:cclose| under the hood.
 
 Example: >
 
-    nmap <F5> <Plug>(qf_qf_toggle)
+    nmap <F5> <Plug>qf_qf_toggle
 <
 ------------------------------------------------------------------------------
-                                                    *<Plug>(qf_qf_toggle_stay)*
+                                                      *<Plug>qf_qf_toggle_stay*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -171,10 +171,10 @@ Uses |:cwindow| and |:cclose| under the hood.
 
 Example: >
 
-    nmap <F5> <Plug>(qf_qf_toggle_stay)
+    nmap <F5> <Plug>qf_qf_toggle_stay
 <
 ------------------------------------------------------------------------------
-                                                        *<Plug>(qf_loc_toggle)*
+                                                          *<Plug>qf_loc_toggle*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -183,10 +183,10 @@ Uses |:lwindow| and |:lclose| under the hood.
 
 Example: >
 
-    nmap <F6> <Plug>(qf_loc_toggle)
+    nmap <F6> <Plug>qf_loc_toggle
 <
 ------------------------------------------------------------------------------
-                                                   *<Plug>(qf_loc_toggle_stay)*
+                                                     *<Plug>qf_loc_toggle_stay*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -196,7 +196,7 @@ Uses |:lwindow| and |:lclose| under the hood.
 
 Example: >
 
-    nmap <F6> <Plug>(qf_loc_toggle_stay)
+    nmap <F6> <Plug>qf_loc_toggle_stay
 <
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*
@@ -208,7 +208,7 @@ In a location/quickfix window, jump to the next group of lines
 corresponding to a file.
 
 ------------------------------------------------------------------------------
-                                                      *'g:qf_mapping_ack_style'*
+                                                     *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
@@ -226,7 +226,7 @@ Add the line below to your vimrc to enable this feature: >
     let g:qf_mapping_ack_style = 1
 <
 ------------------------------------------------------------------------------
-                                                          *'g:qf_window_bottom'*
+                                                         *'g:qf_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -237,7 +237,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                  *'g:qf_loclist_window_bottom'*
+                                                 *'g:qf_loclist_window_bottom'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -248,7 +248,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_loclist_window_bottom = 0
 <
 ------------------------------------------------------------------------------
-                                                             *'g:qf_statusline'*
+                                                            *'g:qf_statusline'*
 Value: dictionary                                                            ~
 Default: {}                                                                  ~
 
@@ -262,7 +262,7 @@ Example: >
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
 <
 ------------------------------------------------------------------------------
-                                                     *'g:qf_auto_open_quickfix'*
+                                                    *'g:qf_auto_open_quickfix'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -273,7 +273,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_auto_open_quickfix = 0
 <
 ------------------------------------------------------------------------------
-                                                      *'g:qf_auto_open_loclist'*
+                                                     *'g:qf_auto_open_loclist'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -284,7 +284,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_auto_open_loclist = 0
 <
 ------------------------------------------------------------------------------
-                                                            *'g:qf_auto_resize'*
+                                                           *'g:qf_auto_resize'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -297,7 +297,7 @@ Add the line below to your vimrc to disable this feature: >
     let g:qf_auto_resize = 0
 <
 ------------------------------------------------------------------------------
-                                                             *'g:qf_max_height'*
+                                                            *'g:qf_max_height'*
 Value: numeric                                                               ~
 Default: 10                                                                  ~
 
@@ -308,7 +308,7 @@ Add the line below to your vimrc to change the default value:
     let g:qf_max_height = 8
 <
 ------------------------------------------------------------------------------
-                                                              *'g:qf_auto_quit'*
+                                                             *'g:qf_auto_quit'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -319,7 +319,7 @@ Add the line below to your vimrc to disable this feature:
     let g:qf_auto_quit = 0
 <
 ------------------------------------------------------------------------------
-                                                        *'g:qf_bufname_or_text'*
+                                                       *'g:qf_bufname_or_text'*
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
