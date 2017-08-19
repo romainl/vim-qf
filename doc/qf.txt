@@ -90,9 +90,9 @@ Global mappings:
     <Plug>qf_loc_next .......................... |<Plug>qf_loc_next|
     <Plug>qf_switch ............................ |<Plug>qf_switch|
     <Plug>qf_qf_toggle ......................... |<Plug>qf_qf_toggle|
-    <Plug>qf_qf_toggle_stay .................... |<Plug>qf_qf_toggle_stay|
+    <Plug>qf_qf_stay_toggle .................... |<Plug>qf_qf_stay_toggle|
     <Plug>qf_loc_toggle ........................ |<Plug>qf_loc_toggle|
-    <Plug>qf_loc_toggle_stay ................... |<Plug>qf_loc_toggle_stay|
+    <Plug>qf_loc_stay_toggle ................... |<Plug>qf_loc_stay_toggle|
 
 Local mappings:
 
@@ -162,7 +162,7 @@ Example: >
     nmap <F5> <Plug>qf_qf_toggle
 <
 ------------------------------------------------------------------------------
-                                                      *<Plug>qf_qf_toggle_stay*
+                                                      *<Plug>qf_qf_stay_toggle*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -171,7 +171,7 @@ Uses |:cwindow| and |:cclose| under the hood.
 
 Example: >
 
-    nmap <F5> <Plug>qf_qf_toggle_stay
+    nmap <F5> <Plug>qf_qf_stay_toggle
 <
 ------------------------------------------------------------------------------
                                                           *<Plug>qf_loc_toggle*
@@ -186,7 +186,7 @@ Example: >
     nmap <F6> <Plug>qf_loc_toggle
 <
 ------------------------------------------------------------------------------
-                                                     *<Plug>qf_loc_toggle_stay*
+                                                     *<Plug>qf_loc_stay_toggle*
 Scope: global                                                                ~
 Default: none                                                                ~
 
@@ -196,7 +196,7 @@ Uses |:lwindow| and |:lclose| under the hood.
 
 Example: >
 
-    nmap <F6> <Plug>qf_loc_toggle_stay
+    nmap <F6> <Plug>qf_loc_stay_toggle
 <
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*

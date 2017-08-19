@@ -33,7 +33,7 @@ function! s:ResetLists()
 endfunction
 
 function! s:SetList(pat, reject, strategy)
-    let operator  = a:reject == 0 ? "=~" : "!~"
+    let operator  = a:reject == 0 ? '=~' : '!~'
     " get user-defined maximum height
     let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
