@@ -111,6 +111,7 @@ Options:
     g:qf_max_height ............................ |'g:qf_max_height'|
     g:qf_auto_quit ............................. |'g:qf_auto_quit'|
     g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
+    g:qf_save_win_view ......................... |'g:qf_save_win_view'|
 
 ------------------------------------------------------------------------------
                                                          *<Plug>qf_qf_previous*
@@ -332,6 +333,17 @@ Determines what fields to filter on. Possible values are:
 Add the line below to your vimrc to change the default value:
 >
     let g:qf_bufname_or_text = 1
+<
+------------------------------------------------------------------------------
+                                                       *'g:qf_save_win_view'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Save the view of the current window when toggling location/quickfix window.
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_save_win_view = 0
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*

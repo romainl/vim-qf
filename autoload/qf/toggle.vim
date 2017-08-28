@@ -22,7 +22,9 @@ set cpo&vim
 " toggles the quickfix window
 function! qf#toggle#ToggleQfWindow(stay) abort
     " save the view if the current window is not a quickfix window
-    let winview = qf#IsQfWindow(winnr()) ? {} : winsaveview()
+    if g:qf_save_win_view
+        let winview = qf#IsQfWindow(winnr()) ? {} : winsaveview()
+    endif
 
     " if one of the windows is a quickfix window close it and return
     if qf#IsQfWindowOpen()
@@ -48,7 +50,9 @@ endfunction
 " or whatever location window has the focus
 function! qf#toggle#ToggleLocWindow(stay) abort
     " save the view if the current window is not a location window
-    let winview = qf#IsLocWindow(winnr()) ? {} : winsaveview()
+    if g:qf_save_win_view
+        let winview = qf#IsLocWindow(winnr()) ? {} : winsaveview()
+    endif
 
     if qf#IsLocWindowOpen(0)
         lclose
