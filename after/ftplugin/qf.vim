@@ -46,7 +46,13 @@ if exists("g:qf_mapping_ack_style")
     nnoremap <silent> <buffer> s <C-w><CR>
 
     " open entry in a new vertical window.
-    nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
+    if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
+                \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+        nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
+    else
+        " don't move quickfix to bottom if qf_loclist_window_bottom is 0
+        nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L" : "\<C-w>\<CR>\<C-w>H"
+    endif
 
     " open entry in a new tab.
     nnoremap <silent> <buffer> t <C-w><CR><C-w>T
