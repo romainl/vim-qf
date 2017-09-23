@@ -58,6 +58,7 @@ on Unix-like systems... >
 
     ~/.vim/after/ftplugin/qf.vim
     ~/.vim/autoload/qf.vim
+    ~/.vim/autoload/qf/*.vim
     ~/.vim/doc/qf.txt
     ~/.vim/plugin/qf.vim
 <
@@ -65,6 +66,7 @@ on Windows... >
 
     %userprofile%\vimfiles\after\ftplugin\qf.vim
     %userprofile%\vimfiles\autoload\qf.vim
+    %userprofile%\vimfiles\autoload\qf\*.vim
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
 <
@@ -559,5 +561,100 @@ The named lists feature is the brainchild of Nelo-T. Wallus:
     - Add proper attribution for a few features.
     - Write a proper help file.
     - Ask #vim's opinion.
+
+==============================================================================
+ 9. RELEASES                                                      *qf-releases*
+
+    0.2.0: Le Samouraï ....................................... 23 Sep 2017
+
+        Many new features:
+
+        - Open the qf/loc window at the bottom or top of the screen.
+        - Automatic opening of the qf/loc window can be disabled.
+        - Automatic resizing of the qf/loc window can be enabled.
+        - Max size of the qf/loc window can be defined.
+        - Automatic quitting can be disabled.
+        - :Keep and :Reject can work on bufname or text or both or
+          neither, in which case they work on the word under the cursor.
+        - "Stay" variants of the toggle mappings.
+
+        Potentially breaking changes:
+
+        - <Plug> mappings have new more readable names. Efforts have been
+          made to maintain backward compatibility but new mappings will
+          follow the new naming scheme so it may be a good idea to change
+          your custom mappings now. Following is a table showing the
+          new names:
+
+          Old name          | New name
+          ------------------|----------------------
+          <Plug>QfCprevious | <Plug>qf_qf_previous
+          <Plug>QfCnext     | <Plug>qf_qf_next
+          <Plug>QfLprevious | <Plug>qf_loc_previous
+          <Plug>QfLnext     | <Plug>qf_loc_next
+          <Plug>QfSwitch    | <Plug>qf_qf_switch
+          <Plug>QfCtoggle   | <Plug>qf_qf_toggle
+          <Plug>QfLtoggle   | <Plug>qf_loc_toggle
+
+    0.1.0: Le doulos ......................................... 23 Oct 2016
+
+        - New "preview" mapping:
+
+          Mapping | Description
+          --------|-------------------------------
+          p       | Open entry in a preview window
+
+    0.0.9: Requiem pour un con ............................... 11 Sep 2016
+
+        - Added two "global" commands:
+
+          Command    | Description
+          -----------|---------------------------
+          :QfCToggle | Toggle the quickfix window
+          :QfLToggle | Toggle the location window
+
+    0.0.8: Le Faucon maltais ................................. 21 Aug 2016
+
+        - Added list management feature.
+        - Fixed <Plug>QFCnext and friends.
+        - Updated the documentation.
+
+    0.0.7: Ne nous fâchons pas ................................ 5 Apr 2016
+
+        - New commands:
+
+          Command | Description
+          --------|-------------------------------
+          :Keep   | Keep entries matching the given argument
+          :Reject | Reject entries matching the given argument
+
+        - New mappings:
+
+          Mapping | Description
+          --------|-------------------------------
+          {       | Jump to previous file grouping
+          }       | jump to next file grouping
+
+        - Deprecation warning: :Filter is on its way out.
+
+    0.0.5: (No funny name this time) ......................... 13 Sep 2015
+
+        :Doline and :Dofile aliased to built-in :cdo, :ldo, :cfdo and
+        :lfdo when applicable.
+
+    v0.0.4: Mélodie en sous-sol ............................... 2 Aug 2015
+
+        Massive refactoring of the filter/restore mechanism.
+
+    0.0.3: Cargo de nuit ...................................... 4 Jul 2015
+
+        - Better statusline handling
+        - Sample configuration in the documentation
+
+    v0.0.2: Il fait chaud et il est tard. ..................... 2 Jul 2015
+
+        - Added proper documentation
+        - Fixed a few naming issues
+        - Fixed empty zip
 
  vim:tw=78:ts=8:ft=help:norl:

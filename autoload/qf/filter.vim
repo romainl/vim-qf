@@ -33,7 +33,6 @@ function! s:ResetLists()
 endfunction
 
 function! s:SetList(pat, reject, strategy)
-    let operator  = a:reject == 0 ? '=~' : '!~'
     " decide what regexp operator to use
     let operator   = a:reject == 0 ? '=~' : '!~'
     " get user-defined maximum height
