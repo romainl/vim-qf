@@ -1,6 +1,6 @@
 " vim-qf - Tame the quickfix window
 " Maintainer:	romainl <romainlafourcade@gmail.com>
-" Version:	0.1.2
+" Version:	0.2.0
 " License:	MIT
 " Location:	autoload/wrap.vim
 " Website:	https://github.com/romainl/vim-qf
