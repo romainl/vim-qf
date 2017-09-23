@@ -25,36 +25,16 @@ set cpo&vim
 function! qf#statusline#SetStatusline()
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
-            let titles = getwinvar(winnr("#"), "qf_location_titles")
-
-            if len(titles) > 0
-                return titles[-1]
-            else
-                if exists("w:quickfix_title")
-                    return w:quickfix_title
-                else
-                    return ""
-                endif
-            endif
+            let titles = getwinvar(winnr("#"), "qf_location_titles", [])
         else
-            if exists("g:qf_quickfix_titles")
-                if len(g:qf_quickfix_titles) > 0
-                    return g:qf_quickfix_titles[-1]
-                else
-                    if exists("w:quickfix_title")
-                        return w:quickfix_title
-                    else
-                        return ""
-                    endif
-                endif
-            else
-                if exists("w:quickfix_title")
-                    return w:quickfix_title
-                else
-                    return ""
-                endif
-            endif
+            let titles = get(g:, 'qf_quickfix_titles', [])
         endif
+
+        if len(titles) > 0
+            return titles[-1]
+        endif
+
+        return get(w:, 'quickfix_title', '')
     endif
 endfunction
 
