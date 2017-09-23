@@ -569,13 +569,14 @@ The named lists feature is the brainchild of Nelo-T. Wallus:
 
         Many new features:
 
-        - Open the qf/loc window at the bottom or top of the screen.
+        - Open the qf/loc window at the bottom or the top of the screen.
         - Automatic opening of the qf/loc window can be disabled.
         - Automatic resizing of the qf/loc window can be enabled.
         - Max size of the qf/loc window can be defined.
         - Automatic quitting can be disabled.
         - :Keep and :Reject can work on bufname or text or both or
           neither, in which case they work on the word under the cursor.
+        - Views are saved for better comfort while toggling windows.
         - "Stay" variants of the toggle mappings.
 
         Potentially breaking changes:
