@@ -39,13 +39,13 @@ These "global" features are available from any window:
 
 These "local" features are only available in location/quickfix windows:
 
-    - disable soft-wrapping
     - disable relative numbers
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
+    - (optional) disable soft-wrapping
     - (optional) Ack.vim-inspired mappings
 
 ==============================================================================
@@ -114,6 +114,7 @@ Options:
     g:qf_auto_quit ............................. |'g:qf_auto_quit'|
     g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
     g:qf_save_win_view ......................... |'g:qf_save_win_view'|
+    g:qf_nowrap ................................ |'g:qf_nowrap'|
 
 ------------------------------------------------------------------------------
                                                          *<Plug>qf_qf_previous*
@@ -337,7 +338,7 @@ Add the line below to your vimrc to change the default value:
     let g:qf_bufname_or_text = 1
 <
 ------------------------------------------------------------------------------
-                                                       *'g:qf_save_win_view'*
+                                                         *'g:qf_save_win_view'*
 Value: numeric                                                               ~
 Default: 1                                                                   ~
 
@@ -346,6 +347,18 @@ Save the view of the current window when toggling location/quickfix window.
 Add the line below to your vimrc to change the default value:
 >
     let g:qf_save_win_view = 0
+<
+------------------------------------------------------------------------------
+                                                                *'g:qf_nowrap'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Enables or disables soft-wrapping in the location/quickfix window.
+The default value disables soft-wrapping.
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_nowrap = 0
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*
