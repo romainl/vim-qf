@@ -28,8 +28,6 @@ Vim-qf and all quickfix-related plugins necessarily have overlapping features an
 
 ### Local features (available only in location/quickfix windows)
 
-- disable soft-wrapping
-
 - disable relative numbers
 
 - filter and restore the current list:
@@ -47,6 +45,8 @@ Vim-qf and all quickfix-related plugins necessarily have overlapping features an
 - save and load named lists:
 
   ![list][3]
+
+- (optional) disable soft-wrapping
 
 - (optional) Ack.vim-inspired mappings
 
