@@ -23,7 +23,7 @@ let b:undo_ftplugin = "setl fo< com< ofu<"
 
 " text wrapping is pretty much useless in the quickfix window
 " but some users may still want it
-execute get(g:, "qf_nowrap") ? "setlocal nowrap" : "setlocal wrap"
+execute get(g:, "qf_nowrap", 1) ? "setlocal nowrap" : "setlocal wrap"
 
 " relative line numbers don't make much sense either
 " but absolute numbers definitely do
