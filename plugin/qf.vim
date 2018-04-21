@@ -57,8 +57,8 @@ augroup qf
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    autocmd QuickFixCmdPost [^l]* call qf#OpenQuickfix()
-    autocmd QuickFixCmdPost    l* call qf#OpenLoclist()
+    autocmd QuickFixCmdPost [^l]* nested call qf#OpenQuickfix()
+    autocmd QuickFixCmdPost    l* nested call qf#OpenLoclist()
     autocmd VimEnter            * call qf#OpenQuickfix()
 
     " automatically close corresponding loclist when quitting a window
