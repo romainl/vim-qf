@@ -59,11 +59,11 @@ augroup qf
     " :lvimgrep and friends if there are valid locations/errors
     autocmd QuickFixCmdPost [^l]* nested call qf#OpenQuickfix()
     autocmd QuickFixCmdPost    l* nested call qf#OpenLoclist()
-    autocmd VimEnter            * call qf#OpenQuickfix()
+    autocmd VimEnter            * nested call qf#OpenQuickfix()
 
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
-        autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif
+        autocmd QuitPre * nested if &filetype != 'qf' | silent! lclose | endif
     endif
 augroup END
 
