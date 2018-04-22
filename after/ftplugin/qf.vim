@@ -127,8 +127,8 @@ nnoremap <silent> <buffer> { :call qf#filegroup#PreviousFile()<CR>
 
 " quit Vim if the last window is a quickfix window
 
-autocmd qf BufEnter    <buffer> if get(g:, 'qf_auto_quit', 1) | if winnr('$') < 2 | q | endif | endif
-autocmd qf BufWinEnter <buffer> if get(g:, 'qf_auto_quit', 1) | call qf#filter#ReuseTitle() | endif
+autocmd qf BufEnter    nested <buffer> if get(g:, 'qf_auto_quit', 1) | if winnr('$') < 2 | q | endif | endif
+autocmd qf BufWinEnter nested <buffer> if get(g:, 'qf_auto_quit', 1) | call qf#filter#ReuseTitle() | endif
 
 " decide where to open the location/quickfix window
 if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
