@@ -148,6 +148,14 @@ function! s:AddTitle(title)
     endif
 endfunction
 
+function! s:GetSelection()
+    let old_reg = getreg("v")
+    normal! gv"vy
+    let raw_search = getreg("v")
+    call setreg("v", old_reg)
+    return substitute(escape(raw_search, '\/.*$^~[]'), "\n", '\\n', "g")
+endfunction
+
 " filter the current list
 function! qf#filter#FilterList(pat, reject)
     let strategy  = get(g:, 'qf_bufname_or_text', 0)
@@ -156,12 +164,23 @@ function! qf#filter#FilterList(pat, reject)
     if a:pat != ''
         let pat = a:pat
     else
-        if col('.') == 1
-            let pat      = split(getline('.'), '|')[0]
-            let strategy = 1
+        let here     = getpos(".")[1:2]
+        let topleft  = getpos("'<")[1:2]
+        let botright = getpos("'>")[1:2]
+
+        if (topleft[0] == botright[0]) &&
+         \ (here[0] == topleft[0]) &&
+         \ (here[0] == botright[0]) &&
+         \ (botright[1] - here[1] >= botright[1] - topleft[1])
+            let pat = s:GetSelection()
         else
-            let pat      = expand('<cword>')
-            let strategy = 2
+            if col('.') == 1
+                let pat      = split(getline('.'), '|')[0]
+                let strategy = 1
+            else
+                let pat      = expand('<cword>')
+                let strategy = 2
+            endif
         endif
     endif
 
