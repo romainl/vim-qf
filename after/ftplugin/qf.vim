@@ -72,6 +72,14 @@ if exists("g:qf_mapping_ack_style")
     nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
 endif
 
+" Jump to previous/next file grouping
+if exists('g:qf_mapping_filegroup_previous')
+    execute "nnoremap <silent> <buffer> " . get(g:, 'qf_mapping_filegroup_previous', '{') . " :<C-u> call qf#filegroup#NextFile(0)<CR>"
+endif
+if exists('g:qf_mapping_filegroup_next')
+    execute "nnoremap <silent> <buffer> " . get(g:, 'qf_mapping_filegroup_next', '}') . " :<C-u> call qf#filegroup#NextFile(1)<CR>"
+endif
+
 " filter the location/quickfix list
 " (kept for backward compatibility, use :Keep and :Reject instead)
 " usage:

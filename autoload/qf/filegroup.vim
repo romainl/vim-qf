@@ -61,8 +61,6 @@ endfunction
 function! qf#filegroup#NextFile(down) abort
     if exists("b:qf_isLoc")
         call s:JumpFileChunk(a:down)
-    else
-        call s:ReuseMapping(a:down)
     endif
 endfunction
 
