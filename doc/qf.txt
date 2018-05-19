@@ -43,8 +43,9 @@ These "local" features are only available in location/quickfix windows:
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
-    - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
+    - (optional) jump to next group of entries belonging to the same
+      file ("file grouping")
     - (optional) disable soft-wrapping
     - (optional) Ack.vim-inspired mappings
 
@@ -98,8 +99,8 @@ Global mappings:
 
 Local mappings:
 
-    { .......................................... |QfPreviousFile|
-    } .......................................... |QfNextFile|
+    <Plug>(qf_previous_file) ................... |<Plug>(qf_previous_file)|
+    <Plug>(qf_next_file) ....................... |<Plug(qf_next_file)|
 
 Options:
 
@@ -203,14 +204,19 @@ Example: >
     nmap <F6> <Plug>(qf_loc_toggle_stay)
 <
 ------------------------------------------------------------------------------
-                                                               *QfPreviousFile*
-                                                                   *QfNextFile*
+                                                     *<Plug>(qf_previous_file)*
+                                                         *<Plug>(qf_next_file)*
 Scope: local                                                                 ~
-Default: { and }                                                             ~
+Default: none                                                                ~
 
 In a location/quickfix window, jump to the next group of lines
 corresponding to a file.
 
+Example: >
+
+    nmap { <Plug>(qf_previous_file)
+    nmap } <Plug>(qf_next_file)
+<
 ------------------------------------------------------------------------------
                                                      *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~

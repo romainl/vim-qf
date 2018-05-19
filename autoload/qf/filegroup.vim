@@ -44,15 +44,25 @@ function! s:JumpFileChunk(down) abort
     call s:JumpToFirstItemOfFileChunk()
 endfunction
 
-function! qf#filegroup#PreviousFile() abort
-    if exists("b:qf_isLoc")
-        call s:JumpFileChunk(0)
+function! s:ReuseMapping(down) abort
+    redir => l:nmaps
+    silent nmap
+    redir END
+
+    if a:down == 0
+        let lhs = split(filter(split(l:nmaps, "\n"), 'v:val =~ "<Plug>(qf_previous_file)$"')[0], '\s\+')[1]
+    else
+        let lhs = split(filter(split(l:nmaps, "\n"), 'v:val =~ "<Plug>(qf_next_file)$"')[0], '\s\+')[1]
     endif
+
+    execute "normal! " . lhs
 endfunction
 
-function! qf#filegroup#NextFile() abort
+function! qf#filegroup#NextFile(down) abort
     if exists("b:qf_isLoc")
-        call s:JumpFileChunk(1)
+        call s:JumpFileChunk(a:down)
+    else
+        call s:ReuseMapping(a:down)
     endif
 endfunction
 

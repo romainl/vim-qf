@@ -38,13 +38,13 @@ Vim-qf and all quickfix-related plugins necessarily have overlapping features an
 
 - perform commands on each file in the current list
 
-- jump to next group of entries belonging to same file ("file grouping"):
-
-  ![group][2]
-
 - save and load named lists:
 
   ![list][3]
+
+- (optional) jump to next group of entries belonging to same file ("file grouping"):
+
+  ![group][2]
 
 - (optional) disable soft-wrapping
 

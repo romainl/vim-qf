@@ -52,6 +52,10 @@ nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#Toggle
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
+" Jump to previous/next file grouping
+nnoremap <silent>        <Plug>(qf_previous_file)   :<C-u> call qf#filegroup#NextFile(0)<CR>
+nnoremap <silent>        <Plug>(qf_next_file)       :<C-u> call qf#filegroup#NextFile(1)<CR>
+
 augroup qf
     autocmd!
 
