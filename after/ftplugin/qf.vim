@@ -73,12 +73,16 @@ if exists("g:qf_mapping_ack_style")
 endif
 
 " Jump to previous/next file grouping
-if exists('g:qf_mapping_filegroup_previous')
-    execute "nnoremap <silent> <buffer> " . get(g:, 'qf_mapping_filegroup_previous', '{') . " :<C-u> call qf#filegroup#NextFile(0)<CR>"
+" Default to { and } for compatibility
+if !empty(get(g:, 'qf_mapping_filegroup_previous', 'default'))
+    execute "nmap <buffer> <nowait> " . get(g:, 'qf_mapping_filegroup_previous', '{') . " <Plug>(qf_fg_previous_file)"
 endif
-if exists('g:qf_mapping_filegroup_next')
-    execute "nnoremap <silent> <buffer> " . get(g:, 'qf_mapping_filegroup_next', '}') . " :<C-u> call qf#filegroup#NextFile(1)<CR>"
+if !empty(get(g:, 'qf_mapping_filegroup_next', 'default'))
+    execute "nmap <buffer> <nowait> " . get(g:, 'qf_mapping_filegroup_next', '}')     . " <plug>(qf_fg_next_file)"
 endif
+
+nnoremap <silent> <buffer> <Plug>(qf_fg_previous_file) :<C-u> call qf#filegroup#NextFile(0)<CR>
+nnoremap <silent> <buffer> <Plug>(qf_fg_next_file)     :<C-u> call qf#filegroup#NextFile(1)<CR>
 
 " filter the location/quickfix list
 " (kept for backward compatibility, use :Keep and :Reject instead)

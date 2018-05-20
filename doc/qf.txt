@@ -87,35 +87,35 @@ on Windows... >
 
 Global mappings:
 
-    <Plug>(qf_qf_previous) ..................... |<Plug>(qf_qf_previous)|
-    <Plug>(qf_qf_next) ......................... |<Plug>(qf_qf_next)|
-    <Plug>(qf_loc_previous) .................... |<Plug>(qf_loc_previous)|
-    <Plug>(qf_loc_next) ........................ |<Plug>(qf_loc_next)|
-    <Plug>(qf_qf_switch) ....................... |<Plug>(qf_qf_switch)|
-    <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
-    <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
-    <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
-    <Plug>(qf_loc_toggle_stay) ................. |<Plug>(qf_loc_toggle_stay)|
+    <Plug>(qf_qf_previous) ................ |<Plug>(qf_qf_previous)|
+    <Plug>(qf_qf_next) .................... |<Plug>(qf_qf_next)|
+    <Plug>(qf_loc_previous) ............... |<Plug>(qf_loc_previous)|
+    <Plug>(qf_loc_next) ................... |<Plug>(qf_loc_next)|
+    <Plug>(qf_qf_switch) .................. |<Plug>(qf_qf_switch)|
+    <Plug>(qf_qf_toggle) .................. |<Plug>(qf_qf_toggle)|
+    <Plug>(qf_qf_toggle_stay) ............. |<Plug>(qf_qf_toggle_stay)|
+    <Plug>(qf_loc_toggle) ................. |<Plug>(qf_loc_toggle)|
+    <Plug>(qf_loc_toggle_stay) ............ |<Plug>(qf_loc_toggle_stay)|
 
-Local mappings:
+Local Mappings:
 
-    <Plug>(qf_previous_file) ................... |<Plug>(qf_previous_file)|
-    <Plug>(qf_next_file) ....................... |<Plug(qf_next_file)|
+    g:qf_mapping_filegroup_previous........ |'g:qf_mapping_filegroup_previous'|
+    g:qf_mapping_filegroup_next ........... |'g:qf_mapping_filegroup_next'|
+    g:qf_mapping_ack_style ................ |'g:qf_mapping_ack_style'|
 
 Options:
 
-    g:qf_mapping_ack_style ..................... |'g:qf_mapping_ack_style'|
-    g:qf_statusline ............................ |'g:qf_statusline'|
-    g:qf_window_bottom ......................... |'g:qf_window_bottom'|
-    g:qf_loclist_window_bottom ................. |'g:qf_loclist_window_bottom'|
-    g:qf_auto_open_quickfix .................... |'g:qf_auto_open_quickfix'|
-    g:qf_auto_open_loclist ..................... |'g:qf_auto_open_loclist'|
-    g:qf_auto_resize ........................... |'g:qf_auto_resize'|
-    g:qf_max_height ............................ |'g:qf_max_height'|
-    g:qf_auto_quit ............................. |'g:qf_auto_quit'|
-    g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
-    g:qf_save_win_view ......................... |'g:qf_save_win_view'|
-    g:qf_nowrap ................................ |'g:qf_nowrap'|
+    g:qf_statusline ....................... |'g:qf_statusline'|
+    g:qf_window_bottom .................... |'g:qf_window_bottom'|
+    g:qf_loclist_window_bottom ............ |'g:qf_loclist_window_bottom'|
+    g:qf_auto_open_quickfix ............... |'g:qf_auto_open_quickfix'|
+    g:qf_auto_open_loclist ................ |'g:qf_auto_open_loclist'|
+    g:qf_auto_resize ...................... |'g:qf_auto_resize'|
+    g:qf_max_height ....................... |'g:qf_max_height'|
+    g:qf_auto_quit ........................ |'g:qf_auto_quit'|
+    g:qf_bufname_or_text .................. |'g:qf_bufname_or_text'|
+    g:qf_save_win_view .................... |'g:qf_save_win_view'|
+    g:qf_nowrap ........................... |'g:qf_nowrap'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -204,21 +204,29 @@ Example: >
     nmap <F6> <Plug>(qf_loc_toggle_stay)
 <
 ------------------------------------------------------------------------------
-                                                     *<Plug>(qf_previous_file)*
-                                                         *<Plug>(qf_next_file)*
+                                            *'g:qf_mapping_filegroup_previous'*
+                                                *'g:qf_mapping_filegroup_next'*
 Scope: local                                                                 ~
-Default: none                                                                ~
+Value: string                                                                ~
+Defaults: "{" , "}"                                                          ~
 
-In a location/quickfix window, jump to the next group of lines
-corresponding to a file.
+Jump to the previous/next group of lines corresponding to a file.
+Only available in location/quickfix windows
 
 Example: >
 
-    nmap { <Plug>(qf_previous_file)
-    nmap } <Plug>(qf_next_file)
+    let g:qf_mapping_filegroup_previous = "("
+    let g:qf_mapping_filegroup_next = ")"
+<
+
+This feature can be disabled by adding the following lines to your vimrc: >
+
+    let g:qf_mapping_filegroup_previous = ""
+    let g:qf_mapping_filegroup_next = ""
 <
 ------------------------------------------------------------------------------
                                                      *'g:qf_mapping_ack_style'*
+Scope: local                                                                 ~
 Value: numeric                                                               ~
 Default: 0                                                                   ~
 
