@@ -111,9 +111,9 @@ command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList SaveLis
 command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList SaveListAdd call qf#namedlist#SaveList(1, <q-args>)
 
 " replace location/quickfix list with named lists
-command! -buffer -nargs=+ -complete=customlist,qf#namedlist#CompleteList LoadList    call qf#namedlist#LoadList(0, <q-args>)
+command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList LoadList    call qf#namedlist#LoadList(0, <q-args>)
 " like LoadList but append instead of replace
-command! -buffer -nargs=+ -complete=customlist,qf#namedlist#CompleteList LoadListAdd call qf#namedlist#LoadList(1, <q-args>)
+command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList LoadListAdd call qf#namedlist#LoadList(1, <q-args>)
 
 " list currently saved lists
 command! -buffer ListLists call qf#namedlist#ListLists()
