@@ -19,8 +19,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let b:undo_ftplugin = "setl fo< com< ofu<"
-
 " text wrapping is pretty much useless in the quickfix window
 " but some users may still want it
 execute get(g:, "qf_nowrap", 1) ? "setlocal nowrap" : "setlocal wrap"
@@ -32,6 +30,8 @@ setlocal number
 
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
+
+let b:undo_ftplugin .= "| setl wrap< rnu< nu< bl<"
 
 " are we in a location list or a quickfix list?
 let b:qf_isLoc = !empty(getloclist(0))
@@ -70,6 +70,13 @@ if exists("g:qf_mapping_ack_style")
 
     " preview entry under the cursor
     nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
+
+    let b:undo_ftplugin .= "| execute 'nunmap <buffer> s'"
+                \ . "| execute 'nunmap <buffer> v'"
+                \ . "| execute 'nunmap <buffer> t'"
+                \ . "| execute 'nunmap <buffer> o'"
+                \ . "| execute 'nunmap <buffer> O'"
+                \ . "| execute 'nunmap <buffer> p'"
 endif
 
 " filter the location/quickfix list
@@ -128,6 +135,22 @@ nnoremap <silent> <buffer> { :call qf#filegroup#PreviousFile()<CR>
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter    <buffer> nested if get(g:, 'qf_auto_quit', 1) | if winnr('$') < 2 | q | endif | endif
 autocmd qf BufWinEnter <buffer> nested if get(g:, 'qf_auto_quit', 1) | call qf#filter#ReuseTitle() | endif
+
+let b:undo_ftplugin .= "| delcommand Filter"
+            \ . "| delcommand Keep"
+            \ . "| delcommand Reject"
+            \ . "| delcommand Restore"
+            \ . "| delcommand Doline"
+            \ . "| delcommand Dofile"
+            \ . "| delcommand SaveList"
+            \ . "| delcommand SaveListAdd"
+            \ . "| delcommand LoadList"
+            \ . "| delcommand LoadListAdd"
+            \ . "| delcommand ListLists"
+            \ . "| delcommand RemoveList"
+            \ . "| execute 'nunmap <buffer> }'"
+            \ . "| execute 'nunmap <buffer> {'"
+            \ . "| unlet! b:qf_isLoc"
 
 " decide where to open the location/quickfix window
 if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
