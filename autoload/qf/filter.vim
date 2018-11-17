@@ -55,7 +55,7 @@ function! s:SetList(pat, reject, strategy)
                 call setloclist(0, filter(getloclist(0), "v:val['text'] " . operator . " a:pat"), "r")
             endif
 
-            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
         else
             " bufname && text
             if a:strategy == 0
@@ -72,7 +72,7 @@ function! s:SetList(pat, reject, strategy)
                 call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:pat"), "r")
             endif
 
-            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
         endif
     endif
 endfunction
@@ -206,7 +206,7 @@ function! qf#filter#RestoreList()
 
             if len(lists) > 0
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
-                execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+                execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
 
                 let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
             else
@@ -216,7 +216,7 @@ function! qf#filter#RestoreList()
             if exists("g:qf_quickfix_lists")
                 if len(g:qf_quickfix_lists) > 0
                     call setqflist(g:qf_quickfix_lists[0], "r")
-                    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+                    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
 
                     let w:quickfix_title = g:qf_quickfix_titles[0]
                 else
