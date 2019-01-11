@@ -127,6 +127,10 @@ command! -buffer ListLists call qf#namedlist#ListLists()
 " remove given lists or all
 command! -buffer -nargs=* -bang -complete=customlist,qf#namedlist#CompleteList RemoveList call qf#namedlist#RemoveList(expand("<bang>") == "!" ? 1 : 0, <q-args>)
 
+" navigate between older and newer lists
+nnoremap <silent> <buffer> <Left> :call qf#history#Older()<CR>
+nnoremap <silent> <buffer> <Right> :call qf#history#Newer()<CR>
+
 " TODO: allow customization
 " jump to previous/next file grouping
 nnoremap <silent> <buffer> } :call qf#filegroup#NextFile()<CR>
