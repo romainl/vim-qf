@@ -43,6 +43,7 @@ These "local" features are only available in location/quickfix windows:
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
+    - mappings to navigate between older and newer lists
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
     - (optional) disable soft-wrapping
@@ -98,6 +99,8 @@ Global mappings:
 
 Local mappings:
 
+    <Left> ..................................... |QfHistoryOlder|
+    <Right> .................................... |QfHistoryNewer|
     { .......................................... |QfPreviousFile|
     } .......................................... |QfNextFile|
 
@@ -202,6 +205,14 @@ Example: >
 
     nmap <F6> <Plug>(qf_loc_toggle_stay)
 <
+------------------------------------------------------------------------------
+                                                               *QfHistoryOlder*
+                                                               *QfHistoryNewer*
+Scope: local                                                                 ~
+Default: <Left> and <Right>                                                  ~
+
+In a location/quickfix window, navigate to an older or newer list.
+
 ------------------------------------------------------------------------------
                                                                *QfPreviousFile*
                                                                    *QfNextFile*
@@ -559,6 +570,8 @@ a proper plugin come from Barry Arthur's Area 41 plugin:
 The named lists feature is the brainchild of Nelo-T. Wallus:
 
     - https://ntnn.de/
+
+The list history commands were implemented by Jon Parise.
 
 ==============================================================================
  7. TODO                                                              *qf-todo*
