@@ -154,6 +154,8 @@ let b:undo_ftplugin .= "| delcommand Filter"
             \ . "| delcommand RemoveList"
             \ . "| execute 'nunmap <buffer> }'"
             \ . "| execute 'nunmap <buffer> {'"
+            \ . "| execute 'nunmap <buffer> <Left>'"
+            \ . "| execute 'nunmap <buffer> <Right>'"
             \ . "| unlet! b:qf_isLoc"
 
 " decide where to open the location/quickfix window
