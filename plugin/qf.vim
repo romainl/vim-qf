@@ -52,6 +52,10 @@ nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#Toggle
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
+" Move forward and backward in list history (in a quickfix or location window)
+nnoremap <silent>        <Plug>(qf_older)           :<C-u> call qf#history#Older()<CR>
+nnoremap <silent>        <Plug>(qf_newer)           :<C-u> call qf#history#Newer()<CR>
+
 augroup qf
     autocmd!
 
