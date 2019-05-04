@@ -91,6 +91,8 @@ Global mappings:
     <Plug>(qf_qf_next) ......................... |<Plug>(qf_qf_next)|
     <Plug>(qf_loc_previous) .................... |<Plug>(qf_loc_previous)|
     <Plug>(qf_loc_next) ........................ |<Plug>(qf_loc_next)|
+    <Plug>(qf_qf_or_loc_previous) .............. |<Plug>(qf_qf_or_loc_previous)|
+    <Plug>(qf_qf_or_loc_next) .................. |<Plug>(qf_qf_or_loc_next)|
     <Plug>(qf_qf_switch) ....................... |<Plug>(qf_qf_switch)|
     <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
