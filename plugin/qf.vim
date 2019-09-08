@@ -65,6 +65,10 @@ augroup qf
     autocmd QuickFixCmdPost * nested exe 'call qf#Open' . (s:qflist == getqflist() ? 'Loclist' : 'Quickfix') . '()'
     autocmd VimEnter        * nested call qf#OpenQuickfix()
 
+    " stop vim from jumping to the last window before opening the first entry
+    autocmd QuickFixCmdPre  * nested let s:winnr = winnr()
+    autocmd QuickFixCmdPost * nested exe s:winnr 'wincmd w'
+
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
         autocmd QuitPre * nested if &filetype != 'qf' | silent! lclose | endif
