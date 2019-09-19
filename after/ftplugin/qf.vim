@@ -31,7 +31,11 @@ setlocal number
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
 
-let b:undo_ftplugin .= "| setl wrap< rnu< nu< bl<"
+if exists("b:undo_ftplugin")
+    let b:undo_ftplugin .= "| setl wrap< rnu< nu< bl<"
+else
+    let b:undo_ftplugin = "setl wrap< rnu< nu< bl<"
+endif
 
 " are we in a location list or a quickfix list?
 let b:qf_isLoc = !empty(getloclist(0))
