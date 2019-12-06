@@ -56,6 +56,10 @@ nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p
 nnoremap <silent>        <Plug>(qf_older)           :<C-u> call qf#history#Older()<CR>
 nnoremap <silent>        <Plug>(qf_newer)           :<C-u> call qf#history#Newer()<CR>
 
+" Jump to previous and next file grouping (in a quickfix or location window)
+nnoremap <silent>        <Plug>(qf_previous_file)   :<C-u> call qf#filegroup#PreviousFile()<CR>
+nnoremap <silent>        <Plug>(qf_next_file)       :<C-u> call qf#filegroup#NextFile()<CR>
+
 augroup qf
     autocmd!
 
