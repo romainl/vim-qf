@@ -24,17 +24,17 @@ set cpo&vim
 " TODO (romainl): Built-in :cn/:cp/:ln/:lp stop at the beginning
 "                 and end of the list. This allows us to wrap
 "                 around.
-function! qf#wrap#WrapCommand(direction, prefix)
+function! qf#wrap#WrapCommand(direction, prefix, count)
     if a:direction == "up"
         try
-            execute a:prefix . "previous"
+            execute a:count . a:prefix . "previous"
         catch /^Vim\%((\a\+)\)\=:E553/
             execute a:prefix . "last"
         catch /^Vim\%((\a\+)\)\=:E\%(325\|776\|42\):/
         endtry
     else
         try
-            execute a:prefix . "next"
+            execute a:count . a:prefix . "next"
         catch /^Vim\%((\a\+)\)\=:E553/
             execute a:prefix . "first"
         catch /^Vim\%((\a\+)\)\=:E\%(325\|776\|42\):/
