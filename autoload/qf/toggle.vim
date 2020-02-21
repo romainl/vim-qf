@@ -64,7 +64,7 @@ function! qf#toggle#ToggleLocWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        lwindow
+        silent! lwindow
         if qf#IsLocWindowOpen(0)
             wincmd p
             if !empty(winview)
