@@ -50,6 +50,8 @@ Vim-qf and all quickfix-related plugins necessarily have overlapping features an
 
 - (optional) Ack.vim-inspired mappings
 
+- (optional) shorten filepaths for better legibility
+
 ## Installation
 
 Use your favorite runtimepath/plugin manager or dump the files below in their standard location:
