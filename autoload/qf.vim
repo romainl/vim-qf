@@ -116,7 +116,15 @@ function! qf#OpenQuickfix()
     if get(g:, 'qf_auto_open_quickfix', 1)
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+
+        let qf_list = getqflist()
+
+        " shorten paths if applicable
+        if get(g:, 'qf_shorten_path', 1)
+            call setqflist(qf#ShortenPathsInList(qf_list))
+        endif
+
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cwindow'
     endif
 endfunction
 
@@ -125,8 +133,21 @@ function! qf#OpenLoclist()
     if get(g:, 'qf_auto_open_loclist', 1)
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+
+        let loc_list = getloclist(0)
+
+        " shorten paths if applicable
+        if get(g:, 'qf_shorten_path', 1)
+            call setloclist(0, qf#ShortenPathsInList(loc_list))
+        endif
+
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lwindow'
     endif
+endfunction
+
+" shorten file paths in given qf/loc list
+function! qf#ShortenPathsInList(list)
+    return map(a:list, {idx, entry -> extend(entry, {"module": pathshorten(bufname(entry["bufnr"]))})})
 endfunction
 
 let &cpo = s:save_cpo

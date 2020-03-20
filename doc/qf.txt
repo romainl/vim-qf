@@ -122,6 +122,7 @@ Options:
     g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
     g:qf_save_win_view ......................... |'g:qf_save_win_view'|
     g:qf_nowrap ................................ |'g:qf_nowrap'|
+    g:qf_shorten_path .......................... |'g:qf_shorten_path'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -401,6 +402,26 @@ The default value disables soft-wrapping.
 Add the line below to your vimrc to change the default value:
 >
     let g:qf_nowrap = 0
+<
+------------------------------------------------------------------------------
+                                                          *'g:qf_shorten_path'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Enables or disables shortening of the file paths in the location/quickfix
+window.
+
+With the option set to `0` (vanilla Vim):
+>
+    very/long/path/with/lots/of/subdirectories/filename.ext|87 col 22| …
+
+With the option set to `1` (vim-qf default):
+>
+    v/l/p/w/l/o/s/filename.ext|87 col 22| …
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_shorten_path = 0
 <
 ==============================================================================
  4. USAGE                                                            *qf-usage*
