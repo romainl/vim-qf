@@ -176,10 +176,10 @@ function! qf#filter#FilterList(pat, reject)
         else
             if col('.') == 1
                 if get(g:, 'qf_shorten_path', 1)
+                    let pat  = split(split(getline('.'), '|')[0], '/')[-1]
                 else
                     let pat  = split(getline('.'), '|')[0]
                 endif
-                    let pat  = split(split(getline('.'), '|')[0], '/')[-1]
                 let strategy = 1
             else
                 let pat      = expand('<cword>')
