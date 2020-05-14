@@ -31,7 +31,6 @@ nmap <silent>        <Plug>QfLprevious <Plug>(qf_loc_previous)
 nmap <silent>        <Plug>QfLnext     <Plug>(qf_loc_next)
 nmap <silent>        <Plug>QfCtoggle   <Plug>(qf_qf_toggle)
 nmap <silent>        <Plug>QfLtoggle   <Plug>(qf_loc_toggle)
-nmap <silent>        <Plug>QfStoggle   <Plug>(qf_shorten_path_toggle)
 nmap <silent> <expr> <Plug>QfSwitch    &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
 " Go up and down quickfix list
@@ -52,7 +51,6 @@ nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#Toggle
 
 " Toggle shorten path
 nnoremap <silent>        <Plug>(qf_shorten_path_toggle)      :<C-u> call qf#toggle#ToggleShortenPath()<CR>
-
 
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
