@@ -95,6 +95,7 @@ Global mappings:
     <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
     <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
+    <Plug>(qf_shorten_path_toggle) ............. |<Plug>(qf_shorten_path_toggle)|
     <Plug>(qf_loc_toggle_stay) ................. |<Plug>(qf_loc_toggle_stay)|
     <Plug>(qf_older) ........................... |<Plug>(qf_older)|
     <Plug>(qf_newer) ........................... |<Plug>(qf_newer)|
@@ -196,6 +197,18 @@ Uses |:lwindow| and |:lclose| under the hood.
 Example: >
 
     nmap <F6> <Plug>(qf_loc_toggle)
+
+------------------------------------------------------------------------------
+                                                        *<Plug>(qf_shorten_path_toggle)*
+Scope: global                                                                ~
+Default: none                                                                ~
+
+Toggle the long/short path in current location/quikfix window.
+Only available when location/quickfix is open.
+
+Example: >
+
+    nmap <F7> <Plug>(qf_shorten_path_toggle)
 <
 ------------------------------------------------------------------------------
                                                    *<Plug>(qf_loc_toggle_stay)*
