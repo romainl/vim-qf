@@ -77,4 +77,29 @@ function! qf#toggle#ToggleLocWindow(stay) abort
     endif
 endfunction
 
+function! qf#toggle#ToggleShortenPath() abort
+    if qf#IsQfWindowOpen()
+        "let curlist = qf#GetList()
+        let cur = getqflist({"all": 0})
+        echom("current qf " . cur.id . " -- " . cur.context)
+
+        if len(cur.context) > 0 && type(cur.context) == type("")
+            let lt = split(cur.context, "_")
+            if lt[0] == "vimqf"
+                let flip_count = lt[-1] - cur.id
+                let cmd = flip_count > 0 ? "cnewer " . flip_count : "colder " . abs(flip_count)
+                execute cmd
+                echom(cmd)
+            endif
+        elseif cur.context == "" && get(g:, 'qf_shorten_path') == 0
+            call setqflist([], " ", {"nr": "$", 
+                                    \ "items": qf#ShortenPathsInList(cur.items), 
+                                    \ "context": "vimqf_long_at_" . cur.id})
+            let stack_size = getqflist({'nr' : '$'}).nr
+            echom("cur.id " . cur.id . " size " . stack_size)
+            call setqflist([], "a", {"id": cur.id, "context": "vimqf_short_at_" . stack_size})
+        endif
+    endif
+endfunction
+
 let &cpo = s:save_cpo
