@@ -111,6 +111,12 @@ function! qf#GetEntryPath(line) abort
     return substitute(a:line, '|.*$', '', '')
 endfunction
 
+function! s:ctxarg(is_short, cur_list)
+    " add context to locate long/short list
+    return a:is_short ? {"id": a:cur_list.id, "context": "vimqf_short_at_" . (a:cur_list.id + 1)}
+                   \ : {"id": a:cur_list.id+1, "context": "vimqf_long_at_" . a:cur_list.id}
+endfunction
+
 " open the quickfix window if there are valid errors
 function! qf#OpenQuickfix()
     let a = getqflist({"all": 0})
@@ -126,9 +132,8 @@ function! qf#OpenQuickfix()
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 1)
             call setqflist(qf#ShortenPathsInList(qf_list))
-            " add context to locate long/short list
-            call setqflist([], "a", {"id": a.id, "context": "vimqf_short_at_" . (a.id + 1)})
-            call setqflist([], "a", {"id": a.id+1, "context": "vimqf_long_at_" . a.id})
+            call setqflist([], "a", s:ctxarg(1, a))
+            call setqflist([], "a", s:ctxarg(0, a))
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cwindow'
@@ -137,15 +142,21 @@ endfunction
 
 " open a location window if there are valid locations
 function! qf#OpenLoclist()
+    let a = getloclist(0, {"all": 0})
+    let loc_list = a.items
+    if len(loc_list) == 0
+        return
+    endif
+
     if get(g:, 'qf_auto_open_loclist', 1)
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
-        let loc_list = getloclist(0)
-
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 1)
             call setloclist(0, qf#ShortenPathsInList(loc_list))
+            call setloclist(0, [], "a", s:ctxarg(1, a))
+            call setloclist(0, [], "a", s:ctxarg(0, a))
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lwindow'
