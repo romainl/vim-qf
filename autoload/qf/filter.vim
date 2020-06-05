@@ -111,17 +111,32 @@ function! s:SetTitle(pat, reject)
 
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
-            let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']"
+            call s:SetTitleValue(getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']")
         else
             if exists("g:qf_quickfix_titles")
                 if len(g:qf_quickfix_titles) > 0
-                    let w:quickfix_title = g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']"
+                    call s:SetTitleValue(g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']")
                 else
-                    let w:quickfix_title = w:quickfix_title . " [" . str . ": '" . a:pat . "']"
+                    call s:SetTitleValue(w:quickfix_title . " [" . str . ": '" . a:pat . "']")
                 endif
             else
-                let w:quickfix_title = w:quickfix_title . " [" . str . ": '" . a:pat . "']"
+                call s:SetTitleValue(w:quickfix_title . " [" . str . ": '" . a:pat . "']")
             endif
+        endif
+    endif
+endfunction
+
+" Perform the actual title value assignments. w:quickfix_title is always set,
+" and if this Vim supports it (>7.4.2200), the list title is also updated,
+" allowing the title to be reused after :[cl]older/:[cl]newer
+function! s:SetTitleValue(title)
+    let w:quickfix_title = a:title
+    " Update the quickfix/location list title if this Vim supports it
+    if has('patch-7.4.2200')
+        if b:qf_isLoc == 1
+            noautocmd call setloclist(0, [], 'a', {'title': a:title})
+        else
+            noautocmd call setqflist([], 'a', {'title': a:title})
         endif
     endif
 endfunction
@@ -212,7 +227,7 @@ function! qf#filter#RestoreList()
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
                 execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
 
-                let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
+                call s:SetTitleValue(getwinvar(winnr("#"), "qf_location_titles")[0])
             else
                 echo "No filter applied. Nothing to restore."
             endif
@@ -222,7 +237,7 @@ function! qf#filter#RestoreList()
                     call setqflist(g:qf_quickfix_lists[0], "r")
                     execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
 
-                    let w:quickfix_title = g:qf_quickfix_titles[0]
+                    call s:SetTitleValue(g:qf_quickfix_titles[0])
                 else
                     echo "No filter applied. Nothing to restore."
                 endif
@@ -237,15 +252,23 @@ endfunction
 function! qf#filter#ReuseTitle()
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
-            let titles = getwinvar(winnr("#"), "qf_location_titles")
+            if has('patch-7.4.2200')
+                let w:quickfix_title = getloclist(0, {'title': 0}).title
+            else
+                let titles = getwinvar(winnr("#"), "qf_location_titles")
 
-            if len(titles) > 0
-                let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]"
+                if len(titles) > 0
+                    let w:quickfix_title = getwinvar(winnr("#"), "qf_location_titles")[0]
+                endif
             endif
         else
-            if exists("g:qf_quickfix_titles")
-                if len(g:qf_quickfix_titles) > 0
-                    let w:quickfix_title = g:qf_quickfix_titles[0]
+            if has('patch-7.4.2200')
+                let w:quickfix_title = getqflist({'title': 0}).title
+            else
+                if exists("g:qf_quickfix_titles")
+                    if len(g:qf_quickfix_titles) > 0
+                        let w:quickfix_title = g:qf_quickfix_titles[0]
+                    endif
                 endif
             endif
         endif
