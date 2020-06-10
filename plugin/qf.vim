@@ -49,9 +49,6 @@ nnoremap <silent>        <Plug>(qf_qf_toggle_stay)  :<C-u> call qf#toggle#Toggle
 nnoremap <silent>        <Plug>(qf_loc_toggle)      :<C-u> call qf#toggle#ToggleLocWindow(0)<CR>
 nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#ToggleLocWindow(1)<CR>
 
-" Toggle shorten path
-nnoremap <silent>        <Plug>(qf_shorten_path_toggle)      :<C-u> call qf#toggle#ToggleShortenPath()<CR>
-
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
