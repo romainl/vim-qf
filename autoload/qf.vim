@@ -120,7 +120,7 @@ endfunction
 " open the quickfix window if there are valid errors
 function! qf#OpenQuickfix()
     let a = getqflist({"all": 0})
-    let qf_list = get(a, 'items', [])
+    let qf_list = a.items
     if len(qf_list) == 0
         return
     endif
@@ -143,7 +143,7 @@ endfunction
 " open a location window if there are valid locations
 function! qf#OpenLoclist()
     let a = getloclist(0, {"all": 0})
-    let loc_list = get(a, 'items', [])
+    let loc_list = a.items
     if len(loc_list) == 0
         return
     endif
