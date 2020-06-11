@@ -140,6 +140,11 @@ nnoremap <silent> <buffer> <Right> :call qf#history#Newer()<CR>
 nnoremap <silent> <buffer> } :call qf#filegroup#NextFile()<CR>
 nnoremap <silent> <buffer> { :call qf#filegroup#PreviousFile()<CR>
 
+if !b:qf_isLoc
+    nnoremap <silent> <expr> <buffer> <Return> ':<C-u>wincmd p <Bar>'.line('.').'cc<CR>'
+    let b:undo_ftplugin .= "| execute 'nunmap <buffer> <Return>'"
+endif
+
 " quit Vim if the last window is a quickfix window
 autocmd qf BufEnter    <buffer> nested if get(g:, 'qf_auto_quit', 1) | if winnr('$') < 2 | q | endif | endif
 autocmd qf BufWinEnter <buffer> nested if get(g:, 'qf_auto_quit', 1) | call qf#filter#ReuseTitle() | endif
