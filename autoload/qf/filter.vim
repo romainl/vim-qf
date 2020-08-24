@@ -54,8 +54,6 @@ function! s:SetList(pat, reject, strategy)
             if a:strategy == 2
                 call setloclist(0, filter(getloclist(0), "v:val['text'] " . operator . " a:pat"), "r")
             endif
-
-            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
         else
             " bufname && text
             if a:strategy == 0
@@ -71,8 +69,6 @@ function! s:SetList(pat, reject, strategy)
             if a:strategy == 2
                 call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:pat"), "r")
             endif
-
-            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
         endif
     endif
 endfunction
@@ -225,7 +221,6 @@ function! qf#filter#RestoreList()
 
             if len(lists) > 0
                 call setloclist(0, getwinvar(winnr("#"), "qf_location_lists")[0], "r")
-                execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
 
                 call s:SetTitleValue(getwinvar(winnr("#"), "qf_location_titles")[0])
             else
@@ -235,7 +230,6 @@ function! qf#filter#RestoreList()
             if exists("g:qf_quickfix_lists")
                 if len(g:qf_quickfix_lists) > 0
                     call setqflist(g:qf_quickfix_lists[0], "r")
-                    execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
 
                     call s:SetTitleValue(g:qf_quickfix_titles[0])
                 else

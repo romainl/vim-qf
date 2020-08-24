@@ -95,12 +95,6 @@ function! qf#SetList(newlist, ...)
 
     " call partial with optional arguments
     call call(Func, a:000)
-
-    if get(b:, 'qf_isLoc', 0)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
-    else
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
-    endif
 endfunction
 
 function! qf#GetEntryPath(line) abort
@@ -123,8 +117,6 @@ function! qf#OpenQuickfix()
         if get(g:, 'qf_shorten_path', 1)
             call setqflist(qf#ShortenPathsInList(qf_list))
         endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cwindow'
     endif
 endfunction
 
@@ -140,8 +132,6 @@ function! qf#OpenLoclist()
         if get(g:, 'qf_shorten_path', 1)
             call setloclist(0, qf#ShortenPathsInList(loc_list))
         endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lwindow'
     endif
 endfunction
 
