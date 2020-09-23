@@ -147,7 +147,19 @@ endfunction
 
 " shorten file paths in given qf/loc list
 function! qf#ShortenPathsInList(list)
-    return map(a:list, {idx, entry -> extend(entry, {"module": pathshorten(bufname(entry["bufnr"]))})})
+  let index = 0
+  while index < len(a:list)
+    " item is a dict, sample: { lnum: 14, text: 'foo bar', bufnr: 3, ... }
+    let item = a:list[index]
+
+    let filepath = bufname(item["bufnr"])
+
+    " set the 'module' field to customise the visual filename in the qf/loc list (available since 8.0.1782)
+    let item["module"] = pathshorten(filepath)
+
+    let index = index + 1
+  endwhile
+  return a:list
 endfunction
 
 let &cpo = s:save_cpo
