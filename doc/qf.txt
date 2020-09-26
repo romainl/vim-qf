@@ -419,6 +419,10 @@ With the option set to `1` (vim-qf default):
 >
     v/l/p/w/l/o/s/filename.ext|87 col 22| …
 
+With the option set to `3` (Vim v8.2.1741 or above):
+>
+    ver/lon/pat/wit/lot/of/sub/filename.ext|87 col 22| …
+
 Add the line below to your vimrc to change the default value:
 >
     let g:qf_shorten_path = 0
