@@ -47,16 +47,29 @@ endif
 
 " inspired by Ack.vim
 if exists("g:qf_mapping_ack_style")
-    " open entry in a new horizontal window
-    nnoremap <silent> <buffer> s <C-w><CR>
+    let qf_at_bottom = (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
+                \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
 
     " open entry in a new vertical window.
-    if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
-                \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+    if qf_at_bottom
         nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
     else
         " don't move quickfix to bottom if qf_loclist_window_bottom is 0
         nnoremap <silent> <expr> <buffer> v &splitright ? "\<C-w>\<CR>\<C-w>L" : "\<C-w>\<CR>\<C-w>H"
+    endif
+
+    if qf_at_bottom && &splitbelow
+        " open entry in a new horizontal window and move quickfix to bottom
+        nnoremap <silent> <buffer> s <C-w><CR><C-w>p<C-w>J<C-w>p
+
+        " preview entry under the cursor and move quickfix to bottom
+        nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR><C-w>J
+    else
+        " open entry in a new horizontal window
+        nnoremap <silent> <buffer> s <C-w><CR>
+
+        " preview entry under the cursor
+        nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
     endif
 
     " open entry in a new tab.
@@ -71,9 +84,6 @@ if exists("g:qf_mapping_ack_style")
     else
         nnoremap <silent> <buffer> O <CR>:cclose<CR>
     endif
-
-    " preview entry under the cursor
-    nnoremap <silent> <buffer> p :call qf#preview#PreviewFileUnderCursor()<CR>
 
     let b:undo_ftplugin .= "| execute 'nunmap <buffer> s'"
                 \ . "| execute 'nunmap <buffer> v'"
