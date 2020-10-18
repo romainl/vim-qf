@@ -160,6 +160,7 @@ function! qf#ShortenPathsInList(list)
       let item["module"] = pathshorten(filepath, trim_len)
     else
       let item["module"] = pathshorten(filepath)
+    endif
 
     let index = index + 1
   endwhile
