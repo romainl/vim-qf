@@ -65,8 +65,21 @@ augroup qf
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    autocmd QuickFixCmdPost [^l]* nested call qf#OpenQuickfix()
-    autocmd QuickFixCmdPost    l* nested call qf#OpenLoclist()
+    autocmd QuickFixCmdPost [^lh]* nested call qf#OpenQuickfix()
+    autocmd QuickFixCmdPost l[^h]* nested call qf#OpenLoclist()
+
+    " special case for :helpgrep and :lhelpgrep since the help window may not
+    " be opened yet when QuickFixCmdPost triggers
+    if exists('*timer_start')
+        autocmd QuickFixCmdPost  h* nested call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
+        autocmd QuickFixCmdPost lh* nested call timer_start(10, { -> execute('call qf#OpenLoclist()') })
+    else
+        " the window qf is not positioned correctly but at least it's there
+        autocmd QuickFixCmdPost h* nested call qf#OpenQuickfix()
+        " I can't make it work for :lhelpgrep
+    endif
+
+    " spacial case for $ vim -q
     autocmd VimEnter            * nested call qf#OpenQuickfix()
 
     " automatically close corresponding loclist when quitting a window
