@@ -80,7 +80,7 @@ augroup qf
     endif
 
     " spacial case for $ vim -q
-    autocmd VimEnter            * nested call qf#OpenQuickfix()
+    autocmd VimEnter * nested if count(get(v:, 'argv', []), '-q') | call qf#OpenQuickfix() | endif
 
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
