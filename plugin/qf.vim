@@ -56,6 +56,33 @@ nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p
 nnoremap <silent>        <Plug>(qf_older)           :<C-u> call qf#history#Older()<CR>
 nnoremap <silent>        <Plug>(qf_newer)           :<C-u> call qf#history#Newer()<CR>
 
+" A list of commands used to trigger the QuickFixCmdPost event is documented in
+" `:help QuickFixCmdPre`.
+" NOTE: helgrep is excluded because it's a special case (see below).
+let s:quickfix_autocmd_trigger_cmds = [
+    \ 'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile', 
+    \ 'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer', 
+    \ 'cgetbuffer', 'caddbuffer']
+
+function! s:GetQuickFixCmdsPattern() abort
+  return join(s:quickfix_autocmd_trigger_cmds, ',')
+endfunction
+
+function! s:GetLocListCmdsPattern() abort
+  let l:loclist_cmds = []
+  for l:qf_cmd in s:quickfix_autocmd_trigger_cmds
+    " If a commands starts with 'c', replace it with 'l'. Otherwise, prepend
+    " 'l'. 
+    if l:qf_cmd[0] is# 'c'
+      let l:cmd = 'l' . l:qf_cmd[1:]
+    else
+      let l:cmd = 'l' . l:qf_cmd
+    endif
+    call add(l:loclist_cmds, l:cmd)
+  endfor
+  return join(l:loclist_cmds, ',')
+endfunction
+
 " Jump to previous and next file grouping (in a quickfix or location window)
 nnoremap <silent>        <Plug>(qf_previous_file)   :<C-u> call qf#filegroup#PreviousFile()<CR>
 nnoremap <silent>        <Plug>(qf_next_file)       :<C-u> call qf#filegroup#NextFile()<CR>
@@ -65,17 +92,17 @@ augroup qf
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    autocmd QuickFixCmdPost [^lh]* nested call qf#OpenQuickfix()
-    autocmd QuickFixCmdPost l[^h]* nested call qf#OpenLoclist()
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfix()', s:GetQuickFixCmdsPattern())
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLoclist()', s:GetLocListCmdsPattern())
 
     " special case for :helpgrep and :lhelpgrep since the help window may not
     " be opened yet when QuickFixCmdPost triggers
     if exists('*timer_start')
-        autocmd QuickFixCmdPost  h* nested call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
-        autocmd QuickFixCmdPost lh* nested call timer_start(10, { -> execute('call qf#OpenLoclist()') })
+        autocmd QuickFixCmdPost  helpgrep nested call call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
+        autocmd QuickFixCmdPost lhelpgrep nested call call timer_start(10, { -> execute('call qf#OpenLoclist()') })
     else
         " the window qf is not positioned correctly but at least it's there
-        autocmd QuickFixCmdPost h* nested call qf#OpenQuickfix()
+        autocmd QuickFixCmdPost helpgrep nested call qf#OpenQuickfix()
         " I can't make it work for :lhelpgrep
     endif
 
