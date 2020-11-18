@@ -98,8 +98,8 @@ augroup qf
     " special case for :helpgrep and :lhelpgrep since the help window may not
     " be opened yet when QuickFixCmdPost triggers
     if exists('*timer_start')
-        autocmd QuickFixCmdPost  helpgrep nested call call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
-        autocmd QuickFixCmdPost lhelpgrep nested call call timer_start(10, { -> execute('call qf#OpenLoclist()') })
+        autocmd QuickFixCmdPost  helpgrep nested call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
+        autocmd QuickFixCmdPost lhelpgrep nested call timer_start(10, { -> execute('call qf#OpenLoclist()') })
     else
         " the window qf is not positioned correctly but at least it's there
         autocmd QuickFixCmdPost helpgrep nested call qf#OpenQuickfix()
