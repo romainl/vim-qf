@@ -38,7 +38,7 @@ else
 endif
 
 " are we in a location list or a quickfix list?
-let b:qf_isLoc = !empty(getloclist(0))
+let b:qf_isLoc = get(get(getwininfo(win_getid()), 0, {}), 'loclist', 0)
 
 " customize the statusline
 if exists("g:qf_statusline")

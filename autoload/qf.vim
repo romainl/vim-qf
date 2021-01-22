@@ -96,6 +96,10 @@ function! qf#SetList(newlist, ...)
     " call partial with optional arguments
     call call(Func, a:000)
 
+    if a:newlist == []
+        return
+    endif
+
     if get(b:, 'qf_isLoc', 0)
         execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
     else
