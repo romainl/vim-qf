@@ -38,7 +38,11 @@ else
 endif
 
 " are we in a location list or a quickfix list?
-let b:qf_isLoc = !empty(getloclist(0))
+if has('patch-7.4.2215')
+    let b:qf_isLoc = getwininfo(win_getid())[0].loclist
+else
+    let b:qf_isLoc = !empty(getloclist(0))
+endif
 
 " customize the statusline
 if exists("g:qf_statusline")
