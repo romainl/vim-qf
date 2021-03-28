@@ -101,9 +101,9 @@ function! qf#SetList(newlist, ...)
     endif
 
     if get(b:, 'qf_isLoc', 0)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
     else
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -128,7 +128,7 @@ function! qf#OpenQuickfix()
             call setqflist(qf#ShortenPathsInList(qf_list))
         endif
 
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -145,7 +145,7 @@ function! qf#OpenLoclist()
             call setloclist(0, qf#ShortenPathsInList(loc_list))
         endif
 
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
     endif
 endfunction
 

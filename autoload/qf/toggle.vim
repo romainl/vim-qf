@@ -28,6 +28,9 @@ function! qf#toggle#ToggleQfWindow(stay) abort
         let winview = {}
     endif
 
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+
     " if one of the windows is a quickfix window close it and return
     if qf#IsQfWindowOpen()
         cclose
@@ -35,7 +38,7 @@ function! qf#toggle#ToggleQfWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        cwindow
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getqflist()) ]) . 'cwindow' : max_height . 'cwindow'
         if qf#IsQfWindowOpen()
             wincmd p
             if !empty(winview)
@@ -58,13 +61,16 @@ function! qf#toggle#ToggleLocWindow(stay) abort
         let winview = {}
     endif
 
+    " get user-defined maximum height
+    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+
     if qf#IsLocWindowOpen(0)
         lclose
         if !empty(winview)
             call winrestview(winview)
         endif
     else
-        silent! lwindow
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getloclist(0)) ]) . 'lwindow' : max_height . 'lwindow'
         if qf#IsLocWindowOpen(0)
             wincmd p
             if !empty(winview)

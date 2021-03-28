@@ -68,7 +68,7 @@ function! s:SetList(pat, range, reject, strategy)
                 endif
             endif
 
-            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
         else
             " bufname && text
             if a:strategy == 0
@@ -98,7 +98,7 @@ function! s:SetList(pat, range, reject, strategy)
                 endif
             endif
 
-            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
+            execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
         endif
     endif
 endfunction
