@@ -98,17 +98,21 @@ endif
 " usage:
 "   :Filter foo     <-- same as :Keep foo
 "   :Filter! foo    <-- same as :Reject foo
-command! -buffer -range -nargs=1 -bang Filter call qf#filter#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0)
+"   :10,15Filter    <-- same as :10,15Keep
+"   :10,15Filter!   <-- same as :10,15Reject
+command! -buffer -range -nargs=1 -bang Filter call qf#filter#FilterList(<q-args>, expand("<bang>") == "!" ? 1 : 0, <line1>, <line2>, <count>)
 
-" keep entries matching the argument
+" keep entries matching the argument or range
 " usage:
 "   :Keep foo
-command! -buffer -range -nargs=? Keep call qf#filter#FilterList(<q-args>, 0)
+"   :10,15Keep
+command! -buffer -range -nargs=? Keep call qf#filter#FilterList(<q-args>, 0, <line1>, <line2>, <count>)
 
-" reject entries matching the argument
+" reject entries matching the argument or range
 " usage:
 "   :Reject foo
-command! -buffer -range -nargs=? Reject call qf#filter#FilterList(<q-args>, 1)
+"   :10,15Reject
+command! -buffer -range -nargs=? Reject call qf#filter#FilterList(<q-args>, 1, <line1>, <line2>, <count>)
 
 " restore the location/quickfix list
 " usage:

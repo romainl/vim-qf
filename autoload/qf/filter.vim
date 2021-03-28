@@ -32,7 +32,7 @@ function! s:ResetLists()
     endif
 endfunction
 
-function! s:SetList(pat, reject, strategy)
+function! s:SetList(pat, range, reject, strategy)
     " decide what regexp operator to use
     let operator   = a:reject == 0 ? '=~' : '!~'
     " get user-defined maximum height
@@ -55,6 +55,19 @@ function! s:SetList(pat, reject, strategy)
                 call setloclist(0, filter(getloclist(0), "v:val['text'] " . operator . " a:pat"), "r")
             endif
 
+            " range
+            if a:strategy == 3
+                let current_list = getloclist(0)
+                if a:reject
+                    " remove range from list
+                    call remove(current_list, a:range[0], a:range[1])
+                    call setloclist(0, current_list, "r")
+                else
+                    " take range from list
+                    call setloclist(0, remove(current_list, a:range[0], a:range[1]), "r")
+                endif
+            endif
+
             execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lwindow'
         else
             " bufname && text
@@ -70,6 +83,19 @@ function! s:SetList(pat, reject, strategy)
             " only text
             if a:strategy == 2
                 call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:pat"), "r")
+            endif
+
+            " range
+            if a:strategy == 3
+                let current_list = getqflist()
+                if a:reject
+                    " remove range from list
+                    call remove(current_list, a:range[0], a:range[1])
+                    call setqflist(current_list, "r")
+                else
+                    " take range from list
+                    call setqflist(remove(current_list, a:range[0], a:range[1]), "r")
+                endif
             endif
 
             execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cwindow'
@@ -102,25 +128,42 @@ endfunction
 "   - location window:
 "       :lgrep foo sample.txt [keep: 'bar']
 "       :lgrep foo sample.txt [reject: 'bar']
+"       :lgrep foo sample.txt [keep: entries 6..9]
+"       :lgrep foo sample.txt [reject: entry 13]
 "   - quickfix window:
 "       :grep foo sample.txt [keep: 'bar']
 "       :grep foo sample.txt [reject: 'bar']
-function! s:SetTitle(pat, reject)
+"       :grep foo sample.txt [keep: entries 6..9]
+"       :grep foo sample.txt [reject: entry 13]
+function! s:SetTitle(pat, range, reject)
     " did we use :Keep or :Reject?
-    let str = a:reject == 0 ? "keep" : "reject"
+    let action = a:reject == 0 ? 'keep' : 'reject'
+
+    " describe the filter that was applied
+    if a:pat != ''
+        let filter = "'" . a:pat . "'"
+    else
+        if a:range[0] == a:range[1]
+            let filter = 'entry ' . (a:range[0] + 1)
+        else
+            let filter = 'entries ' . (a:range[0] + 1) . '..' . (a:range[1] + 1)
+        endif
+    endif
+
+    let str = " [" . action . ": " . filter . "]"
 
     if exists("b:qf_isLoc")
         if b:qf_isLoc == 1
-            call s:SetTitleValue(getwinvar(winnr("#"), "qf_location_titles")[0] . " [" . str . ": '" . a:pat . "']")
+            call s:SetTitleValue(getwinvar(winnr("#"), "qf_location_titles")[0] . str)
         else
             if exists("g:qf_quickfix_titles")
                 if len(g:qf_quickfix_titles) > 0
-                    call s:SetTitleValue(g:qf_quickfix_titles[0] . " [" . str . ": '" . a:pat . "']")
+                    call s:SetTitleValue(g:qf_quickfix_titles[0] . str)
                 else
-                    call s:SetTitleValue(w:quickfix_title . " [" . str . ": '" . a:pat . "']")
+                    call s:SetTitleValue(w:quickfix_title . str)
                 endif
             else
-                call s:SetTitleValue(w:quickfix_title . " [" . str . ": '" . a:pat . "']")
+                call s:SetTitleValue(w:quickfix_title . str)
             endif
         endif
     endif
@@ -172,23 +215,17 @@ function! s:GetSelection()
 endfunction
 
 " filter the current list
-function! qf#filter#FilterList(pat, reject)
-    let strategy  = get(g:, 'qf_bufname_or_text', 0)
-    let pat       = ''
+function! qf#filter#FilterList(pat, reject, lnum1, lnum2, cnt)
+    let strategy = get(g:, 'qf_bufname_or_text', 0)
+    let pat      = ''
+    let range    = []
 
     if a:pat != ''
         let pat = a:pat
     else
-        let here     = getpos(".")[1:2]
-        let topleft  = getpos("'<")[1:2]
-        let botright = getpos("'>")[1:2]
-
-        if (topleft[0] == botright[0]) &&
-         \ (here[0] == topleft[0]) &&
-         \ (here[0] == botright[0]) &&
-         \ (botright[1] - here[1] >= botright[1] - topleft[1])
-            let pat = s:GetSelection()
-        else
+        if a:cnt == -1
+            " no range was given
+            "   :Reject
             if col('.') == 1
                 if get(g:, 'qf_shorten_path', 1)
                     let pat  = split(split(getline('.'), '|')[0], '/')[-1]
@@ -200,6 +237,13 @@ function! qf#filter#FilterList(pat, reject)
                 let pat      = expand('<cword>')
                 let strategy = 2
             endif
+        else
+            " a range was given
+            "   :.Reject
+            "   :10,15Reject
+            "   V:'<,'>Reject
+            let range    = [ a:lnum1 - 1, a:lnum2 -1 ]
+            let strategy = 3
         endif
     endif
 
@@ -207,9 +251,9 @@ function! qf#filter#FilterList(pat, reject)
         call s:AddList()
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
 
-        call s:SetList(pat, a:reject, strategy)
+        call s:SetList(pat, range, a:reject, strategy)
 
-        call s:SetTitle(pat, a:reject)
+        call s:SetTitle(pat, range, a:reject)
         call s:AddTitle(get(w:, 'quickfix_title', ' '))
     endif
 endfunction

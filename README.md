@@ -54,7 +54,25 @@ Vim-qf and all quickfix-related plugins necessarily have overlapping features an
 
 ## Installation
 
-Use your favorite runtimepath/plugin manager or dump the files below in their standard location:
+### Method 1
+
+Use your favorite runtimepath/plugin manager.
+
+### Method 2
+
+If you are using Vim 8.0 or above, move this directory to:
+
+    # Unix-like systems
+    ~/.vim/pack/{whatever name you want}/start/vim-qf
+
+    # Windows
+    %userprofile%\vimfiles\pack\{whatever name you want}\start\vim-qf
+
+See `:help package`.
+
+### Method 3
+
+If you are using Vim 7.4 or below, move the files in this directory to their standard location:
 
     # Unix-like systems
     ~/.vim/after/ftplugin/qf.vim
@@ -72,15 +90,7 @@ Use your favorite runtimepath/plugin manager or dump the files below in their st
 
 ## Documentation
 
-If you go with the manual installation method, don't forget to index the documentation:
-
-    # Unix-like systems
-    :helptags ~/.vim/doc
-
-    # Windows
-    :helptags %userprofile%\vimfiles\doc
-
-Once the documentation is indexed, you can use this command to get help on vim-qf:
+You can use this command to get help on vim-qf:
 
     :help vim-qf
 
@@ -89,8 +99,6 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 - Export more options?
 
 - Add titles to saved lists, e.g. to display in :ListLists?
-
-- Add `:packadd` support?
 
 ## DONE
 
@@ -103,6 +111,8 @@ Once the documentation is indexed, you can use this command to get help on vim-q
 - Ask #vim's opinion.
 
 - Add a gifcast to the README.
+
+- Add `:packadd` support?
 
 [1]: https://romainl.github.io/vim-qf/filter.gif
 [2]: https://romainl.github.io/vim-qf/group.gif

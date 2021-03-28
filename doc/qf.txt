@@ -435,41 +435,51 @@ is focused:
 
 *:Keep*
 
-    Keep all entries that contain the given |pattern|, either in the
-    buffer name or in the description.
+    Keep some entries from the list.
 
     Example: >
 
-        :Keep
-        :Keep model
-        :Keep <C-r><C-f>
+        :Keep model    Keep entries matching 'model'
+        :Keep          Keep entries with same filename as curent entry
+        :.Keep         Keep current entry
+        :10,15Keep     Keep entries 10..15
+        :'<,'>Keep     Keep entries covered by visual selection
 <
-    Without an argument, the pattern used for filtering is:
+    With a pattern, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option. [range]
+    is ignored.
 
-    - the buffer name if the cursor is on column 1,
-    - the word under the cursor if the cursor is on any other column.
+    With neither a pattern nor a [range], filtering is done:
 
-    With an argument, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option.
+    - on the buffer name if the cursor is on column 1,
+    - on the word under the cursor if the cursor is on any other column.
+
+    With a [range], the lines covered by [range] are kept. If a pattern was
+    given, it is ignored.
 
 *:Reject*
 
-    Reject all entries that contain the given |pattern| in the buffer name or
-    in the description.
+    Reject some entries from the list.
 
     Example: >
 
-        :Reject
-        :Reject build
-        :Reject <C-r><C-w>
+        :Reject model    Reject entries matching 'model'
+        :Reject          Reject entries with same filename as curent entry
+        :.Reject         Reject current entry
+        :10,15Reject     Reject entries 10..15
+        :'<,'>Reject     Reject entries covered by visual selection
 <
-    Without an argument, the pattern used for filtering is:
+    With a pattern, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option. [range]
+    is ignored.
 
-    - the buffer name if the cursor is on column 1,
-    - the word under the cursor if the cursor is on any other column.
+    With neither a pattern nor a [range], filtering is done:
 
-    With an argument, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option.
+    - on the buffer name if the cursor is on column 1,
+    - on the word under the cursor if the cursor is on any other column.
+
+    With a [range], the lines covered by [range] are rejected. If a pattern
+    was given, it is ignored.
 
 *:Restore*
 
