@@ -52,10 +52,6 @@ nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#Toggle
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
-" Move forward and backward in list history (in a quickfix or location window)
-nnoremap <silent>        <Plug>(qf_older)           :<C-u> call qf#history#Older()<CR>
-nnoremap <silent>        <Plug>(qf_newer)           :<C-u> call qf#history#Newer()<CR>
-
 " A list of commands used to trigger the QuickFixCmdPost event is documented in
 " `:help QuickFixCmdPre`.
 " NOTE: helgrep is excluded because it's a special case (see below).
@@ -82,10 +78,6 @@ function! s:GetLocListCmdsPattern() abort
   endfor
   return join(l:loclist_cmds, ',')
 endfunction
-
-" Jump to previous and next file grouping (in a quickfix or location window)
-nnoremap <silent>        <Plug>(qf_previous_file)   :<C-u> call qf#filegroup#PreviousFile()<CR>
-nnoremap <silent>        <Plug>(qf_next_file)       :<C-u> call qf#filegroup#NextFile()<CR>
 
 augroup qf
     autocmd!

@@ -52,10 +52,31 @@ These "local" features are only available in location/quickfix windows:
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*
 
-Use your favorite plugin manager or dump the files below in their
-standard location:
+Method 1
 
-on Unix-like systems... >
+  Use your favorite runtimepath/plugin manager.
+
+Method 2
+
+  If you are using Vim 8.0 or above, move this directory to its appropriate
+  location.
+
+  On Unix-like systems: >
+
+    ~/.vim/pack/{whatever name you want}/start/vim-qf
+<
+  On Windows: >
+
+    %userprofile%\vimfiles\pack\{whatever name you want}\start\vim-qf
+<
+  See `:help package`.
+
+Method 3
+
+  If you are using Vim 7.4 or below, move the files in this directory to their
+  standard location.
+
+  On Unix-like systems: >
 
     ~/.vim/after/ftplugin/qf.vim
     ~/.vim/autoload/qf.vim
@@ -63,24 +84,13 @@ on Unix-like systems... >
     ~/.vim/doc/qf.txt
     ~/.vim/plugin/qf.vim
 <
-on Windows... >
+  On Windows: >
 
     %userprofile%\vimfiles\after\ftplugin\qf.vim
     %userprofile%\vimfiles\autoload\qf.vim
     %userprofile%\vimfiles\autoload\qf\*.vim
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
-<
-If you go with the manual method, don't forget to execute the following
-command to make the documentation globally available:
-
-on Unix-like systems... >
-
-    :helptags ~/.vim/doc
-<
-on Windows... >
-
-    :helptags %userprofile%\vimfiles\doc
 <
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
@@ -96,17 +106,13 @@ Global mappings:
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
     <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
     <Plug>(qf_loc_toggle_stay) ................. |<Plug>(qf_loc_toggle_stay)|
+
+Local mappings:
+
     <Plug>(qf_older) ........................... |<Plug>(qf_older)|
     <Plug>(qf_newer) ........................... |<Plug>(qf_newer)|
     <Plug>(qf_previous_file) ................... |<Plug>(qf_previous_file)|
     <Plug>(qf_next_file) ....................... |<Plug>(qf_next_file)|
-
-Local mappings:
-
-    <Left> ..................................... |QfHistoryOlder|
-    <Right> .................................... |QfHistoryNewer|
-    { .......................................... |QfPreviousFile|
-    } .......................................... |QfNextFile|
 
 Options:
 
@@ -237,23 +243,6 @@ Example (in after/ftplugin/qf.vim): >
     nmap <buffer> { <Plug>(qf_previous_file)
     nmap <buffer> } <Plug>(qf_next_file)
 <
-------------------------------------------------------------------------------
-                                                               *QfHistoryOlder*
-                                                               *QfHistoryNewer*
-Scope: local                                                                 ~
-Default: <Left> and <Right>                                                  ~
-
-In a location/quickfix window, navigate to an older or newer list.
-
-------------------------------------------------------------------------------
-                                                               *QfPreviousFile*
-                                                                   *QfNextFile*
-Scope: local                                                                 ~
-Default: { and }                                                             ~
-
-In a location/quickfix window, jump to the next group of lines
-corresponding to a file.
-
 ------------------------------------------------------------------------------
                                                      *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~
@@ -643,7 +632,6 @@ The list history commands were implemented by Jon Parise.
  7. TODO                                                              *qf-todo*
 
     - Export more options?
-    - Add a gifcast to the README?
     - Add titles to saved lists, e.g. to display in :ListLists?
 
 ==============================================================================
@@ -653,6 +641,7 @@ The list history commands were implemented by Jon Parise.
     - Add proper attribution for a few features.
     - Write a proper help file.
     - Ask #vim's opinion.
+    - Add a gifcast to the README?
 
 ==============================================================================
  9. RELEASES                                                      *qf-releases*
