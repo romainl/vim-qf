@@ -56,27 +56,29 @@ nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p
 " `:help QuickFixCmdPre`.
 " NOTE: helgrep is excluded because it's a special case (see below).
 let s:quickfix_autocmd_trigger_cmds = [
-    \ 'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile', 
-    \ 'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer', 
-    \ 'cgetbuffer', 'caddbuffer']
+            \ 'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile', 
+            \ 'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer', 
+            \ 'cgetbuffer', 'caddbuffer']
 
 function! s:GetQuickFixCmdsPattern() abort
-  return join(s:quickfix_autocmd_trigger_cmds, ',')
+    return join(s:quickfix_autocmd_trigger_cmds, ',')
 endfunction
 
 function! s:GetLocListCmdsPattern() abort
-  let l:loclist_cmds = []
-  for l:qf_cmd in s:quickfix_autocmd_trigger_cmds
-    " If a commands starts with 'c', replace it with 'l'. Otherwise, prepend
-    " 'l'. 
-    if l:qf_cmd[0] is# 'c'
-      let l:cmd = 'l' . l:qf_cmd[1:]
-    else
-      let l:cmd = 'l' . l:qf_cmd
-    endif
-    call add(l:loclist_cmds, l:cmd)
-  endfor
-  return join(l:loclist_cmds, ',')
+    let l:loclist_cmds = []
+
+    for l:qf_cmd in s:quickfix_autocmd_trigger_cmds
+        " If a commands starts with 'c', replace it with 'l'. Otherwise, prepend
+        " 'l'. 
+        if l:qf_cmd[0] is# 'c'
+            let l:cmd = 'l' . l:qf_cmd[1:]
+        else
+            let l:cmd = 'l' . l:qf_cmd
+        endif
+        call add(l:loclist_cmds, l:cmd)
+    endfor
+
+    return join(l:loclist_cmds, ',')
 endfunction
 
 augroup qf
