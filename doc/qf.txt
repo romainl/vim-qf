@@ -435,8 +435,8 @@ is focused:
         :'<,'>Keep     Keep entries covered by visual selection
 <
     With a pattern, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option. [range]
-    is ignored.
+    text. This can be changed with the |g:qf_bufname_or_text| option. If
+    a [range] was given, it is ignored.
 
     With neither a pattern nor a [range], filtering is done:
 
@@ -459,8 +459,8 @@ is focused:
         :'<,'>Reject     Reject entries covered by visual selection
 <
     With a pattern, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option. [range]
-    is ignored.
+    text. This can be changed with the |g:qf_bufname_or_text| option. If
+    a [range] was given, it is ignored.
 
     With neither a pattern nor a [range], filtering is done:
 

@@ -6,7 +6,9 @@
 
 ### Anti-features
 
-Vim-qf and all quickfix-related plugins necessarily have overlapping features and thus undefined behaviors. Therefore, I don't recommend vim-qf to Syntastic/Neomake/ALE users.
+Many plugins interact with the quickfix/location list/window in ways that are more or less incompatible with vim-qf. I have put considerable effort in making most vim-qf features optional so it should be possible to disable individual features in case of conflict but well… you never know.
+
+**If one of your plugins somehow already manages the quickfix/location list/window, then you should probably look elsewhere.**
 
 ### Global features (available from any window)
 
