@@ -176,6 +176,8 @@ let b:undo_ftplugin .= "| delcommand Filter"
             \ . "| unlet! b:qf_isLoc"
 
 " decide where to open the location/quickfix window
+" :help g:qf_loclist_window_bottom
+" :help g:qf_window_bottom
 if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
             \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
     wincmd J

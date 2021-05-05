@@ -21,16 +21,22 @@ set cpo&vim
 
 " open the current entry in th preview window
 function! qf#preview#PreviewFileUnderCursor()
-    let cur_list = qf#GetList()
-    let cur_line = getline(line('.'))
-    let cur_file = fnameescape(qf#GetEntryPath(cur_line))
+    let winview = winsaveview()
 
-    if cur_line =~ '|\d\+'
-        let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
-        execute "pedit +" . cur_pos . " " . cur_file
+    let current_item        = qf#GetListItems(line('.'))[0]
+    let current_file_name   = current_item["bufnr"]->bufname()
+    let current_file_line   = current_item->get('lnum', 0)
+    let current_file_column = current_item->get('col', 0)
+
+    if current_file_line && current_file_column
+        execute "pedit +" .. current_file_line .. " " .. current_file_name .. "|normal! " .. current_file_column .. "G"
+    elseif current_file_line && !current_file_column
+        execute "pedit +" .. current_file_line .. " " .. current_file_name
     else
-        execute "pedit " . cur_file
+        execute "pedit " .. current_file_name
     endif
+
+    call winrestview(winview)
 endfunction
 
 let &cpo = s:save_cpo

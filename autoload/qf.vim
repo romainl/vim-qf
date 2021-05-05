@@ -19,19 +19,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" open the current entry in th preview window
-function qf#PreviewFileUnderCursor()
-    let cur_list = b:qf_isLoc == 1 ? getloclist('.') : getqflist()
-    let cur_line = getline(line('.'))
-    let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
-    if cur_line =~ '|\d\+'
-        let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
-        execute "pedit +" . cur_pos . " " . cur_file
-    else
-        execute "pedit " . cur_file
-    endif
-endfunction
-
 " helper function
 " returns 1 if the window with the given number is a quickfix window
 "         0 if the window with the given number is not a quickfix window
@@ -73,13 +60,26 @@ function! qf#IsLocWindowOpen(nmbr) abort
     return 0
 endfunction
 
-" returns location list of the current loclist if isLoc is set
-"         qf list otherwise
-function! qf#GetList()
+" returns current location list or quickfix list
+function! qf#GetListItems(idx)
+    let what = { 'idx': a:->get('idx', 0), 'items': 1 }
+
     if get(b:, 'qf_isLoc', 0)
-        return getloclist(0)
+        return getloclist(0, what)["items"]
     else
-        return getqflist()
+        return getqflist(what)["items"]
+    endif
+endfunction
+
+" helper
+" returns the number of items in a loc/qf list
+function! qf#GetListSize()
+    let what = { 'size': 1 }
+
+    if get(b:, 'qf_isLoc', 0)
+        return getloclist(0, what)["size"]
+    else
+        return getqflist(what)["size"]
     endif
 endfunction
 
@@ -107,68 +107,97 @@ function! qf#SetList(newlist, ...)
     endif
 endfunction
 
-function! qf#GetEntryPath(line) abort
-    "                          +- match from the first pipe to the end of line
-    "                          |  declaring EOL explicitly is faster than implicitly
-    "                          |      +- replace match with nothing
-    "                          |      |   +- no flags
-    return substitute(a:line, '|.*$', '', '')
-endfunction
-
 " open the quickfix window if there are valid errors
-function! qf#OpenQuickfix()
+function! qf#OpenQuickfixWindow()
     if get(g:, 'qf_auto_open_quickfix', 1)
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
-        let qf_list = getqflist()
-
-        " shorten paths if applicable
-        if get(g:, 'qf_shorten_path', 0) > 0
-            call setqflist(qf#ShortenPathsInList(qf_list))
-        endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#GetListSize() ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
 " open a location window if there are valid locations
-function! qf#OpenLoclist()
+function! qf#OpenLocationWindow()
     if get(g:, 'qf_auto_open_loclist', 1)
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
-        let loc_list = getloclist(0)
-
-        " shorten paths if applicable
-        if get(g:, 'qf_shorten_path', 0) > 0
-            call setloclist(0, qf#ShortenPathsInList(loc_list))
-        endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#GetListSize() ]) . 'lwindow' : 'lclose|lwindow'
     endif
 endfunction
 
-" shorten file paths in given qf/loc list
-function! qf#ShortenPathsInList(list)
-    let index = 0
-    while index < len(a:list)
-        " item is a dict, sample: { lnum: 14, text: 'foo bar', bufnr: 3, ... }
-        let item = a:list[index]
+function! qf#QuickfixTextFunc(options)
+    let items = a:options["quickfix"] == 1 ? getqflist() : getloclist(a:options["winid"])
+    return items->map({ key, val -> val->qf#FormatItem() })
+endfunction
 
-        let filepath = bufname(item["bufnr"])
-        let trim_len = get(g:, "qf_shorten_path", 1)
+function! qf#FormatItem(item)
+    return [
+                \ a:item->qf#FormatFilename(),
+                \ a:item->qf#FormatLocation(),
+                \ a:item->qf#FormatText(),
+                \ ]->join('|')
+endfunction
 
-        " set the 'module' field to customise the visual filename in the qf/loc list (available since 8.0.1782)
-        if has('patch-8.2.1741')
-            let item["module"] = pathshorten(filepath, trim_len)
+function! qf#FormatFilename(item)
+    let filename = a:item["bufnr"]->bufname()
+
+    if has('patch-8.2.1741')
+        return pathshorten(filename, g:->get("qf_shorten_path", 1))
+    else
+        return pathshorten(filename)
+    endif
+endfunction
+
+function! qf#FormatLocation(item)
+    return [
+                \ a:item->get("lnum", 0)->qf#FormatLineNumber(),
+                \ a:item->get("col", 0)->qf#FormatColumn(),
+                \ a:item->get("type", '')->qf#FormatType(),
+                \ a:item->get("nr", 0)->qf#FormatErrorNumber(),
+                \ ]->join('')
+endfunction
+
+function! qf#FormatText(item)
+    " return ' ' .. a:item->get("text", '')
+    return a:item["text"]
+endfunction
+
+function! qf#FormatLineNumber(lnum)
+    return a:lnum != 0 ? a:lnum : '-'
+endfunction
+
+function! qf#FormatColumn(col)
+    return a:col > 0 ? ' col ' .. a:col : ''
+endfunction
+
+function! qf#FormatType(type)
+    if a:type =~? 'e'
+        return ' error'
+    elseif a:type =~? 'i'
+        return ' info'
+    elseif a:type =~? 'n'
+        return ' note'
+    elseif a:type =~? 'w'
+        return ' warning'
+    else
+        return ''
+    endif
+endfunction
+
+function! qf#FormatErrorNumber(nr)
+    if a:nr > 0
+        if a:nr->string()->len() == 1
+            return '   ' .. a:nr
+        elseif a:nr->string()->len() == 2
+            return '  ' .. a:nr
         else
-            let item["module"] = pathshorten(filepath)
+            return ' ' .. a:nr
         endif
-
-        let index = index + 1
-    endwhile
-    return a:list
+    else
+        return ''
+    endif
 endfunction
 
 let &cpo = s:save_cpo

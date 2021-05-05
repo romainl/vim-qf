@@ -19,7 +19,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" toggles the quickfix window
+" Toggles the quickfix window.
 function! qf#toggle#ToggleQfWindow(stay) abort
     " save the view if the current window is not a quickfix window
     if get(g:, 'qf_save_win_view', 1)  && !qf#IsQfWindow(winnr())
@@ -38,7 +38,7 @@ function! qf#toggle#ToggleQfWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getqflist()) ]) . 'cwindow' : max_height . 'cwindow'
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, qf#GetListSize() ]) . 'cwindow' : max_height . 'cwindow'
         if qf#IsQfWindowOpen()
             wincmd p
             if !empty(winview)
@@ -51,8 +51,8 @@ function! qf#toggle#ToggleQfWindow(stay) abort
     endif
 endfunction
 
-" toggles the location window associated with the current window
-" or whatever location window has the focus
+" Toggles the location window associated with the current window
+" or whatever location window has the focus.
 function! qf#toggle#ToggleLocWindow(stay) abort
     " save the view if the current window is not a location window
     if get(g:, 'qf_save_win_view', 1) && !qf#IsLocWindow(winnr())
@@ -70,7 +70,7 @@ function! qf#toggle#ToggleLocWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getloclist(0)) ]) . 'lwindow' : max_height . 'lwindow'
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, qf#GetListSize() ]) . 'lwindow' : max_height . 'lwindow'
         if qf#IsLocWindowOpen(0)
             wincmd p
             if !empty(winview)

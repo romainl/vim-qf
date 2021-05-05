@@ -19,40 +19,18 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" do something with each entry
-" a single function for :Doline and :Dofile both in a quickfix list and
-" a location list
-" falls back to :cdo, :cfdo, :ldo, :lfdo when possible
+" Do something with each entry
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+" Handles :Doline and :Dofile, in quickfix and location lists.
+" Wrapper aound :cdo, :cfdo, :ldo, :lfdo.
 function! qf#do#DoList(line, cmd)
-    if exists("b:qf_isLoc")
-        let prefix = b:qf_isLoc == 1 ? "l" : "c"
-    else
-        let prefix = "c"
-    endif
+    let prefix   = b:->get("qf_isLoc", 1) ? "l" : "c"
+    let modifier = a:line == 1 ? "" : "f"
 
-    if v:version >= 705
-                \ || v:version == 704 && has("patch858")
-        if a:line == 1
-            let modifier = ""
-        else
-            let modifier = "f"
-        endif
-
-        try
-            execute prefix . modifier . "do " . a:cmd
-        catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
-        endtry
-    else
-        try
-            silent execute prefix . "first"
-            while 1
-                execute a:cmd
-
-                silent execute a:line == 1 ? prefix . "next" : prefix . "nfile"
-            endwhile
-        catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
-        endtry
-    endif
+    try
+        execute prefix . modifier . "do " . a:cmd
+    catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
+    endtry
 endfunction
 
 let &cpo = s:save_cpo

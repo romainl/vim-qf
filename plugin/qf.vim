@@ -86,27 +86,31 @@ augroup qf
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfix()', s:GetQuickFixCmdsPattern())
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLoclist()', s:GetLocListCmdsPattern())
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfixWindow()', s:GetQuickFixCmdsPattern())
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLocationWindow()', s:GetLocListCmdsPattern())
 
     " special case for :helpgrep and :lhelpgrep since the help window may not
     " be opened yet when QuickFixCmdPost triggers
     if exists('*timer_start')
-        autocmd QuickFixCmdPost  helpgrep nested call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
-        autocmd QuickFixCmdPost lhelpgrep nested call timer_start(10, { -> execute('call qf#OpenLoclist()') })
+        autocmd QuickFixCmdPost  helpgrep nested call timer_start(10, { -> execute('call qf#OpenQuickfixWindow()') })
+        autocmd QuickFixCmdPost lhelpgrep nested call timer_start(10, { -> execute('call qf#OpenLocationWindow()') })
     else
         " the window qf is not positioned correctly but at least it's there
-        autocmd QuickFixCmdPost helpgrep nested call qf#OpenQuickfix()
+        autocmd QuickFixCmdPost helpgrep nested call qf#OpenQuickfixWindow()
         " I can't make it work for :lhelpgrep
     endif
 
     " spacial case for $ vim -q
-    autocmd VimEnter * nested if count(get(v:, 'argv', []), '-q') | call qf#OpenQuickfix() | endif
+    autocmd VimEnter * nested if count(get(v:, 'argv', []), '-q') | call qf#OpenQuickfixWindow() | endif
 
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
         autocmd QuitPre * nested if &filetype != 'qf' | silent! lclose | endif
     endif
 augroup END
+
+if exists('+quickfixtextfunc') && get(g:, "qf_shorten_path", 1)
+    set quickfixtextfunc=qf#QuickfixTextFunc
+endif
 
 let &cpo = s:save_cpo
