@@ -173,17 +173,13 @@ function! qf#FormatColumn(col)
 endfunction
 
 function! qf#FormatType(type)
-    if a:type =~? 'e'
-        return ' error'
-    elseif a:type =~? 'i'
-        return ' info'
-    elseif a:type =~? 'n'
-        return ' note'
-    elseif a:type =~? 'w'
-        return ' warning'
-    else
-        return ''
-    endif
+    let types = {
+                \ 'e': ' error',
+                \ 'i': ' info',
+                \ 'n': ' note',
+                \ 'w': ' warning'
+                \ }
+    return a:type != '' ? types[a:type] : ''
 endfunction
 
 function! qf#FormatErrorNumber(nr)
