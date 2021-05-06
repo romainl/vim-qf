@@ -127,72 +127,11 @@ function! qf#OpenLocationWindow()
     endif
 endfunction
 
+" Handles formatting of the text in the buffer
 function! qf#QuickfixTextFunc(options)
     let items = a:options["quickfix"] == 1 ? getqflist() : getloclist(a:options["winid"])
-    return items->map({ key, val -> val->qf#FormatItem() })
-endfunction
 
-function! qf#FormatItem(item)
-    return [
-                \ a:item->qf#FormatFilename(),
-                \ a:item->qf#FormatLocation(),
-                \ a:item->qf#FormatText(),
-                \ ]->join('|')
-endfunction
-
-function! qf#FormatFilename(item)
-    let filename = a:item["bufnr"]->bufname()
-
-    if has('patch-8.2.1741')
-        return pathshorten(filename, g:->get("qf_shorten_path", 1))
-    else
-        return pathshorten(filename)
-    endif
-endfunction
-
-function! qf#FormatLocation(item)
-    return [
-                \ a:item->get("lnum", 0)->qf#FormatLineNumber(),
-                \ a:item->get("col", 0)->qf#FormatColumn(),
-                \ a:item->get("type", '')->qf#FormatType(),
-                \ a:item->get("nr", 0)->qf#FormatErrorNumber(),
-                \ ]->join('')
-endfunction
-
-function! qf#FormatText(item)
-    " return ' ' .. a:item->get("text", '')
-    return a:item["text"]
-endfunction
-
-function! qf#FormatLineNumber(lnum)
-    return a:lnum != 0 ? a:lnum : '-'
-endfunction
-
-function! qf#FormatColumn(col)
-    return a:col > 0 ? ' col ' .. a:col : ''
-endfunction
-
-function! qf#FormatType(type)
-    return {
-                \ 'e': ' error',
-                \ 'i': ' info',
-                \ 'n': ' note',
-                \ 'w': ' warning'
-                \ }->get(a:type, '')
-endfunction
-
-function! qf#FormatErrorNumber(nr)
-    if a:nr > 0
-        if a:nr->string()->len() == 1
-            return '   ' .. a:nr
-        elseif a:nr->string()->len() == 2
-            return '  ' .. a:nr
-        else
-            return ' ' .. a:nr
-        endif
-    else
-        return ''
-    endif
+    return items->map({ key, val -> val->qf#format#FormatItem() })
 endfunction
 
 let &cpo = s:save_cpo
