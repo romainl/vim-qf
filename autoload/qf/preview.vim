@@ -23,7 +23,7 @@ set cpo&vim
 function! qf#preview#PreviewFileUnderCursor()
     let winview = winsaveview()
 
-    let current_item        = qf#GetListItems(line('.'))[0]
+    let current_item        = qf#GetListItems(b:->get("qf_isLoc", 0), line('.'))[0]
     let current_file_name   = current_item["bufnr"]->bufname()
     let current_file_line   = current_item->get('lnum', 0)
     let current_file_column = current_item->get('col', 0)

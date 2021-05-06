@@ -21,7 +21,7 @@ set cpo&vim
 
 function! qf#filegroup#NextFile() abort
     if exists("b:qf_isLoc")
-        let items = qf#GetListItems(0)
+        let items = qf#GetListItems(b:->get("qf_isLoc", 0), 0)
         let current_index = line('.') - 1
         let current_bufnr = items[current_index]["bufnr"]
         let limit = items->len()
@@ -40,7 +40,7 @@ endfunction
 
 function! qf#filegroup#PreviousFile() abort
     if exists("b:qf_isLoc")
-        let items = qf#GetListItems(0)
+        let items = qf#GetListItems(b:->get("qf_isLoc", 0), 0)
         let current_index = line('.') - 1
         let current_bufnr = items[current_index]["bufnr"]
         let limit = 0

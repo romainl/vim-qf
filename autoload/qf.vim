@@ -61,10 +61,10 @@ function! qf#IsLocWindowOpen(nmbr) abort
 endfunction
 
 " returns current location list or quickfix list
-function! qf#GetListItems(idx)
+function! qf#GetListItems(loc, idx)
     let what = { 'idx': a:->get('idx', 0), 'items': 1 }
 
-    if get(b:, 'qf_isLoc', 0)
+    if get(a:, 'loc', 0)
         return getloclist(0, what)["items"]
     else
         return getqflist(what)["items"]
@@ -73,10 +73,10 @@ endfunction
 
 " helper
 " returns the number of items in a loc/qf list
-function! qf#GetListSize()
+function! qf#GetListSize(loc)
     let what = { 'size': 1 }
 
-    if get(b:, 'qf_isLoc', 0)
+    if get(a:, 'loc', 0)
         return getloclist(0, what)["size"]
     else
         return getqflist(what)["size"]
@@ -101,9 +101,9 @@ function! qf#SetList(newlist, ...)
     endif
 
     if get(b:, 'qf_isLoc', 0)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#GetListSize(1) ]) . 'lwindow' : 'lclose|lwindow'
     else
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#GetListSize(0)) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -113,7 +113,7 @@ function! qf#OpenQuickfixWindow()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#GetListSize() ]) . 'cwindow' : 'cclose|cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#GetListSize(0) ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -123,7 +123,7 @@ function! qf#OpenLocationWindow()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#GetListSize() ]) . 'lwindow' : 'lclose|lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#GetListSize(1) ]) . 'lwindow' : 'lclose|lwindow'
     endif
 endfunction
 
@@ -173,13 +173,12 @@ function! qf#FormatColumn(col)
 endfunction
 
 function! qf#FormatType(type)
-    let types = {
+    return {
                 \ 'e': ' error',
                 \ 'i': ' info',
                 \ 'n': ' note',
                 \ 'w': ' warning'
-                \ }
-    return a:type != '' ? types[a:type] : ''
+                \ }->get(a:type, '')
 endfunction
 
 function! qf#FormatErrorNumber(nr)
