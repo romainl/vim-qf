@@ -55,39 +55,31 @@ nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p
 " A list of commands used to trigger the QuickFixCmdPost event is documented in
 " `:help QuickFixCmdPre`.
 " NOTE: helgrep is excluded because it's a special case (see below).
-let s:quickfix_autocmd_trigger_cmds = [
-            \ 'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile', 
-            \ 'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer', 
-            \ 'cgetbuffer', 'caddbuffer']
+let s:qf_autocmd_triggers = [
+            \ 'cbuffer', 'cgetbuffer', 'caddbuffer',
+            \ 'cexpr', 'cgetexpr', 'caddexpr',
+            \ 'cfile', 'cgetfile', 'caddfile',
+            \ 'grep', 'grepadd',
+            \ 'make',
+            \ 'vimgrep', 'vimgrepadd',
+            \ ]->join(',')
 
-function! s:GetQuickFixCmdsPattern() abort
-    return join(s:quickfix_autocmd_trigger_cmds, ',')
-endfunction
-
-function! s:GetLocListCmdsPattern() abort
-    let l:loclist_cmds = []
-
-    for l:qf_cmd in s:quickfix_autocmd_trigger_cmds
-        " If a commands starts with 'c', replace it with 'l'. Otherwise, prepend
-        " 'l'. 
-        if l:qf_cmd[0] is# 'c'
-            let l:cmd = 'l' . l:qf_cmd[1:]
-        else
-            let l:cmd = 'l' . l:qf_cmd
-        endif
-        call add(l:loclist_cmds, l:cmd)
-    endfor
-
-    return join(l:loclist_cmds, ',')
-endfunction
+let s:loc_autocmd_triggers = [
+            \ 'lbuffer', 'lgetbuffer', 'laddbuffer',
+            \ 'lexpr', 'lgetexpr', 'laddexpr',
+            \ 'lfile', 'lgetfile', 'laddfile',
+            \ 'lgrep', 'grepadd',
+            \ 'lmake',
+            \ 'lvimgrep', 'lvimgrepadd',
+            \ ]->join(',')
 
 augroup qf
     autocmd!
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfixWindow()', s:GetQuickFixCmdsPattern())
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLocationWindow()', s:GetLocListCmdsPattern())
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfixWindow()', s:qf_autocmd_triggers)
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLocationWindow()', s:loc_autocmd_triggers)
 
     " special case for :helpgrep and :lhelpgrep since the help window may not
     " be opened yet when QuickFixCmdPost triggers
