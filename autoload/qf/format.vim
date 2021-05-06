@@ -40,7 +40,7 @@ function! s:FormatText(item)
 endfunction
 
 function! s:FormatLineNumber(lnum)
-    return a:lnum != 0 ? a:lnum : '-'
+    return a:lnum != 0 ? a:lnum : ''
 endfunction
 
 function! s:FormatColumn(col)
@@ -58,7 +58,7 @@ endfunction
 
 function! s:FormatErrorNumber(nr)
     if a:nr > 0
-        return printf("%4d", a:nr)
+        return ' ' .. printf("%3d", a:nr)
     else
         return ''
     endif
