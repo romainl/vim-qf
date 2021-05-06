@@ -58,15 +58,15 @@ Method 2
 
   Move this directory to its appropriate location.
 
-  On Unix-like systems: >
-
+  On Unix-like systems:
+>
     ~/.vim/pack/{whatever name you want}/start/vim-qf
 <
-  On Windows: >
-
+  On Windows:
+>
     %userprofile%\vimfiles\pack\{whatever name you want}\start\vim-qf
 <
-  See `:help package`.
+  See |package|.
 
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
@@ -114,8 +114,8 @@ Default: none                                                                ~
 
 Go up and down the quickfix list and wrap around.
 
-Example: >
-
+Example:
+>
     nmap <Home> <Plug>(qf_qf_previous)
     nmap <End>  <Plug>(qf_qf_next)
 <
@@ -127,8 +127,8 @@ Default: none                                                                ~
 
 Go up and down the current location list and wrap around.
 
-Example: >
-
+Example:
+>
     nmap <C-Home> <Plug>(qf_loc_previous)
     nmap <C-End>  <Plug>(qf_loc_next)
 <
@@ -139,8 +139,8 @@ Default: none                                                                ~
 
 Jump to and from location/quickfix windows.
 
-Example: >
-
+Example:
+>
     nmap ç <Plug>(qf_qf_switch)
 <
 ------------------------------------------------------------------------------
@@ -151,8 +151,8 @@ Default: none                                                                ~
 Toggle the quickfix window.
 Uses |:cwindow| and |:cclose| under the hood.
 
-Example: >
-
+Example:
+>
     nmap <F5> <Plug>(qf_qf_toggle)
 <
 ------------------------------------------------------------------------------
@@ -163,8 +163,8 @@ Default: none                                                                ~
 Toggle the quickfix window and do not move if toggled open.
 Uses |:cwindow| and |:cclose| under the hood.
 
-Example: >
-
+Example:
+>
     nmap <F5> <Plug>(qf_qf_toggle_stay)
 <
 ------------------------------------------------------------------------------
@@ -175,8 +175,8 @@ Default: none                                                                ~
 Toggle the current window's location window or the current location window.
 Uses |:lwindow| and |:lclose| under the hood.
 
-Example: >
-
+Example:
+>
     nmap <F6> <Plug>(qf_loc_toggle)
 <
 ------------------------------------------------------------------------------
@@ -188,8 +188,8 @@ Toggle the current window's location window or the current location window and
 do not move if toggled open.
 Uses |:lwindow| and |:lclose| under the hood.
 
-Example: >
-
+Example:
+>
     nmap <F6> <Plug>(qf_loc_toggle_stay)
 <
 ------------------------------------------------------------------------------
@@ -200,8 +200,8 @@ Default: none                                                                ~
 
 In a location/quickfix window, navigate to an older or newer list.
 
-Example (in `after/ftplugin/qf.vim`): >
-
+Example (in `after/ftplugin/qf.vim`):
+>
     nmap <buffer> <Left>  <Plug>(qf_older)
     nmap <buffer> <Right> <Plug>(qf_newer)
 <
@@ -214,8 +214,8 @@ Default: none                                                                ~
 In a location/quickfix window, jump to the next group of lines
 corresponding to a file.
 
-Example (in `after/ftplugin/qf.vim`): >
-
+Example (in `after/ftplugin/qf.vim`):
+>
     nmap <buffer> { <Plug>(qf_previous_file)
     nmap <buffer> } <Plug>(qf_next_file)
 <
@@ -233,8 +233,8 @@ Ack.vim-inspired mappings available only in location/quickfix windows:
     `O` ........ open entry and close the location/quickfix window
     `p` ........ open entry in a preview window
 
-Add the line below to your vimrc to enable this feature: >
-
+Add the line below to your vimrc to enable this feature:
+>
     let g:qf_mapping_ack_style = 1
 <
 ------------------------------------------------------------------------------
@@ -244,8 +244,8 @@ Default: 1                                                                   ~
 
 Open the quickfix window at the bottom of the screen.
 
-Add the line below to your vimrc to disable this feature: >
-
+Add the line below to your vimrc to disable this feature:
+>
     let g:qf_window_bottom = 0
 <
 ------------------------------------------------------------------------------
@@ -255,8 +255,8 @@ Default: 1                                                                   ~
 
 Open location list windows at the bottom of the screen.
 
-Add the line below to your vimrc to disable this feature: >
-
+Add the line below to your vimrc to disable this feature:
+>
     let g:qf_loclist_window_bottom = 0
 <
 ------------------------------------------------------------------------------
@@ -267,8 +267,8 @@ Default: {}                                                                  ~
 It is possible to define what comes before and after the default information
 displayed in the |'statusline'|.
 
-Example: >
-
+Example:
+>
     let g:qf_statusline = {}
     let g:qf_statusline.before = '%<\ '
     let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
@@ -280,8 +280,8 @@ Default: 1                                                                   ~
 
 Open the quickfix window automatically if there are any errors.
 
-Add the line below to your vimrc to disable this feature: >
-
+Add the line below to your vimrc to disable this feature:
+>
     let g:qf_auto_open_quickfix = 0
 <
 ------------------------------------------------------------------------------
@@ -291,8 +291,8 @@ Default: 1                                                                   ~
 
 Open the location window automatically if there are any locations.
 
-Add the line below to your vimrc to disable this feature: >
-
+Add the line below to your vimrc to disable this feature:
+>
     let g:qf_auto_open_loclist = 0
 <
 ------------------------------------------------------------------------------
@@ -304,8 +304,8 @@ Automatically adjust the height of location/quickfix windows to 10 lines
 (Vim's default) or to the number of items in the list if that number is
 inferior to 10.
 
-Add the line below to your vimrc to disable this feature: >
-
+Add the line below to your vimrc to disable this feature:
+>
     let g:qf_auto_resize = 0
 <
 ------------------------------------------------------------------------------
@@ -352,7 +352,7 @@ Default: 1                                                                   ~
 
 Save the view of the current window when toggling location/quickfix window.
 
-Add the line below to your vimrc to disable this feature: >
+Add the line below to your vimrc to disable this feature:
 >
     let g:qf_save_win_view = 0
 <
@@ -395,111 +395,72 @@ Add the line below to your vimrc to change the default value:
     let g:qf_shorten_path = 0
 <
 ==============================================================================
- 4. USAGE                                                            *qf-usage*
+ 4. Filtering                                                        *qf-usage*
 
-The following commands are available when the location/quickfix window
-is focused:
+When working with a location/quickfix list, it might be useful to remove false
+potives, for example, before further operation. vim-qf exposes three hopefully
+intuitive commands to help in that scenario: |:Keep|, |:Reject|, and
+|:Restore| when the location/quickfix window is focused:
 
 *:Keep*
 
     Keep some entries from the list.
 
-    Example: >
+    Example:
 
-        :Keep model    Keep entries matching 'model'
-        :Keep          Keep entries with same filename as curent entry
-        :.Keep         Keep current entry
-        :10,15Keep     Keep entries 10..15
-        :'<,'>Keep     Keep entries covered by visual selection
-<
+        `:Keep model` ...... Keep entries matching 'model'
+        `:Keep` ............ Keep entries with same filename as curent entry
+        `:.Keep` ........... Keep current entry
+        `:10,15Keep` ....... Keep entries 10..15
+        `:'<,'>Keep` ....... Keep entries covered by visual selection
+
     With a pattern, filtering is done by default on the buffer name AND the
     text. This can be changed with the |g:qf_bufname_or_text| option. If
     a [range] was given, it is ignored.
+
+    With a [range], the lines covered by [range] are kept. If a pattern was
+    given, it is ignored.
 
     With neither a pattern nor a [range], filtering is done:
 
     - on the buffer name if the cursor is on column 1,
     - on the word under the cursor if the cursor is on any other column.
-
-    With a [range], the lines covered by [range] are kept. If a pattern was
-    given, it is ignored.
 
 *:Reject*
 
     Reject some entries from the list.
 
-    Example: >
+    Examples:
 
-        :Reject model    Reject entries matching 'model'
-        :Reject          Reject entries with same filename as curent entry
-        :.Reject         Reject current entry
-        :10,15Reject     Reject entries 10..15
-        :'<,'>Reject     Reject entries covered by visual selection
-<
+        `:Reject model` .... Reject entries matching 'model'
+        `:Reject` .......... Reject entries with same filename as curent entry
+        `:.Reject` ......... Reject current entry
+        `:10,15Reject` ..... Reject entries 10..15
+        `:'<,'>Reject` ..... Reject entries covered by visual selection
+
     With a pattern, filtering is done by default on the buffer name AND the
     text. This can be changed with the |g:qf_bufname_or_text| option. If
     a [range] was given, it is ignored.
+
+    With a [range], the lines covered by [range] are rejected. If a pattern
+    was given, it is ignored.
 
     With neither a pattern nor a [range], filtering is done:
 
     - on the buffer name if the cursor is on column 1,
     - on the word under the cursor if the cursor is on any other column.
 
-    With a [range], the lines covered by [range] are rejected. If a pattern
-    was given, it is ignored.
-
 *:Restore*
 
-    Restore the list to its original state.
+    Restore the list to its original state, before any |:Keep| or |:Reject|.
 
-*:SaveList*
-
-    Save the current quickfix/location under the given name. If no name is
-    supplied the last saved list is used.
-
-    Example: >
-
-        :SaveList curlist
+    Example:
+>
+        :helpgrep gd
+        :Keep usr_
+        :Reject 26
+        :Restore
 <
-*:SaveListAdd*
-
-    Like |:SaveList|, but adds to an existing named list.
-
-    Example: >
-
-        :SaveListAdd curlist
-<
-*:LoadList*
-
-    Replace the current quickfix/location list with one or more saved named
-    lists. If no name is supplied, the last saved list is used.
-
-    Example: >
-
-        :LoadList curlist
-<
-*:LoadListAdd*
-
-    Like |:LoadList|, but adds to an existing quickfix/location list.
-
-    Example: >
-
-        :LoadListAdd curlist
-<
-*:ListLists*
-
-    List all currently saved lists.
-
-    Example: >
-
-        :ListLists
-        curlist
-        another_list
-<
-*:RemoveList*
-
-    Remove given lists. With a bang all saved lists are removed.
-
 NOTE: In most cases it is possible to only type a few characters to
 disembiguate commands. Assuming you don't already have custom commands with
 clashing names, you can shorten the commands above to:
@@ -507,12 +468,6 @@ clashing names, you can shorten the commands above to:
     |:Keep| ....................................... :K
     |:Reject| ..................................... :Rej
     |:Restore| .................................... :Res
-    |:SaveList| ................................... :SaveList
-    |:SaveListAdd| ................................ :SaveListA
-    |:LoadList| ................................... :LoadList
-    |:LoadListAdd| ................................ :LoadListA
-    |:ListLists| .................................. :ListL
-    |:RemoveList| ................................. :Rem
 
 ==============================================================================
  5. NAMED LISTS                                                *qf-named-lists*
@@ -555,7 +510,78 @@ Composing a list of files to attach a license to: >
     :cwindow
     :LoadList floss_files
     :cdo 0r /path/to/license
+
+The following commands are available when the location/quickfix window
+is focused:
+
+*:SaveList*
+
+    Save the current quickfix/location under the given name. If no name is
+    supplied the last saved list is used.
+
+    Example:
+>
+        :SaveList curlist
 <
+*:SaveListAdd*
+
+    Like |:SaveList|, but adds to an existing named list.
+
+    Example:
+>
+        :SaveListAdd curlist
+<
+*:LoadList*
+
+    Replace the current quickfix/location list with one or more saved named
+    lists. If no name is supplied, the last saved list is used.
+
+    Example:
+>
+        :LoadList curlist
+<
+*:LoadListAdd*
+
+    Like |:LoadList|, but adds to an existing quickfix/location list.
+
+    Example:
+>
+        :LoadListAdd curlist
+<
+*:ListLists*
+
+    List all currently saved lists.
+
+    Example:
+>
+        :ListLists
+        curlist
+        another_list
+<
+*:RemoveList*
+
+    Remove given lists. With a bang all saved lists are removed.
+
+    Example:
+>
+        :ListLists
+        curlist
+        another_list
+        :RemoveList another_list
+        :ListLists
+        curlist
+<
+NOTE: In most cases it is possible to only type a few characters to
+disembiguate commands. Assuming you don't already have custom commands with
+clashing names, you can shorten the commands above to:
+
+    |:SaveList| ................................... :SaveList
+    |:SaveListAdd| ................................ :SaveListA
+    |:LoadList| ................................... :LoadList
+    |:LoadListAdd| ................................ :LoadListA
+    |:ListLists| .................................. :ListL
+    |:RemoveList| ................................. :Rem
+
 ==============================================================================
  6. ACKNOWLEGEMENTS                                       *qf-acknowledgements*
 
