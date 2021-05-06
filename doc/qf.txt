@@ -41,8 +41,6 @@ These "local" features are only available in location/quickfix windows:
 
     - disable relative numbers
     - filter and restore the current list
-    - perform commands on each line in the current list
-    - perform commands on each file in the current list
     - mappings to navigate between older and newer lists
     - jump to next group of entries belonging to same file ("file grouping")
     - save and load named lists
@@ -58,8 +56,7 @@ Method 1
 
 Method 2
 
-  If you are using Vim 8.0 or above, move this directory to its appropriate
-  location.
+  Move this directory to its appropriate location.
 
   On Unix-like systems: >
 
@@ -71,27 +68,6 @@ Method 2
 <
   See `:help package`.
 
-Method 3
-
-  If you are using Vim 7.4 or below, move the files in this directory to their
-  standard location.
-
-  On Unix-like systems: >
-
-    ~/.vim/after/ftplugin/qf.vim
-    ~/.vim/autoload/qf.vim
-    ~/.vim/autoload/qf/*.vim
-    ~/.vim/doc/qf.txt
-    ~/.vim/plugin/qf.vim
-<
-  On Windows: >
-
-    %userprofile%\vimfiles\after\ftplugin\qf.vim
-    %userprofile%\vimfiles\autoload\qf.vim
-    %userprofile%\vimfiles\autoload\qf\*.vim
-    %userprofile%\vimfiles\doc\qf.txt
-    %userprofile%\vimfiles\plugin\qf.vim
-<
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
 
@@ -224,7 +200,7 @@ Default: none                                                                ~
 
 In a location/quickfix window, navigate to an older or newer list.
 
-Example (in after/ftplugin/qf.vim): >
+Example (in `after/ftplugin/qf.vim`): >
 
     nmap <buffer> <Left>  <Plug>(qf_older)
     nmap <buffer> <Right> <Plug>(qf_newer)
@@ -238,7 +214,7 @@ Default: none                                                                ~
 In a location/quickfix window, jump to the next group of lines
 corresponding to a file.
 
-Example (in after/ftplugin/qf.vim): >
+Example (in `after/ftplugin/qf.vim`): >
 
     nmap <buffer> { <Plug>(qf_previous_file)
     nmap <buffer> } <Plug>(qf_next_file)
@@ -250,12 +226,12 @@ Default: 0                                                                   ~
 
 Ack.vim-inspired mappings available only in location/quickfix windows:
 
-    s - open entry in a new horizontal window
-    v - open entry in a new vertical window
-    t - open entry in a new tab
-    o - open entry and come back
-    O - open entry and close the location/quickfix window
-    p - open entry in a preview window
+    `s` ........ open entry in a new horizontal window
+    `v` ........ open entry in a new vertical window
+    `t` ........ open entry in a new tab
+    `o` ........ open entry and come back
+    `O` ........ open entry and close the location/quickfix window
+    `p` ........ open entry in a preview window
 
 Add the line below to your vimrc to enable this feature: >
 
@@ -376,7 +352,7 @@ Default: 1                                                                   ~
 
 Save the view of the current window when toggling location/quickfix window.
 
-Add the line below to your vimrc to change the default value:
+Add the line below to your vimrc to disable this feature: >
 >
     let g:qf_save_win_view = 0
 <
@@ -388,7 +364,7 @@ Default: 1                                                                   ~
 Enables or disables soft-wrapping in the location/quickfix window.
 The default value disables soft-wrapping.
 
-Add the line below to your vimrc to change the default value:
+Add the line below to your vimrc to disable this feature:
 >
     let g:qf_nowrap = 0
 <
@@ -403,14 +379,16 @@ window.
 With the option set to `0` (vanilla Vim):
 >
     very/long/path/with/lots/of/subdirectories/filename.ext|87 col 22| …
-
+<
 With the option set to `1` (vim-qf default):
 >
     v/l/p/w/l/o/s/filename.ext|87 col 22| …
-
-With the option set to `3` (Vim v8.2.1741 or above):
+<
+With the option set to `3`:
 >
     ver/lon/pat/wit/lot/of/sub/filename.ext|87 col 22| …
+<
+Etc.
 
 Add the line below to your vimrc to change the default value:
 >
@@ -474,24 +452,6 @@ is focused:
 
     Restore the list to its original state.
 
-*:Doline*
-
-    Execute an Ex command on every line in the current list.
-    Aliased to the built-in `:cdo` and `:ldo` when applicable.
-
-    Example: >
-
-        :Doline s/^/--
-<
-*:Dofile*
-
-    Execute an Ex command on every file in the current list.
-    Aliased to the built-in `:cfdo` and `:lfdo` when applicable.
-
-    Example: >
-
-        :Dofile norm @q
-<
 *:SaveList*
 
     Save the current quickfix/location under the given name. If no name is
@@ -547,8 +507,6 @@ clashing names, you can shorten the commands above to:
     |:Keep| ....................................... :K
     |:Reject| ..................................... :Rej
     |:Restore| .................................... :Res
-    |:Doline| ..................................... :Dol
-    |:Dofile| ..................................... :Dof
     |:SaveList| ................................... :SaveList
     |:SaveListAdd| ................................ :SaveListA
     |:LoadList| ................................... :LoadList
@@ -604,14 +562,6 @@ Composing a list of files to attach a license to: >
 The "Ack.vim-inspired mappings" are adapted from Ack.vim:
 
     - https://github.com/mileszs/ack.vim
-
-|:Doline| and |:Dofile| are inspired by these online resources:
-
-    - http://vimcasts.org/episodes/project-wide-find-and-replace/
-    - https://github.com/nelstrom/vim-qargs
-    - https://github.com/henrik/vim-qargs
-    - http://stackoverflow.com/a/4793316/546861
-    - http://stackoverflow.com/a/5686810/546861
 
 |:Keep| and |:Reject| are adapted from the answers in this thread:
 

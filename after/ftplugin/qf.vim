@@ -119,16 +119,6 @@ command! -buffer -range -nargs=? Reject call qf#filter#FilterList(<q-args>, 1, <
 "   :Restore
 command! -buffer -bar Restore call qf#filter#RestoreList()
 
-" do something on each line in the location/quickfix list
-" usage:
-"   :Doline s/^/---
-command! -buffer -nargs=1 Doline call qf#do#DoList(1, <q-args>)
-
-" do something on each file in the location/quickfix list
-" usage:
-"   :Dofile %s/^/---
-command! -buffer -nargs=1 Dofile call qf#do#DoList(0, <q-args>)
-
 " save current location/quickfix list and associate it with a given name or the
 " last used name
 command! -buffer -nargs=? -complete=customlist,qf#namedlist#CompleteList SaveList    call qf#namedlist#SaveList(0, <q-args>)
@@ -157,12 +147,18 @@ nnoremap <silent> <buffer> <Plug>(qf_newer)         :<C-u>call qf#history#Newer(
 nnoremap <silent> <buffer> <Plug>(qf_previous_file) :<C-u>call qf#filegroup#PreviousFile()<CR>
 nnoremap <silent> <buffer> <Plug>(qf_next_file)     :<C-u>call qf#filegroup#NextFile()<CR>
 
+" decide where to open the location/quickfix window
+" :help g:qf_loclist_window_bottom
+" :help g:qf_window_bottom
+if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
+            \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+    wincmd J
+endif
+
 let b:undo_ftplugin .= "| delcommand Filter"
             \ . "| delcommand Keep"
             \ . "| delcommand Reject"
             \ . "| delcommand Restore"
-            \ . "| delcommand Doline"
-            \ . "| delcommand Dofile"
             \ . "| delcommand SaveList"
             \ . "| delcommand SaveListAdd"
             \ . "| delcommand LoadList"
@@ -174,13 +170,5 @@ let b:undo_ftplugin .= "| delcommand Filter"
             \ . "| execute 'nunmap <buffer> <Plug>(qf_previous_file)'"
             \ . "| execute 'nunmap <buffer> <Plug>(qf_next_file)'"
             \ . "| unlet! b:qf_isLoc"
-
-" decide where to open the location/quickfix window
-" :help g:qf_loclist_window_bottom
-" :help g:qf_window_bottom
-if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
-            \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
-    wincmd J
-endif
 
 let &cpo = s:save_cpo

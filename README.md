@@ -36,10 +36,6 @@ Many plugins interact with the quickfix/location list/window in ways that are mo
 
   ![filter][1]
 
-- perform commands on each line in the current list
-
-- perform commands on each file in the current list
-
 - jump to next group of entries belonging to same file ("file grouping"):
 
   ![group][2]
