@@ -58,8 +58,8 @@ augroup qf
 
     " Automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfixWindow()', s:qf_autocmd_triggers)
-    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLocationWindow()', s:loc_autocmd_triggers)
+    execute "autocmd QuickFixCmdPost " .. s:qf_autocmd_triggers .. " nested call qf#OpenQuickfixWindow()"
+    execute "autocmd QuickFixCmdPost " .. s:loc_autocmd_triggers .. " nested call qf#OpenLocationWindow()"
 
     " Special case for :helpgrep and :lhelpgrep since the help window may not
     " be opened yet when QuickFixCmdPost triggers
