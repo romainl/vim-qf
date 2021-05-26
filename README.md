@@ -26,7 +26,7 @@ Many plugins interact with the quickfix/location list/window in ways that are mo
 
 - (optional) open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 
-- (optional) automatically set the height of location/quickfix windows to the number of list items if less than Vim's default height (10) or the user's prefered height
+- (optional) automatically set the height of location/quickfix windows to the number of list items if less than Vim's default height (10) or the user's preferred height
 
 ### Local features (available only in location/quickfix windows)
 

@@ -35,7 +35,7 @@ These "global" features are available from any window:
       |:grep|, |:lvimgrep| and friends if there are valid locations/errors
     - (optional) automatically set the height of location/quickfix windows
       to the number of list items if less than Vim's default height (10) or
-      the user's prefered height
+      the user's preferred height
 
 These "local" features are only available in location/quickfix windows:
 
