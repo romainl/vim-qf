@@ -30,17 +30,17 @@ function! s:FilteredList(list, pat, range, reject, strategy)
 
     " bufname && text
     if a:strategy == 0
-        let new_list = a:list->filter("(bufname(v:val['bufnr']) . v:val['text'] " . operator . " a:pat)")
+        let new_list = a:list->filter("(bufname(v:val['bufnr']) .. v:val['text'] " .. operator .. " a:pat)")
     endif
 
     " only bufname
     if a:strategy == 1
-        let new_list = a:list->filter("bufname(v:val['bufnr']) " . operator . " a:pat")
+        let new_list = a:list->filter("bufname(v:val['bufnr']) " .. operator .. " a:pat")
     endif
 
     " only text
     if a:strategy == 2
-        let new_list = a:list->filter("v:val['text'] " . operator . " a:pat")
+        let new_list = a:list->filter("v:val['text'] " .. operator .. " a:pat")
     endif
 
     " range
@@ -76,9 +76,9 @@ function! s:AddList()
 
     if qf#IsQfWindow()
         if exists("g:qf_quickfix_lists")
-            let g:qf_quickfix_lists = add(g:qf_quickfix_lists, getqflist())
+            let g:qf_quickfix_lists = add(g:qf_quickfix_lists, qf#GetListItems())
         else
-            let g:qf_quickfix_lists = [getqflist()]
+            let g:qf_quickfix_lists = [qf#GetListItems()]
         endif
     endif
 endfunction
@@ -100,16 +100,16 @@ function! s:SetTitle(pat, range, reject)
 
     " describe the filter that was applied
     if a:pat != ''
-        let filter = "'" . a:pat . "'"
+        let filter = "'" .. a:pat .. "'"
     else
         if a:range[0] == a:range[1]
-            let filter = "entry " . (a:range[0] + 1)
+            let filter = "entry " .. (a:range[0] + 1)
         else
-            let filter = "entries " . (a:range[0] + 1) . ".." . (a:range[1] + 1)
+            let filter = "entries " .. (a:range[0] + 1) .. ".." .. (a:range[1] + 1)
         endif
     endif
 
-    let str = " [" . action . ": " . filter . "]"
+    let str = " [" .. action .. ": " .. filter .. "]"
 
     if qf#IsLocWindow()
         call s:SetTitleValue(winnr("#")->getwinvar("qf_location_titles")[0] .. str)
