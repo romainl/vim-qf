@@ -8,22 +8,28 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+function! s:GetWinInfo(nr)
+    let win_id = a:nr != 0 ? win_getid(a:nr) : win_getid()
+
+    return win_id->getwininfo()->get(0, {})
+endfunction
+
 " Returns 1 if the window with the given number is a quickfix window
 "         0 if the window with the given number is not a quickfix window
-" TODO (Nelo-T. Wallus): make a:nbmr optional and return current window
-"                        by default
-function! qf#IsQfWindow(nmbr)
-    if getwinvar(a:nmbr, "&filetype") == "qf"
-        return qf#IsLocWindow(a:nmbr) ? 0 : 1
-    endif
+" Uses current window if no number is given
+function! qf#IsQfWindow(...)
+    let info = get(a:, 1, 0)-><SID>GetWinInfo()
 
-    return 0
+    return info->get("quickfix", 0) == 1 && info->get("loclist", 0) == 0
 endfunction
 
 " Returns 1 if the window with the given number is a location window
 "         0 if the window with the given number is not a location window
-function! qf#IsLocWindow(nmbr)
-    return getbufvar(winbufnr(a:nmbr), "qf_isLoc") == 1
+" Uses current window if no number is given
+function! qf#IsLocWindow(...)
+    let info = get(a:, 1, 0)-><SID>GetWinInfo()
+
+    return info->get("loclist", 0) == 1
 endfunction
 
 " Returns bool: Is quickfix window open?
@@ -41,11 +47,13 @@ endfunction
 function! qf#IsLocWindowOpen(nmbr) abort
     let loclist = getloclist(a:nmbr)
 
-    for winnum in range(1, winnr("$"))
-        if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
-            return 1
-        endif
-    endfor
+    if loclist->len() > 0
+        for winnum in range(1, winnr("$"))
+            if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
+                return 1
+            endif
+        endfor
+    endif
 
     return 0
 endfunction
@@ -55,26 +63,22 @@ endfunction
 "   qf#GetListItems(0, 5) .... item 5 of the quickfix list
 "   qf#GetListItems(1, 0) .... all items of the location list
 "   qf#GetListItems(1, 5) .... item 5 of the location list
-function! qf#GetListItems(loc, idx)
-    let what = { "idx": get(a: "idx", 0), "items": 1 }
-
-    if get(a:, "loc", 0)
-        return getloclist(0, what)["items"]
+function! qf#GetListItems(loc = 0, idx = 0)
+    if a:loc == 1
+        return getloclist(0, { "idx": a:idx, "items": 1 })["items"]
     else
-        return getqflist(what)["items"]
+        return getqflist({ "idx": a:idx, "items": 1 })["items"]
     endif
 endfunction
 
 " Returns the number of items in a location/quickfix list
 "   qf#GetListSize(0) .... size of the quickfix list
 "   qf#GetListSize(1) .... size of the location list
-function! qf#GetListSize(loc)
-    let what = { "size": 1 }
-
-    if get(a:, "loc", 0)
-        return getloclist(0, what)["size"]
+function! qf#GetListSize(loc = 0)
+    if a:loc == 1
+        return getloclist(0, { "size": 1 })->get("size", 99999)
     else
-        return getqflist(what)["size"]
+        return getqflist({ "size": 1 })->get("size", 99999)
     endif
 endfunction
 
@@ -90,9 +94,6 @@ function! qf#SetList(newlist, ...)
                 \ ? function('setloclist', [0, a:newlist])
                 \ : function('setqflist', [a:newlist])
 
-    " Get user-defined maximum height
-    let max_height = qf#GetMaxHeight()
-
     " Call partial with optional arguments
     call call(Func, a:000)
 
@@ -100,38 +101,40 @@ function! qf#SetList(newlist, ...)
         return
     endif
 
-    if get(b:, "qf_isLoc", 0)
-        call qf#OpenLocationWindow()
-    else
-        call qf#OpenQuickfixWindow()
-    endif
+    call get(b:, "qf_isLoc", 0)->qf#OpenWindow()
 endfunction
 
 " Open the quickfix window if there are valid errors
 function! qf#OpenQuickfixWindow()
     if get(g:, "qf_auto_open_quickfix", 1)
-        " Get user-defined maximum height
-        let max_height = qf#GetMaxHeight()
-
-        execute get(g:, "qf_auto_resize", 1) ? "cclose|" . min([ max_height, qf#GetListSize(0) ]) . "cwindow" : "cclose|cwindow"
+        call qf#OpenWindow(0)
     endif
 endfunction
 
 " Open a location window if there are valid locations
 function! qf#OpenLocationWindow()
     if get(g:, "qf_auto_open_loclist", 1)
-        " Get user-defined maximum height
-        let max_height = qf#GetMaxHeight()
+        call qf#OpenWindow(1)
+    endif
+endfunction
 
-        execute get(g:, "qf_auto_resize", 1) ? "lclose|" . min([ max_height, qf#GetListSize(1) ]) . "lwindow" : "lclose|lwindow"
+" Refresh the location/quickfix window
+function! qf#OpenWindow(loc)
+    let prefix    = get(a:, "loc", 0) ? "l" : "c"
+    let list_size = qf#GetListSize(a:loc)
+
+    if list_size > 0
+        execute get(g:, "qf_auto_resize", 1)
+                    \ ? prefix .. "close|" .. min([ qf#GetMaxHeight(), list_size ]) .. prefix .. "window"
+                    \ : prefix .. "close|" .. prefix .. "window"
     endif
 endfunction
 
 " Handles formatting of the text in the buffer
 function! qf#QuickfixTextFunc(options)
-    let items = a:options["quickfix"] == 1 ? getqflist() : getloclist(a:options["winid"])
+    let items = qf#GetListItems(!a:options["quickfix"], 0)
 
-    return items->map({ key, val -> val->qf#format#FormatItem() })
+    return items->map({ key, val -> qf#format#FormatItem(val) })
 endfunction
 
 let &cpo = s:save_cpo
