@@ -65,7 +65,7 @@ function! s:AddList()
     if qf#IsLocWindow()
         let locations = winnr("#")->getwinvar("qf_location_lists")
 
-        if len(locations) > 0
+        if !locations->empty()
             call locations->add(qf#GetListItems(1))
 
             call winnr("#")->setwinvar("qf_location_lists", locations)
@@ -117,7 +117,7 @@ function! s:SetTitle(pat, range, reject)
 
     if qf#IsQfWindow()
         if exists("g:qf_quickfix_titles")
-            if len(g:qf_quickfix_titles) > 0
+            if !g:qf_quickfix_titles->empty()
                 call s:SetTitleValue(g:qf_quickfix_titles[0] .. str)
             else
                 call s:SetTitleValue(w:quickfix_title .. str)
@@ -148,7 +148,7 @@ function! s:AddTitle(title)
     if qf#IsLocWindow()
         let titles = winnr("#")->getwinvar("qf_location_titles")
 
-        if len(titles) > 0
+        if !titles->empty()
             call titles->add(a:title)
 
             call winnr("#")->setwinvar("qf_location_titles", titles)
@@ -233,7 +233,7 @@ function! qf#filter#RestoreList()
     if qf#IsLocWindow()
         let lists = winnr("#")->getwinvar("qf_location_lists")
 
-        if len(lists) > 0
+        if !lists->empty()
             call setloclist(0, winnr("#")->getwinvar("qf_location_lists")[0], "r")
 
             call qf#OpenWindow(1)
@@ -246,7 +246,7 @@ function! qf#filter#RestoreList()
 
     if qf#IsQfWindow()
         if exists("g:qf_quickfix_lists")
-            if len(g:qf_quickfix_lists) > 0
+            if !g:qf_quickfix_lists->empty()
                 call setqflist(g:qf_quickfix_lists[0], "r")
 
                 call qf#OpenWindow(0)

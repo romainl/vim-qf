@@ -47,7 +47,7 @@ endfunction
 function! qf#IsLocWindowOpen(nmbr) abort
     let loclist = getloclist(a:nmbr)
 
-    if loclist->len() > 0
+    if !loclist->empty()
         for winnum in range(1, winnr("$"))
             if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
                 return 1

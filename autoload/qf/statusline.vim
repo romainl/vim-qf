@@ -30,7 +30,7 @@ function! qf#statusline#SetStatusline()
             let titles = get(g:, 'qf_quickfix_titles', [])
         endif
 
-        if len(titles) > 0
+        if !titles->empty()
             return titles[-1]
         endif
 
