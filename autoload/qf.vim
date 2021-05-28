@@ -82,6 +82,17 @@ function! qf#GetListSize(loc = 0)
     endif
 endfunction
 
+" Returns the title of a location/quickfix list
+"   qf#GetListTitle(0) .... title of the quickfix list
+"   qf#GetListTitle(1) .... title of the location list
+function! qf#GetListTitle(loc = 0)
+    if a:loc == 1
+        return getloclist(0, { "title": 1 })->get("title", "")
+    else
+        return getqflist({ "title": 1 })->get("title", "")
+    endif
+endfunction
+
 " Returns the maximum height of the location/quickfix window
 function! qf#GetMaxHeight()
     return get(g:, "qf_max_height", 10) < 1 ? 10 : get(g:, "qf_max_height", 10)
