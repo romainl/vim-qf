@@ -19,40 +19,54 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:JumpToFirstItemOfFileChunk() abort
-    let l:chunk_file_path = qf#GetEntryPath(getline('.'))
+function! qf#filegroup#NextFile() abort
+    if exists("b:qf_isLoc")
+        let items = qf#GetListItems(b:->get("qf_isLoc", 0), 0)
+        let current_index = line('.') - 1
+        let current_bufnr = items[current_index]["bufnr"]
+        let limit = items->len()
 
-    while line('.') - 1 != 0
-                \ && l:chunk_file_path == qf#GetEntryPath(getline(line('.') - 1))
-        normal! k
-    endwhile
+        while current_index < limit && items[current_index]["bufnr"] == current_bufnr
+            let current_index += 1
+        endwhile
 
-    normal! zz
-endfunction
-
-function! s:JumpFileChunk(down) abort
-    let l:start_file_path = qf#GetEntryPath(getline('.'))
-    let l:direction       = a:down ? 'j' : 'k'
-    let l:end             = a:down ? '$' : 1
-
-    while l:start_file_path
-                \ == qf#GetEntryPath(getline('.'))
-                \    && getline('.') != getline(l:end)
-        execute 'normal! ' . l:direction
-    endwhile
-
-    call s:JumpToFirstItemOfFileChunk()
+        if current_index == limit
+            1
+        else
+            execute current_index + 1
+        endif
+    endif
 endfunction
 
 function! qf#filegroup#PreviousFile() abort
     if exists("b:qf_isLoc")
-        call s:JumpFileChunk(0)
-    endif
-endfunction
+        let items = qf#GetListItems(b:->get("qf_isLoc", 0), 0)
+        let current_index = line('.') - 1
+        let current_bufnr = items[current_index]["bufnr"]
+        let limit = 0
 
-function! qf#filegroup#NextFile() abort
-    if exists("b:qf_isLoc")
-        call s:JumpFileChunk(1)
+        while current_index > limit && items[current_index]["bufnr"] == current_bufnr
+            let current_index -= 1
+        endwhile
+
+        if current_index == limit
+            normal! G
+        else
+            execute current_index + 1
+        endif
+
+        let current_index = line('.') - 1
+        let current_bufnr = items[current_index]["bufnr"]
+
+        while current_index > limit && items[current_index]["bufnr"] == current_bufnr
+            let current_index -= 1
+        endwhile
+
+        if current_index == limit
+            1
+        else
+            execute current_index + 2
+        endif
     endif
 endfunction
 

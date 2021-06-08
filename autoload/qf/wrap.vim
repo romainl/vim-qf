@@ -19,11 +19,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" wrap around
-" TODO (Nelo-T. Wallus): I actually don't know what this does
-" TODO (romainl): Built-in :cn/:cp/:ln/:lp stop at the beginning
-"                 and end of the list. This allows us to wrap
-"                 around.
+" Wrap :cn/:cp/:ln/:lp around
 function! qf#wrap#WrapCommand(direction, prefix)
     if a:direction == "up"
         try
@@ -41,7 +37,7 @@ function! qf#wrap#WrapCommand(direction, prefix)
         endtry
     endif
 
-    if &foldopen =~ 'quickfix' && foldclosed(line('.')) != -1
+    if &foldopen =~ 'quickfix' && line('.')->foldclosed() != -1
         normal! zv
     endif
 endfunction

@@ -4,171 +4,148 @@
 " License:	MIT
 " Location:	autoload/qf.vim
 " Website:	https://github.com/romainl/vim-qf
-"
-" Use this command to get help on vim-qf:
-"
-"     :help qf
-"
-" If this doesn't work and you installed vim-qf manually, use the following
-" command to index vim-qf's documentation:
-"
-"     :helptags ~/.vim/doc
-"
-" or read your runtimepath/plugin manager documentation.
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-" open the current entry in th preview window
-function qf#PreviewFileUnderCursor()
-    let cur_list = b:qf_isLoc == 1 ? getloclist('.') : getqflist()
-    let cur_line = getline(line('.'))
-    let cur_file = fnameescape(substitute(cur_line, '|.*$', '', ''))
-    if cur_line =~ '|\d\+'
-        let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
-        execute "pedit +" . cur_pos . " " . cur_file
-    else
-        execute "pedit " . cur_file
-    endif
+function! s:GetWinInfo(nr)
+    let win_id = a:nr != 0 ? win_getid(a:nr) : win_getid()
+
+    return win_id->getwininfo()->get(0, {})
 endfunction
 
-" helper function
-" returns 1 if the window with the given number is a quickfix window
+" Returns 1 if the window with the given number is a quickfix window
 "         0 if the window with the given number is not a quickfix window
-" TODO (Nelo-T. Wallus): make a:nbmr optional and return current window
-"                        by default
-function! qf#IsQfWindow(nmbr)
-    if getwinvar(a:nmbr, "&filetype") == "qf"
-        return qf#IsLocWindow(a:nmbr) ? 0 : 1
-    endif
+" Uses current window if no number is given
+function! qf#IsQfWindow(...)
+    let info = get(a:, 1, 0)-><SID>GetWinInfo()
 
-    return 0
+    return info->get("quickfix", 0) == 1 && info->get("loclist", 0) == 0
 endfunction
 
-" helper function
-" returns 1 if the window with the given number is a location window
+" Returns 1 if the window with the given number is a location window
 "         0 if the window with the given number is not a location window
-function! qf#IsLocWindow(nmbr)
-    return getbufvar(winbufnr(a:nmbr), "qf_isLoc") == 1
+" Uses current window if no number is given
+function! qf#IsLocWindow(...)
+    let info = get(a:, 1, 0)-><SID>GetWinInfo()
+
+    return info->get("loclist", 0) == 1
 endfunction
 
-" returns bool: Is quickfix window open?
+" Returns bool: Is quickfix window open?
 function! qf#IsQfWindowOpen() abort
-    for winnum in range(1, winnr('$'))
+    for winnum in range(1, winnr("$"))
         if qf#IsQfWindow(winnum)
             return 1
         endif
     endfor
+
     return 0
 endfunction
 
-" returns bool: Is location window for window with given number open?
+" Returns bool: Is location window for window with given number open?
 function! qf#IsLocWindowOpen(nmbr) abort
     let loclist = getloclist(a:nmbr)
-    for winnum in range(1, winnr('$'))
-        if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
-            return 1
-        endif
-    endfor
+
+    if !loclist->empty()
+        for winnum in range(1, winnr("$"))
+            if qf#IsLocWindow(winnum) && loclist ==# getloclist(winnum)
+                return 1
+            endif
+        endfor
+    endif
+
     return 0
 endfunction
 
-" returns location list of the current loclist if isLoc is set
-"         qf list otherwise
-function! qf#GetList()
-    if get(b:, 'qf_isLoc', 0)
-        return getloclist(0)
+" Returns items of the current location/quickfix list
+"   qf#GetListItems(0, 0) .... all items of the quickfix list
+"   qf#GetListItems(0, 5) .... item 5 of the quickfix list
+"   qf#GetListItems(1, 0) .... all items of the location list
+"   qf#GetListItems(1, 5) .... item 5 of the location list
+function! qf#GetListItems(loc = 0, idx = 0)
+    if a:loc == 1
+        return getloclist(0, { "idx": a:idx, "items": 1 })["items"]
     else
-        return getqflist()
+        return getqflist({ "idx": a:idx, "items": 1 })["items"]
     endif
 endfunction
 
-" sets location or qf list based in b:qf_isLoc to passed newlist
+" Returns the number of items in a location/quickfix list
+"   qf#GetListSize(0) .... size of the quickfix list
+"   qf#GetListSize(1) .... size of the location list
+function! qf#GetListSize(loc = 0)
+    if a:loc == 1
+        return getloclist(0, { "size": 1 })->get("size", 99999)
+    else
+        return getqflist({ "size": 1 })->get("size", 99999)
+    endif
+endfunction
+
+" Returns the title of a location/quickfix list
+"   qf#GetListTitle(0) .... title of the quickfix list
+"   qf#GetListTitle(1) .... title of the location list
+function! qf#GetListTitle(loc = 0)
+    if a:loc == 1
+        return getloclist(0, { "title": 1 })->get("title", "")
+    else
+        return getqflist({ "title": 1 })->get("title", "")
+    endif
+endfunction
+
+" Returns the maximum height of the location/quickfix window
+function! qf#GetMaxHeight()
+    return get(g:, "qf_max_height", 10) < 1 ? 10 : get(g:, "qf_max_height", 10)
+endfunction
+
+" Sets location or quickfix list based in b:qf_isLoc to passed newlist
 function! qf#SetList(newlist, ...)
-    " generate partial
+    " Generate partial
     let Func = get(b:, 'qf_isLoc', 0)
                 \ ? function('setloclist', [0, a:newlist])
                 \ : function('setqflist', [a:newlist])
 
-    " get user-defined maximum height
-    let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-
-    " call partial with optional arguments
+    " Call partial with optional arguments
     call call(Func, a:000)
 
     if a:newlist == []
         return
     endif
 
-    if get(b:, 'qf_isLoc', 0)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
-    else
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
+    call get(b:, "qf_isLoc", 0)->qf#OpenWindow()
+endfunction
+
+" Open the quickfix window if there are valid errors
+function! qf#OpenQuickfixWindow()
+    if get(g:, "qf_auto_open_quickfix", 1)
+        call qf#OpenWindow(0)
     endif
 endfunction
 
-function! qf#GetEntryPath(line) abort
-    "                          +- match from the first pipe to the end of line
-    "                          |  declaring EOL explicitly is faster than implicitly
-    "                          |      +- replace match with nothing
-    "                          |      |   +- no flags
-    return substitute(a:line, '|.*$', '', '')
-endfunction
-
-" open the quickfix window if there are valid errors
-function! qf#OpenQuickfix()
-    if get(g:, 'qf_auto_open_quickfix', 1)
-        " get user-defined maximum height
-        let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
-
-        let qf_list = getqflist()
-
-        " shorten paths if applicable
-        if get(g:, 'qf_shorten_path', 0) > 0
-            call setqflist(qf#ShortenPathsInList(qf_list))
-        endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
+" Open a location window if there are valid locations
+function! qf#OpenLocationWindow()
+    if get(g:, "qf_auto_open_loclist", 1)
+        call qf#OpenWindow(1)
     endif
 endfunction
 
-" open a location window if there are valid locations
-function! qf#OpenLoclist()
-    if get(g:, 'qf_auto_open_loclist', 1)
-        " get user-defined maximum height
-        let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
+" Refresh the location/quickfix window
+function! qf#OpenWindow(loc)
+    let prefix    = get(a:, "loc", 0) ? "l" : "c"
+    let list_size = qf#GetListSize(a:loc)
 
-        let loc_list = getloclist(0)
-
-        " shorten paths if applicable
-        if get(g:, 'qf_shorten_path', 0) > 0
-            call setloclist(0, qf#ShortenPathsInList(loc_list))
-        endif
-
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
+    if list_size > 0
+        execute get(g:, "qf_auto_resize", 1)
+                    \ ? prefix .. "close|" .. min([ qf#GetMaxHeight(), list_size ]) .. prefix .. "window"
+                    \ : prefix .. "close|" .. prefix .. "window"
     endif
 endfunction
 
-" shorten file paths in given qf/loc list
-function! qf#ShortenPathsInList(list)
-    let index = 0
-    while index < len(a:list)
-        " item is a dict, sample: { lnum: 14, text: 'foo bar', bufnr: 3, ... }
-        let item = a:list[index]
+" Handles formatting of the text in the buffer
+function! qf#QuickfixTextFunc(options)
+    let items = qf#GetListItems(!a:options["quickfix"], 0)
 
-        let filepath = bufname(item["bufnr"])
-        let trim_len = get(g:, "qf_shorten_path", 1)
-
-        " set the 'module' field to customise the visual filename in the qf/loc list (available since 8.0.1782)
-        if has('patch-8.2.1741')
-            let item["module"] = pathshorten(filepath, trim_len)
-        else
-            let item["module"] = pathshorten(filepath)
-        endif
-
-        let index = index + 1
-    endwhile
-    return a:list
+    return items->map({ key, val -> qf#format#FormatItem(val) })
 endfunction
 
 let &cpo = s:save_cpo

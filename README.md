@@ -6,7 +6,7 @@
 
 ### Anti-features
 
-Many plugins interact with the quickfix/location list/window in ways that are more or less incompatible with vim-qf. I have put considerable effort in making most vim-qf features optional so it should be possible to disable individual features in case of conflict but well… you never know.
+Many plugins interact with the quickfix/location list/window in ways that are more or less incompatible with vim-qf. I have put considerable effort into making most vim-qf features optional so it should be possible to disable individual features in case of conflict but well… you never know.
 
 **If one of your plugins somehow already manages the quickfix/location list/window, then you should probably look elsewhere.**
 
@@ -26,7 +26,7 @@ Many plugins interact with the quickfix/location list/window in ways that are mo
 
 - (optional) open the location/quickfix window automatically after `:make`, `:grep`, `:lvimgrep` and friends if there are valid locations/errors
 
-- (optional) automatically set the height of location/quickfix windows to the number of list items if less than Vim's default height (10) or the user's prefered height
+- (optional) automatically set the height of location/quickfix windows to the number of list items if less than Vim's default height (10) or the user's preferred height
 
 ### Local features (available only in location/quickfix windows)
 
@@ -35,10 +35,6 @@ Many plugins interact with the quickfix/location list/window in ways that are mo
 - filter and restore the current list:
 
   ![filter][1]
-
-- perform commands on each line in the current list
-
-- perform commands on each file in the current list
 
 - jump to next group of entries belonging to same file ("file grouping"):
 
@@ -72,27 +68,9 @@ If you are using Vim 8.0 or above, move this directory to:
 
 See `:help package`.
 
-### Method 3
-
-If you are using Vim 7.4 or below, move the files in this directory to their standard location:
-
-    # Unix-like systems
-    ~/.vim/after/ftplugin/qf.vim
-    ~/.vim/autoload/qf.vim
-    ~/.vim/autoload/qf/*.vim
-    ~/.vim/doc/qf.txt
-    ~/.vim/plugin/qf.vim
-
-    # Windows
-    %userprofile%\vimfiles\after\ftplugin\qf.vim
-    %userprofile%\vimfiles\autoload\qf.vim
-    %userprofile%\vimfiles\autoload\qf\*.vim
-    %userprofile%\vimfiles\doc\qf.txt
-    %userprofile%\vimfiles\plugin\qf.vim
-
 ## Documentation
 
-You can use this command to get help on vim-qf:
+The full documentation is available through this command:
 
     :help vim-qf
 

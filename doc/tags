@@ -11,8 +11,6 @@
 'g:qf_shorten_path'	qf.txt	/*'g:qf_shorten_path'*
 'g:qf_statusline'	qf.txt	/*'g:qf_statusline'*
 'g:qf_window_bottom'	qf.txt	/*'g:qf_window_bottom'*
-:Dofile	qf.txt	/*:Dofile*
-:Doline	qf.txt	/*:Doline*
 :Keep	qf.txt	/*:Keep*
 :ListLists	qf.txt	/*:ListLists*
 :LoadList	qf.txt	/*:LoadList*
