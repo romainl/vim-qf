@@ -35,10 +35,6 @@
 <Plug>(qf_qf_switch)	qf.txt	/*<Plug>(qf_qf_switch)*
 <Plug>(qf_qf_toggle)	qf.txt	/*<Plug>(qf_qf_toggle)*
 <Plug>(qf_qf_toggle_stay)	qf.txt	/*<Plug>(qf_qf_toggle_stay)*
-QfHistoryNewer	qf.txt	/*QfHistoryNewer*
-QfHistoryOlder	qf.txt	/*QfHistoryOlder*
-QfNextFile	qf.txt	/*QfNextFile*
-QfPreviousFile	qf.txt	/*QfPreviousFile*
 qf	qf.txt	/*qf*
 qf-acknowledgements	qf.txt	/*qf-acknowledgements*
 qf-configuration	qf.txt	/*qf-configuration*
