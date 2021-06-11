@@ -24,8 +24,11 @@ function! qf#preview#PreviewFileUnderCursor()
     let cur_list = qf#GetList()
     let cur_line = getline(line('.'))
     let cur_file = fnameescape(qf#GetEntryPath(cur_line))
+    let cur_ntry = get(cur_list, line('.')-1, {})
 
-    if cur_line =~ '|\d\+'
+    if !empty(cur_ntry) && bufexists(cur_ntry.bufnr) && cur_ntry.bufnr
+        execute 'pedit +' . cur_ntry.lnum . ' #' . cur_ntry.bufnr
+    elseif cur_line =~ '|\d\+'
         let cur_pos  = substitute(cur_line, '^\(.\{-}|\)\(\d\+\)\(.*\)', '\2', '')
         execute "pedit +" . cur_pos . " " . cur_file
     else
