@@ -41,6 +41,11 @@ nnoremap <silent>        <Plug>(qf_qf_next)         :<C-u> call qf#wrap#WrapComm
 nnoremap <silent>        <Plug>(qf_loc_previous)    :<C-u> call qf#wrap#WrapCommand('up', 'l')<CR>
 nnoremap <silent>        <Plug>(qf_loc_next)        :<C-u> call qf#wrap#WrapCommand('down', 'l')<CR>
 
+
+" Go up and down quickfix or location list
+nnoremap <silent>        <Plug>(qf_qf_or_loc_previous)    :<C-u> call qf#wrap#WrapCommandQfOrLoc('up')<CR>
+nnoremap <silent>        <Plug>(qf_qf_or_loc_next)        :<C-u> call qf#wrap#WrapCommandQfOrLoc('down')<CR>
+
 " Toggle quickfix list
 nnoremap <silent>        <Plug>(qf_qf_toggle)       :<C-u> call qf#toggle#ToggleQfWindow(0)<CR>
 nnoremap <silent>        <Plug>(qf_qf_toggle_stay)  :<C-u> call qf#toggle#ToggleQfWindow(1)<CR>

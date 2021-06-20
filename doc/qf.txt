@@ -101,6 +101,8 @@ Global mappings:
     <Plug>(qf_qf_next) ......................... |<Plug>(qf_qf_next)|
     <Plug>(qf_loc_previous) .................... |<Plug>(qf_loc_previous)|
     <Plug>(qf_loc_next) ........................ |<Plug>(qf_loc_next)|
+    <Plug>(qf_qf_or_loc_previous) .............. |<Plug>(qf_qf_or_loc_previous)|
+    <Plug>(qf_qf_or_loc_next) .................. |<Plug>(qf_qf_or_loc_next)|
     <Plug>(qf_qf_switch) ....................... |<Plug>(qf_qf_switch)|
     <Plug>(qf_qf_toggle) ....................... |<Plug>(qf_qf_toggle)|
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
@@ -156,6 +158,20 @@ Example: >
     nmap <C-Home> <Plug>(qf_loc_previous)
     nmap <C-End>  <Plug>(qf_loc_next)
 <
+------------------------------------------------------------------------------
+                                                *<Plug>(qf_qf_or_loc_previous)*
+                                                    *<Plug>(qf_qf_or_loc_next)*
+Scope: global                                                                ~
+Default: none                                                                ~
+
+Go up and down the quick quickfix list if one is opened. Othewise go up and
+down in the current location list. In both cases it makes wrap around.
+
+Example: >
+
+    nmap <S-Home> <Plug>(qf_qf_or_loc_previous)
+    nmap <S-End>  <Plug>(qf_qf_or_loc_next)
+
 ------------------------------------------------------------------------------
                                                          *<Plug>(qf_qf_switch)*
 Scope: global                                                                ~

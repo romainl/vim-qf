@@ -46,4 +46,14 @@ function! qf#wrap#WrapCommand(direction, prefix)
     endif
 endfunction
 
+" Navigates in quick fix window to next/prev entry if quckfix is opened,
+" otherwise navigates up/down in location list.
+function! qf#wrap#WrapCommandQfOrLoc(direction)
+   if qf#IsQfWindowOpen()
+      call qf#wrap#WrapCommand(a:direction, 'c')
+   else
+      call qf#wrap#WrapCommand(a:direction, 'l')
+   endif
+endfunction
+
 let &cpo = s:save_cpo
