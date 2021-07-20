@@ -100,8 +100,12 @@ augroup qf
         " I can't make it work for :lhelpgrep
     endif
 
-    " spacial case for $ vim -q
-    autocmd VimEnter * nested if count(get(v:, 'argv', []), '-q') | call qf#OpenQuickfix() | endif
+    " special case for $ vim -q
+    if has('patch-8.1.2233')
+        autocmd VimEnter * nested if count(v:argv, '-q') | call qf#OpenQuickfix() | endif
+    else
+        autocmd VimEnter * nested call qf#OpenQuickfix()
+    endif
 
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
