@@ -138,6 +138,8 @@ function! qf#OpenWindow(loc)
         execute get(g:, "qf_auto_resize", 1)
                     \ ? prefix .. "close|" .. min([ qf#GetMaxHeight(), list_size ]) .. prefix .. "window"
                     \ : prefix .. "close|" .. prefix .. "window"
+    else
+        execute prefix .. "close"
     endif
 endfunction
 
