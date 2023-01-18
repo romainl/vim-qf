@@ -52,10 +52,31 @@ These "local" features are only available in location/quickfix windows:
 ==============================================================================
  2. INSTALLATION                                              *qf-installation*
 
-Use your favorite plugin manager or dump the files below in their
-standard location:
+Method 1
 
-on Unix-like systems... >
+  Use your favorite runtimepath/plugin manager.
+
+Method 2
+
+  If you are using Vim 8.0 or above, move this directory to its appropriate
+  location.
+
+  On Unix-like systems: >
+
+    ~/.vim/pack/{whatever name you want}/start/vim-qf
+<
+  On Windows: >
+
+    %userprofile%\vimfiles\pack\{whatever name you want}\start\vim-qf
+<
+  See `:help package`.
+
+Method 3
+
+  If you are using Vim 7.4 or below, move the files in this directory to their
+  standard location.
+
+  On Unix-like systems: >
 
     ~/.vim/after/ftplugin/qf.vim
     ~/.vim/autoload/qf.vim
@@ -63,24 +84,13 @@ on Unix-like systems... >
     ~/.vim/doc/qf.txt
     ~/.vim/plugin/qf.vim
 <
-on Windows... >
+  On Windows: >
 
     %userprofile%\vimfiles\after\ftplugin\qf.vim
     %userprofile%\vimfiles\autoload\qf.vim
     %userprofile%\vimfiles\autoload\qf\*.vim
     %userprofile%\vimfiles\doc\qf.txt
     %userprofile%\vimfiles\plugin\qf.vim
-<
-If you go with the manual method, don't forget to execute the following
-command to make the documentation globally available:
-
-on Unix-like systems... >
-
-    :helptags ~/.vim/doc
-<
-on Windows... >
-
-    :helptags %userprofile%\vimfiles\doc
 <
 ==============================================================================
  3. CONFIGURATION                                            *qf-configuration*
@@ -98,15 +108,13 @@ Global mappings:
     <Plug>(qf_qf_toggle_stay) .................. |<Plug>(qf_qf_toggle_stay)|
     <Plug>(qf_loc_toggle) ...................... |<Plug>(qf_loc_toggle)|
     <Plug>(qf_loc_toggle_stay) ................. |<Plug>(qf_loc_toggle_stay)|
-    <Plug>(qf_older) ........................... |<Plug>(qf_older)|
-    <Plug>(qf_newer) ........................... |<Plug>(qf_newer)|
 
 Local mappings:
 
-    <Left> ..................................... |QfHistoryOlder|
-    <Right> .................................... |QfHistoryNewer|
-    { .......................................... |QfPreviousFile|
-    } .......................................... |QfNextFile|
+    <Plug>(qf_older) ........................... |<Plug>(qf_older)|
+    <Plug>(qf_newer) ........................... |<Plug>(qf_newer)|
+    <Plug>(qf_previous_file) ................... |<Plug>(qf_previous_file)|
+    <Plug>(qf_next_file) ....................... |<Plug>(qf_next_file)|
 
 Options:
 
@@ -122,6 +130,7 @@ Options:
     g:qf_bufname_or_text ....................... |'g:qf_bufname_or_text'|
     g:qf_save_win_view ......................... |'g:qf_save_win_view'|
     g:qf_nowrap ................................ |'g:qf_nowrap'|
+    g:qf_shorten_path .......................... |'g:qf_shorten_path'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -237,22 +246,19 @@ Example (in after/ftplugin/qf.vim): >
     nmap <buffer> <Right> <Plug>(qf_newer)
 <
 ------------------------------------------------------------------------------
-                                                               *QfHistoryOlder*
-                                                               *QfHistoryNewer*
+                                                     *<Plug>(qf_previous_file)*
+                                                         *<Plug>(qf_next_file)*
 Scope: local                                                                 ~
-Default: <Left> and <Right>                                                  ~
-
-In a location/quickfix window, navigate to an older or newer list.
-
-------------------------------------------------------------------------------
-                                                               *QfPreviousFile*
-                                                                   *QfNextFile*
-Scope: local                                                                 ~
-Default: { and }                                                             ~
+Default: none                                                                ~
 
 In a location/quickfix window, jump to the next group of lines
 corresponding to a file.
 
+Example (in after/ftplugin/qf.vim): >
+
+    nmap <buffer> { <Plug>(qf_previous_file)
+    nmap <buffer> } <Plug>(qf_next_file)
+<
 ------------------------------------------------------------------------------
                                                      *'g:qf_mapping_ack_style'*
 Value: numeric                                                               ~
@@ -402,6 +408,30 @@ Add the line below to your vimrc to change the default value:
 >
     let g:qf_nowrap = 0
 <
+------------------------------------------------------------------------------
+                                                          *'g:qf_shorten_path'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Enables or disables shortening of the file paths in the location/quickfix
+window.
+
+With the option set to `0` (vanilla Vim):
+>
+    very/long/path/with/lots/of/subdirectories/filename.ext|87 col 22| …
+
+With the option set to `1` (vim-qf default):
+>
+    v/l/p/w/l/o/s/filename.ext|87 col 22| …
+
+With the option set to `3` (Vim v8.2.1741 or above):
+>
+    ver/lon/pat/wit/lot/of/sub/filename.ext|87 col 22| …
+
+Add the line below to your vimrc to change the default value:
+>
+    let g:qf_shorten_path = 0
+<
 ==============================================================================
  4. USAGE                                                            *qf-usage*
 
@@ -410,41 +440,51 @@ is focused:
 
 *:Keep*
 
-    Keep all entries that contain the given |pattern|, either in the
-    buffer name or in the description.
+    Keep some entries from the list.
 
     Example: >
 
-        :Keep
-        :Keep model
-        :Keep <C-r><C-f>
+        :Keep model    Keep entries matching 'model'
+        :Keep          Keep entries with same filename as curent entry
+        :.Keep         Keep current entry
+        :10,15Keep     Keep entries 10..15
+        :'<,'>Keep     Keep entries covered by visual selection
 <
-    Without an argument, the pattern used for filtering is:
+    With a pattern, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option. If
+    a [range] was given, it is ignored.
 
-    - the buffer name if the cursor is on column 1,
-    - the word under the cursor if the cursor is on any other column.
+    With neither a pattern nor a [range], filtering is done:
 
-    With an argument, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option.
+    - on the buffer name if the cursor is on column 1,
+    - on the word under the cursor if the cursor is on any other column.
+
+    With a [range], the lines covered by [range] are kept. If a pattern was
+    given, it is ignored.
 
 *:Reject*
 
-    Reject all entries that contain the given |pattern| in the buffer name or
-    in the description.
+    Reject some entries from the list.
 
     Example: >
 
-        :Reject
-        :Reject build
-        :Reject <C-r><C-w>
+        :Reject model    Reject entries matching 'model'
+        :Reject          Reject entries with same filename as curent entry
+        :.Reject         Reject current entry
+        :10,15Reject     Reject entries 10..15
+        :'<,'>Reject     Reject entries covered by visual selection
 <
-    Without an argument, the pattern used for filtering is:
+    With a pattern, filtering is done by default on the buffer name AND the
+    text. This can be changed with the |g:qf_bufname_or_text| option. If
+    a [range] was given, it is ignored.
 
-    - the buffer name if the cursor is on column 1,
-    - the word under the cursor if the cursor is on any other column.
+    With neither a pattern nor a [range], filtering is done:
 
-    With an argument, filtering is done by default on the buffer name AND the
-    text. This can be changed with the |g:qf_bufname_or_text| option.
+    - on the buffer name if the cursor is on column 1,
+    - on the word under the cursor if the cursor is on any other column.
+
+    With a [range], the lines covered by [range] are rejected. If a pattern
+    was given, it is ignored.
 
 *:Restore*
 
@@ -608,7 +648,6 @@ The list history commands were implemented by Jon Parise.
  7. TODO                                                              *qf-todo*
 
     - Export more options?
-    - Add a gifcast to the README?
     - Add titles to saved lists, e.g. to display in :ListLists?
 
 ==============================================================================
@@ -618,6 +657,7 @@ The list history commands were implemented by Jon Parise.
     - Add proper attribution for a few features.
     - Write a proper help file.
     - Ask #vim's opinion.
+    - Add a gifcast to the README?
 
 ==============================================================================
  9. RELEASES                                                      *qf-releases*

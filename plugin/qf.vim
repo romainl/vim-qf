@@ -57,18 +57,60 @@ nnoremap <silent>        <Plug>(qf_loc_toggle_stay) :<C-u> call qf#toggle#Toggle
 " Jump to and from list
 nnoremap <silent> <expr> <Plug>(qf_qf_switch)       &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
-" Move forward and backward in list history (in a quickfix or location window)
-nnoremap <silent>        <Plug>(qf_older)           :<C-u> call qf#history#Older()<CR>
-nnoremap <silent>        <Plug>(qf_newer)           :<C-u> call qf#history#Newer()<CR>
+" A list of commands used to trigger the QuickFixCmdPost event is documented in
+" `:help QuickFixCmdPre`.
+" NOTE: helgrep is excluded because it's a special case (see below).
+let s:quickfix_autocmd_trigger_cmds = [
+            \ 'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile', 
+            \ 'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer', 
+            \ 'cgetbuffer', 'caddbuffer']
+
+function! s:GetQuickFixCmdsPattern() abort
+    return join(s:quickfix_autocmd_trigger_cmds, ',')
+endfunction
+
+function! s:GetLocListCmdsPattern() abort
+    let l:loclist_cmds = []
+
+    for l:qf_cmd in s:quickfix_autocmd_trigger_cmds
+        " If a commands starts with 'c', replace it with 'l'. Otherwise, prepend
+        " 'l'. 
+        if l:qf_cmd[0] is# 'c'
+            let l:cmd = 'l' . l:qf_cmd[1:]
+        else
+            let l:cmd = 'l' . l:qf_cmd
+        endif
+        call add(l:loclist_cmds, l:cmd)
+    endfor
+
+    return join(l:loclist_cmds, ',')
+endfunction
 
 augroup qf
     autocmd!
 
     " automatically open the location/quickfix window after :make, :grep,
     " :lvimgrep and friends if there are valid locations/errors
-    autocmd QuickFixCmdPost [^l]* nested call qf#OpenQuickfix()
-    autocmd QuickFixCmdPost    l* nested call qf#OpenLoclist()
-    autocmd VimEnter            * nested call qf#OpenQuickfix()
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenQuickfix()', s:GetQuickFixCmdsPattern())
+    exec printf('autocmd QuickFixCmdPost %s nested call qf#OpenLoclist()', s:GetLocListCmdsPattern())
+
+    " special case for :helpgrep and :lhelpgrep since the help window may not
+    " be opened yet when QuickFixCmdPost triggers
+    if exists('*timer_start')
+        autocmd QuickFixCmdPost  helpgrep nested call timer_start(10, { -> execute('call qf#OpenQuickfix()') })
+        autocmd QuickFixCmdPost lhelpgrep nested call timer_start(10, { -> execute('call qf#OpenLoclist()') })
+    else
+        " the window qf is not positioned correctly but at least it's there
+        autocmd QuickFixCmdPost helpgrep nested call qf#OpenQuickfix()
+        " I can't make it work for :lhelpgrep
+    endif
+
+    " special case for $ vim -q
+    if has('patch-8.1.2233')
+        autocmd VimEnter * nested if count(v:argv, '-q') | call qf#OpenQuickfix() | endif
+    else
+        autocmd VimEnter * nested call qf#OpenQuickfix()
+    endif
 
     " automatically close corresponding loclist when quitting a window
     if exists('##QuitPre')
