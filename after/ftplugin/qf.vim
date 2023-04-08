@@ -175,10 +175,16 @@ let b:undo_ftplugin .= "| delcommand Filter"
             \ . "| execute 'nunmap <buffer> <Plug>(qf_next_file)'"
             \ . "| unlet! b:qf_isLoc"
 
+let b:qf_bottomLoclist = get(g:, 'qf_loclist_window_bottom', 0)
+let b:qf_bottom = get(g:, 'qf_window_bottom', 0)
+
 " decide where to open the location/quickfix window
-if (b:qf_isLoc == 1 && get(g:, 'qf_loclist_window_bottom', 1))
-            \ || (b:qf_isLoc == 0 && get(g:, 'qf_window_bottom', 1))
+if (b:qf_isLoc == 1 && b:qf_bottomLoclist == 1)
+            \ || (b:qf_isLoc == 0 && b:qf_bottom == 1)
     wincmd J
+elseif (b:qf_isLoc == 1 && b:qf_bottomLoclist == 0)
+            \ || (b:qf_isLoc == 0 && b:qf_bottom == 0)
+    wincmd K
 endif
 
 let &cpo = s:save_cpo
