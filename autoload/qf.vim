@@ -121,11 +121,13 @@ function! qf#OpenQuickfix()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
+        let qf_list_title = getqflist({ 'title': 1 })
         let qf_list = getqflist()
 
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 0) > 0
-            call setqflist(qf#ShortenPathsInList(qf_list))
+            call setqflist([], 'r', qf_list_title)
+            call setqflist(qf#ShortenPathsInList(qf_list), 'a')
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
@@ -138,11 +140,13 @@ function! qf#OpenLoclist()
         " get user-defined maximum height
         let max_height = get(g:, 'qf_max_height', 10) < 1 ? 10 : get(g:, 'qf_max_height', 10)
 
+        let loc_list_title = getloclist(0, { 'title': 1 })
         let loc_list = getloclist(0)
 
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 0) > 0
-            call setloclist(0, qf#ShortenPathsInList(loc_list))
+            call setloclist(0, [], 'r', loc_list_title)
+            call setloclist(0, qf#ShortenPathsInList(loc_list), 'a')
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
