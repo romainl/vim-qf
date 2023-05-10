@@ -34,12 +34,12 @@ nmap <silent>        <Plug>QfLtoggle   <Plug>(qf_loc_toggle)
 nmap <silent> <expr> <Plug>QfSwitch    &filetype ==# 'qf' ? '<C-w>p' : '<C-w>b'
 
 " Go up and down quickfix list
-nnoremap <silent>        <Plug>(qf_qf_previous)     :<C-u> call qf#wrap#WrapCommand('up', 'c')<CR>
-nnoremap <silent>        <Plug>(qf_qf_next)         :<C-u> call qf#wrap#WrapCommand('down', 'c')<CR>
+nnoremap <silent>        <Plug>(qf_qf_previous)     :<C-u> call qf#wrap#WrapCommand('up', 'c', v:count1)<CR>
+nnoremap <silent>        <Plug>(qf_qf_next)         :<C-u> call qf#wrap#WrapCommand('down', 'c', v:count1)<CR>
 
 " Go up and down location list
-nnoremap <silent>        <Plug>(qf_loc_previous)    :<C-u> call qf#wrap#WrapCommand('up', 'l')<CR>
-nnoremap <silent>        <Plug>(qf_loc_next)        :<C-u> call qf#wrap#WrapCommand('down', 'l')<CR>
+nnoremap <silent>        <Plug>(qf_loc_previous)    :<C-u> call qf#wrap#WrapCommand('up', 'l', v:count1)<CR>
+nnoremap <silent>        <Plug>(qf_loc_next)        :<C-u> call qf#wrap#WrapCommand('down', 'l', v:count1)<CR>
 
 " Toggle quickfix list
 nnoremap <silent>        <Plug>(qf_qf_toggle)       :<C-u> call qf#toggle#ToggleQfWindow(0)<CR>
