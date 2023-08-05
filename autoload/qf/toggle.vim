@@ -38,7 +38,7 @@ function! qf#toggle#ToggleQfWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getqflist()) ]) . 'cwindow' : max_height . 'cwindow'
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, qf#QfWindowHeight() ]) . 'cwindow' : max_height . 'cwindow'
         if qf#IsQfWindowOpen()
             wincmd p
             if !empty(winview)
@@ -70,7 +70,7 @@ function! qf#toggle#ToggleLocWindow(stay) abort
             call winrestview(winview)
         endif
     else
-        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, len(getloclist(0)) ]) . 'lwindow' : max_height . 'lwindow'
+        execute get(g:, 'qf_auto_resize', 1) ? min([ max_height, qf#LocWindowHeight() ]) . 'lwindow' : max_height . 'lwindow'
         if qf#IsLocWindowOpen(0)
             wincmd p
             if !empty(winview)

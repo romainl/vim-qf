@@ -101,9 +101,9 @@ function! qf#SetList(newlist, ...)
     endif
 
     if get(b:, 'qf_isLoc', 0)
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(getloclist(0)) ]) . 'lwindow' : 'lclose|lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#LocWindowHeight() ]) . 'lwindow' : 'lclose|lwindow'
     else
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(getqflist()) ]) . 'cwindow' : 'cclose|cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#QfWindowHeight() ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -130,7 +130,7 @@ function! qf#OpenQuickfix()
             call setqflist(qf#ShortenPathsInList(qf_list), 'a')
         endif
 
-        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, qf#QfWindowHeight() ]) . 'cwindow' : 'cclose|cwindow'
     endif
 endfunction
 
@@ -149,7 +149,7 @@ function! qf#OpenLoclist()
             call setloclist(0, qf#ShortenPathsInList(loc_list), 'a')
         endif
 
-        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
+        execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, qf#LocWindowHeight() ]) . 'lwindow' : 'lclose|lwindow'
     endif
 endfunction
 
@@ -173,6 +173,26 @@ function! qf#ShortenPathsInList(list)
         let index = index + 1
     endwhile
     return a:list
+endfunction
+
+function qf#QfWindowHeight()
+    let height = len(getqflist())
+    if exists('&winbar')
+        if &winbar !=# ''
+            let height = height + 1
+        endif
+    endif
+    return height
+endfunction
+
+function qf#LocWindowHeight()
+    let height = len(getloclist(0))
+    if exists('&winbar')
+        if &winbar !=# ''
+            let height = height + 1
+        endif
+    endif
+    return height
 endfunction
 
 let &cpo = s:save_cpo
