@@ -126,8 +126,8 @@ function! qf#OpenQuickfix()
 
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 0) > 0
+            call setqflist(qf#ShortenPathsInList(qf_list), 'r')
             call setqflist([], 'r', qf_list_title)
-            call setqflist(qf#ShortenPathsInList(qf_list), 'a')
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'cclose|' . min([ max_height, len(qf_list) ]) . 'cwindow' : 'cclose|cwindow'
@@ -145,8 +145,8 @@ function! qf#OpenLoclist()
 
         " shorten paths if applicable
         if get(g:, 'qf_shorten_path', 0) > 0
+            call setloclist(0, qf#ShortenPathsInList(loc_list), 'r')
             call setloclist(0, [], 'r', loc_list_title)
-            call setloclist(0, qf#ShortenPathsInList(loc_list), 'a')
         endif
 
         execute get(g:, "qf_auto_resize", 1) ? 'lclose|' . min([ max_height, len(loc_list) ]) . 'lwindow' : 'lclose|lwindow'
