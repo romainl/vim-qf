@@ -7,6 +7,8 @@
 'g:qf_mapping_ack_style'	qf.txt	/*'g:qf_mapping_ack_style'*
 'g:qf_max_height'	qf.txt	/*'g:qf_max_height'*
 'g:qf_nowrap'	qf.txt	/*'g:qf_nowrap'*
+'g:qf_number'	qf.txt	/*'g:qf_number'*
+'g:qf_relativenumber'	qf.txt	/*'g:qf_relativenumber'*
 'g:qf_save_win_view'	qf.txt	/*'g:qf_save_win_view'*
 'g:qf_shorten_path'	qf.txt	/*'g:qf_shorten_path'*
 'g:qf_statusline'	qf.txt	/*'g:qf_statusline'*

@@ -24,9 +24,9 @@ set cpo&vim
 execute get(g:, "qf_nowrap", 1) ? "setlocal nowrap" : "setlocal wrap"
 
 " relative line numbers don't make much sense either
-" but absolute numbers definitely do
-setlocal norelativenumber
-setlocal number
+" but absolute numbers mostly do, except when space is limited
+execute get(g:, "qf_relativenumber", 0) ? "setlocal relativenumber" : "setlocal norelativenumber"
+execute get(g:, "qf_number", 1) ? "setlocal number" : "setlocal nonumber"
 
 " we don't want quickfix buffers to pop up when doing :bn or :bp
 set nobuflisted
