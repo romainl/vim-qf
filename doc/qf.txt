@@ -443,7 +443,7 @@ Enables or disables relative line numbers in the location/quickfix window.
 Relative line numbers are disabled by default. Add the line below to your
 vimrc to show them:
 >
-    let g:qf_relativenumber = 0
+    let g:qf_relativenumber = 1
 <
 See |'relativenumber'|.
 
