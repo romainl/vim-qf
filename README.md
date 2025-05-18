@@ -30,7 +30,9 @@ Many plugins interact with the quickfix/location list/window in ways that are mo
 
 ### Local features (available only in location/quickfix windows)
 
-- disable relative numbers
+- enable/disable absolute numbers (enabled by default)
+
+- enable/disable relative numbers (disabled by default)
 
 - filter and restore the current list:
 
