@@ -39,7 +39,8 @@ These "global" features are available from any window:
 
 These "local" features are only available in location/quickfix windows:
 
-    - disable relative numbers
+    - enable/disable absolute numbers (enabled by default)
+    - enable/disable relative numbers (disabled by default)
     - filter and restore the current list
     - perform commands on each line in the current list
     - perform commands on each file in the current list
@@ -129,6 +130,8 @@ Options:
     g:qf_save_win_view ......................... |'g:qf_save_win_view'|
     g:qf_nowrap ................................ |'g:qf_nowrap'|
     g:qf_shorten_path .......................... |'g:qf_shorten_path'|
+    g:qf_number ................................ |'g:qf_number'|
+    g:qf_relativenumber ........................ |'g:qf_relativenumber'|
 
 ------------------------------------------------------------------------------
                                                        *<Plug>(qf_qf_previous)*
@@ -416,6 +419,34 @@ Add the line below to your vimrc to change the default value:
 >
     let g:qf_shorten_path = 0
 <
+------------------------------------------------------------------------------
+                                                                *'g:qf_number'*
+Value: numeric                                                               ~
+Default: 1                                                                   ~
+
+Enables or disables absolute line numbers in the location/quickfix window.
+
+Absolute line numbers are enabled by default. Add the line below to your
+vimrc to hide them:
+>
+    let g:qf_number = 0
+<
+See |'number'|.
+
+------------------------------------------------------------------------------
+                                                        *'g:qf_relativenumber'*
+Value: numeric                                                               ~
+Default: 0                                                                   ~
+
+Enables or disables relative line numbers in the location/quickfix window.
+
+Relative line numbers are disabled by default. Add the line below to your
+vimrc to show them:
+>
+    let g:qf_relativenumber = 0
+<
+See |'relativenumber'|.
+
 ==============================================================================
  4. USAGE                                                            *qf-usage*
 
